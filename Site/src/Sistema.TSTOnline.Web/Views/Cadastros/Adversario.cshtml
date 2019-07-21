@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Adversários";
+}
+
+<div id="appAdversario" class="content">
+    <div class="card">
+        <div v-if="appMain.newRegister === false">
+            <div class="row">
+                <div class="col-md-12" style="margin-left: 20px; margin-top: 20px;">
+                    <button class="btn btn-fill btn-info" v-on:click="newRegister()">Novo Registro</button>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblAdversario" class="table tablesorter" cellspacing="0" width="100%">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Responsável</th>
+                                <th>DDD1</th>
+                                <th>Telefone1</th>
+                                <th style="width:15px;"></th>
+                                <th style="width:15px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="appMain.newRegister">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-header">
+                        <h5 class="title">Criar/Editar Adversários</h5>
+                    </div>
+                    <section>
+                        <form id="frmAdversario" action="AdversarioCreateOrUpdate" method="post" class="form" data-ajax="true"
+                              data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location = '/Admin/Cadastros/Adversario'">
+                            <div class="card-body">
+                                <input type="hidden" class="form-control" name="Codigo" v-model="Codigo">
+                                <div class="row">
+                                    <div class="col-md-6 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">Nome</label>
+                                            <input type="text" class="form-control" placeholder="Nome do Adversário" name="Nome" data-vv-as="Nome" v-model="Nome" v-validate="'required'">
+                                            <span v-show="errors.has('Nome')" class="alert-form">{{ errors.first('Nome') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">Responsável</label>
+                                            <input type="text" class="form-control" placeholder="Responsável" name="Responsavel" data-vv-as="Responsável" v-model="Responsavel" v-validate="'required'">
+                                            <span v-show="errors.has('Responsavel')" class="alert-form">{{ errors.first('Responsavel') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">DDD 1</label>
+                                            <input type="text" class="form-control" placeholder="DDD" name="DDD1" v-mask="'##'" data-vv-as="DDD 1" v-model="DDD1" v-validate="'required'">
+                                            <span v-show="errors.has('DDD1')" class="alert-form">{{ errors.first('DDD1') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">Telefone 1</label>
+                                            <input type="text" class="form-control" placeholder="Telefone" name="Telefone1" v-mask="'#####-####'" data-vv-as="Telefone 1" v-model="Telefone1" v-validate="'required'">
+                                            <span v-show="errors.has('Telefone1')" class="alert-form">{{ errors.first('Telefone1') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">DDD 2</label>
+                                            <input type="text" class="form-control" placeholder="DDD" name="DDD2" v-mask="'##'" v-model="DDD2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="Nome">Telefone 2</label>
+                                            <input type="text" class="form-control" placeholder="Telefone" name="Telefone2" v-mask="'#####-####'" v-model="Telefone2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 pr-md-1">
+                                        <div class="form-group">
+                                            <label for="ComQuadra">Com Quadra?</label>
+                                            <table style="width:100%;">
+                                                <tr>
+                                                    <td style="width:48px; height:50px;" class="form-check">
+                                                        <label class="form-check-label" v-model="ComQuadra" name="ComQuadra">
+                                                            <input type="checkbox" class="form-check-input" name="ComQuadra" asp-for="ComQuadra" v-model="ComQuadra">
+                                                            <span class="form-check-sign" v-model="ComQuadra" name="ComQuadra"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" style="margin-top:-15px" name="Quadra" v-if="ComQuadra" v-model="Quadra" >
+                                                            <option value="">-- SELECIONE UM REGISTRO --</option>
+                                                            <option v-for="itemQuadra in appLoadData.listQuadra" v-bind:value="itemQuadra.codigo">
+                                                                {{itemQuadra.nome}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-fill btn-primary" v-on:click="appMain.validateData($event, this.appAdversario)">Salvar</button>
+                                <button class="btn btn-fill btn-info" v-on:click="appMain.cancelForm($event)">Cancelar</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_DeleteRegisterPartial.cshtml")
+</div>
+
+@section Scripts{
+    <script src="~/js/Adversario.vue.js"></script>
+}

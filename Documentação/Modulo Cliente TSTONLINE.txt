@@ -1,0 +1,39 @@
+Modulo Cliente
+
+Empresas ( Já tenho no sistema ) só puxar
+
+Vendedor (Cadastro novo, ainda não tem)
+
+Tecnicos ( já tenho ele no sistema) só puxar (tabela de responsáveis)
+
+Estoque 
+
+Cadastrar produto
+
+cadastrar a categoria
+
+Vendas 
+
+Listar vendas
+
+Vender produto 
+
+Emitir Fatura 
+
+Financeiro
+
+Caixa
+
+Contas a receber 
+
+Relatorio 
+
+Vendas 
+
+Vendas por vendedor 
+
+OS - Ordem de Serviço 
+
+
+e se possivel tenho uma api de boleto ai já é um plus 
+

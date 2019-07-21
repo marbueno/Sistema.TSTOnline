@@ -1,0 +1,15 @@
+# Banco de Dados
+/BancoDados
+/Backup
+/Site/.vs
+/Site/src/Sistema.TSTOnline.Data/bin
+/Site/src/Sistema.TSTOnline.Data/obj
+/Site/src/Sistema.TSTOnline.DI/bin
+/Site/src/Sistema.TSTOnline.DI/obj
+/Site/src/Sistema.TSTOnline.Domain/bin
+/Site/src/Sistema.TSTOnline.Domain/obj
+/Site/src/Sistema.TSTOnline.Web/bin
+/Site/src/Sistema.TSTOnline.Web/obj
+/Site/src/Sistema.TSTOnline.Web/node_modules
+/Site/src/Sistema.TSTOnline.Web/appsettings.Development.json
+/Site/src/Sistema.TSTOnline.Web/appsettings.json

@@ -1,0 +1,182 @@
+﻿@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration _configuration
+
+@{ 
+    var userLogged = Context.User.Identities.Any(x => x.IsAuthenticated);
+    var nomeEquipe = _configuration.GetValue<string>("NomeEquipe");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#00ace6">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00ace6">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/images/Icone.png">
+    <link rel="icon" type="image/png" href="~/images/Icone.png">
+    <link rel="shortcut icon" href="~/images/Icone.png">
+    <title>@nomeEquipe - Admin</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/regular.css" integrity="sha384-zkhEzh7td0PG30vxQk1D9liRKeizzot4eqkJ8gB3/I+mZ1rjgQk+BSt2F6rT2c+I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+    <!-- Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+    <!-- Nucleo Icons -->
+    <link href="~/css/nucleo-icons.css" rel="stylesheet" />
+
+    <!-- CSS Files -->
+    <link href="~/css/admin.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    @if (userLogged)
+    {
+        <div class="wrapper">
+
+            @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_MenuPartial.cshtml")
+
+            <div class="main-panel">
+
+                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_HeaderPartial.cshtml")
+
+                @RenderBody()
+
+                <!-- End Navbar -->
+                @*<footer class="footer">
+                        <div class="container-fluid">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a href="javascript:void(0)" class="nav-link">
+                                        TKM Solutions
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="copyright">
+                                Sistema de Controle de Competição | Todos os direitos reservados | ©
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>
+                            </div>
+                        </div>
+                    </footer>*@
+            </div>
+        </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
+
+    <div id="appMain">
+        <div class="modal fade in" v-if="loadingVisible" role="dialog" aria-hidden="false" style="display:block">
+            <div style="width:100%; text-align:center;">
+                <div style="top:200px;overflow:hidden;width:100%; text-align:center;z-index:-1;position:relative;">
+                    <div style="width:100%; height:100%;">
+                        <div class="carregar-spinner">
+                            <div class="sp gear-loading">
+                                <div id="circuloLoading" class="sp sp-circle"></div>
+                                <i id="spinnerLoading" alt="Processando" class="fas fa-futbol fa-spin fa-5x fa-fw" style="left:7px;bottom:14px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop fade in"></div>
+        </div>
+    </div>
+
+    <script src="~/js/vue.min.js"></script>
+    <script src="~/js/vee-validate.min.js"></script>
+    <script src="~/js/v-mask.min.js"></script>
+    <script src="~/js/pt_BR.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/js/vue-bootstrap-datetimepicker.min.js"></script>
+    <script src="~/js/pt-br.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/jquery.metisMenu.js"></script>
+    <script src="~/js/Main.vue.js"></script>
+    <script src="~/js/LoadData.vue.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!--  Core Plugins  -->
+    <script src="~/js/perfect-scrollbar.jquery.min.js"></script>
+
+    <!--  Notifications Plugin  -->
+    <script src="~/js/bootstrap-notify.js"></script>
+
+    <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="~/js/black-dashboard.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $().ready(function () {
+                $sidebar = $('.sidebar');
+                $navbar = $('.navbar');
+                $main_panel = $('.main-panel');
+
+                $full_page = $('.full-page');
+
+                $sidebar_responsive = $('body > .navbar-collapse');
+                sidebar_mini_active = true;
+                white_color = false;
+
+                window_width = $(window).width();
+
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+                $('.fixed-plugin a').click(function (event) {
+                    if ($(this).hasClass('switch-trigger')) {
+                        if (event.stopPropagation) {
+                            event.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true;
+                        }
+                    }
+                });
+
+                $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        sidebar_mini_active = false;
+                        blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+                    } else {
+                        $('body').addClass('sidebar-mini');
+                        sidebar_mini_active = true;
+                        blackDashboard.showSidebarMessage('Sidebar mini activated...');
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

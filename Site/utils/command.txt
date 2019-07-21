@@ -1,0 +1,1 @@
+yarn add jquery bootstrap@3.3.7 jquery-validation jquery-validation-unobtrusive jquery-ajax-unobtrusive	yarn add gulp-concat gulp-cssmin gulp-uncss browser-synccomando para executar o gulpyarn gulp js (nome da tarefa)

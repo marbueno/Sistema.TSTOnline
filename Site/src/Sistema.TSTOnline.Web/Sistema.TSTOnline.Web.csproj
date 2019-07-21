@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\Cadastros\Adversario.vue.js" />
+    <None Remove="Scripts\Cadastros\Atleta.vue.js" />
+    <None Remove="Scripts\Cadastros\Equipe.vue.js" />
+    <None Remove="Scripts\Cadastros\Posicao.vue.js" />
+    <None Remove="Scripts\Cadastros\Quadra.vue.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Scripts\Cadastros\Atleta.vue.js" />
+    <Content Include="Scripts\Cadastros\Equipe.vue.js" />
+    <Content Include="Scripts\Cadastros\Adversario.vue.js" />
+    <Content Include="Scripts\Cadastros\Quadra.vue.js" />
+    <Content Include="Scripts\Cadastros\Posicao.vue.js" />
+    <Content Include="Styles\black-dashboard.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sistema.TSTOnline.DI\Sistema.TSTOnline.DI.csproj" />
+    <ProjectReference Include="..\Sistema.TSTOnline.Domain\Sistema.TSTOnline.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

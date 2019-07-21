@@ -1,0 +1,8 @@
+**** TABELAS CRIADAS
+
+	1. tbCadVendedor
+	2. tbProduto
+	2. tbEstoque
+	2. tbProdutoCategoria
+	2. tbProdutoSubCategoria
+	2. tbCadFornecedor
