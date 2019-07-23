@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Sistema.Competicao.Domain.Entities.Cadastros;
 using Sistema.Competicao.Domain.Entities.Produtos;
+using Sistema.Competicao.Domain.Entities.PedidoVenda;
+using Sistema.Competicao.Domain.Entities.OrdemServico;
 
 namespace Sistema.Competicao.Data
 {
@@ -27,5 +29,21 @@ namespace Sistema.Competicao.Data
         public DbSet<SubCategoriaEN> tbProdutoSubCategoria { get; set; }
 
         #endregion Produtos
+
+        #region Pedidos de Venda
+
+        public DbSet<PedidoVendaEN> tbPedidoVenda { get; set; }
+        public DbSet<PedidoVendaItemEN> tbPedidoVendaItem { get; set; }
+
+        #endregion Pedidos de Venda
+
+        #region Ordem de Serviço
+
+        public DbSet<OrdemServicoEN> tbOs { get; set; }
+        public DbSet<OrdemServicoItemEN> tbOsItem { get; set; }
+        public DbSet<ServicoEN> tbCadServico { get; set; }
+        public DbSet<LocalServicoEN> tbCadLocalServico { get; set; }
+
+        #endregion Ordem de Serviço
     }
 }

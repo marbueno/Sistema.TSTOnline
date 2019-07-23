@@ -4,6 +4,9 @@ using Sistema.Competicao.Data;
 using Microsoft.AspNetCore.Http;
 using Sistema.Competicao.Domain.Interfaces;
 using Sistema.Competicao.Domain.Services.Cadastros;
+using Sistema.Competicao.Domain.Services.Produtos;
+using Sistema.Competicao.Domain.Services.PedidoVenda;
+using Sistema.Competicao.Domain.Services.OrdemServico;
 
 namespace Sistema.Competicao.DI
 {
@@ -32,6 +35,22 @@ namespace Sistema.Competicao.DI
             services.AddTransient(typeof(SubCategoriaBU));
 
             #endregion Produtos
+
+            #region Pedidos de Venda
+
+            services.AddTransient(typeof(PedidoVendaBU));
+            services.AddTransient(typeof(PedidoVendaItemBU));
+
+            #endregion Pedidos de Venda
+
+            #region Ordem de Serviço
+
+            services.AddTransient(typeof(OrdemServicoBU));
+            services.AddTransient(typeof(OrdemServicoItemBU));
+            services.AddTransient(typeof(ServicoBU));
+            services.AddTransient(typeof(LocalServicoBU));
+
+            #endregion Ordem de Serviço
         }
     }
 }

@@ -1,8 +1,14 @@
 **** TABELAS CRIADAS
 
-	1. tbCadVendedor
-	2. tbProduto
-	2. tbEstoque
-	2. tbProdutoCategoria
-	2. tbProdutoSubCategoria
-	2. tbCadFornecedor
+	01. tbCadVendedor
+	02. tbProduto
+	03. tbEstoque
+	04. tbProdutoCategoria
+	05. tbProdutoSubCategoria
+	06. tbCadFornecedor
+	07. tbPedidoVenda
+	08. tbPedidoVendaItem
+	09. tbOs
+	10. tbOsItem
+	11. tbCadServico
+	12. tbCadLocalServico

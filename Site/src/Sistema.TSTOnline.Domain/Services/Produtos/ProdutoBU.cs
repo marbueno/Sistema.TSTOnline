@@ -1,7 +1,7 @@
 ﻿using Sistema.Competicao.Domain.Entities.Produtos;
 using Sistema.Competicao.Domain.Interfaces;
 
-namespace Sistema.Competicao.Domain.Services.Cadastros
+namespace Sistema.Competicao.Domain.Services.Produtos
 {
     public class ProdutoBU
     {

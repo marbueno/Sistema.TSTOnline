@@ -1,12 +1,5 @@
 ﻿@using Microsoft.Extensions.Configuration
 
-@inject IConfiguration _configuration
-
-@{ 
-    var userLogged = Context.User.Identities.Any(x => x.IsAuthenticated);
-    var nomeEquipe = _configuration.GetValue<string>("NomeEquipe");
-}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +11,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="~/images/Icone.png">
     <link rel="icon" type="image/png" href="~/images/Icone.png">
     <link rel="shortcut icon" href="~/images/Icone.png">
-    <title>@nomeEquipe - Admin</title>
+    <title>TST Online</title>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
@@ -41,11 +34,7 @@
     {
         <div class="wrapper">
 
-            @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_MenuPartial.cshtml")
-
             <div class="main-panel">
-
-                @await Html.PartialAsync("~/Areas/Admin/Views/Shared/_HeaderPartial.cshtml")
 
                 @RenderBody()
 
@@ -121,60 +110,6 @@
 
     <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/js/black-dashboard.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $().ready(function () {
-                $sidebar = $('.sidebar');
-                $navbar = $('.navbar');
-                $main_panel = $('.main-panel');
-
-                $full_page = $('.full-page');
-
-                $sidebar_responsive = $('body > .navbar-collapse');
-                sidebar_mini_active = true;
-                white_color = false;
-
-                window_width = $(window).width();
-
-                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-                $('.fixed-plugin a').click(function (event) {
-                    if ($(this).hasClass('switch-trigger')) {
-                        if (event.stopPropagation) {
-                            event.stopPropagation();
-                        } else if (window.event) {
-                            window.event.cancelBubble = true;
-                        }
-                    }
-                });
-
-                $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
-                    var $btn = $(this);
-
-                    if (sidebar_mini_active == true) {
-                        $('body').removeClass('sidebar-mini');
-                        sidebar_mini_active = false;
-                        blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
-                    } else {
-                        $('body').addClass('sidebar-mini');
-                        sidebar_mini_active = true;
-                        blackDashboard.showSidebarMessage('Sidebar mini activated...');
-                    }
-
-                    // we simulate the window Resize so the charts will get updated in realtime.
-                    var simulateWindowResize = setInterval(function () {
-                        window.dispatchEvent(new Event('resize'));
-                    }, 180);
-
-                    // we stop the simulation of Window Resize after the animations are completed
-                    setTimeout(function () {
-                        clearInterval(simulateWindowResize);
-                    }, 1000);
-                });
-            });
-        });
-    </script>
 
     @RenderSection("Scripts", required: false)
 
