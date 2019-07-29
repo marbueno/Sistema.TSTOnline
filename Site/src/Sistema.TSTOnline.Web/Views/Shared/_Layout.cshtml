@@ -1,5 +1,11 @@
 ﻿@using Microsoft.Extensions.Configuration
 
+@inject IConfiguration _configuration
+
+@{
+    var url = _configuration.GetSection("Base:URL").Value;
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,107 +15,61 @@
     <meta name="theme-color" content="#00ace6">
     <meta name="apple-mobile-web-app-status-bar-style" content="#00ace6">
     <link rel="apple-touch-icon" sizes="76x76" href="~/images/Icone.png">
-    <link rel="icon" type="image/png" href="~/images/Icone.png">
-    <link rel="shortcut icon" href="~/images/Icone.png">
     <title>TST Online</title>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/regular.css" integrity="sha384-zkhEzh7td0PG30vxQk1D9liRKeizzot4eqkJ8gB3/I+mZ1rjgQk+BSt2F6rT2c+I" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+    <link href="@url/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="@url/assets/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="@url/assets/css/jquery.bootgrid.min.css" rel="stylesheet" />
+    <link href="@url/assets/css/datatables.css" rel="stylesheet" />
+    <link href="@url/assets/css/template.css" rel="stylesheet" />
 
-    <!-- Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="@url/assets/images/favicon.png" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
 
-    <!-- Nucleo Icons -->
-    <link href="~/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- BIBLIOTECA ONLINE DE ÍCONES DO SISTEMA -->
 
-    <!-- CSS Files -->
-    <link href="~/css/admin.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
 </head>
+
 <body>
-    @if (userLogged)
-    {
-        <div class="wrapper">
 
-            <div class="main-panel">
+    <script>
+        function backToHome() {
+            window.top.location.href = '@url';
+        }
+    </script>
 
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center text-uppercase"><i class="fas fa-laptop-code"></i> <strong>@ViewData["Title"]</strong></h4>
+            </div>
+            <div class="card-body">
                 @RenderBody()
-
-                <!-- End Navbar -->
-                @*<footer class="footer">
-                        <div class="container-fluid">
-                            <ul class="nav">
-                                <li class="nav-item">
-                                    <a href="javascript:void(0)" class="nav-link">
-                                        TKM Solutions
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="copyright">
-                                Sistema de Controle de Competição | Todos os direitos reservados | ©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>
-                            </div>
-                        </div>
-                    </footer>*@
             </div>
-        </div>
-    }
-    else
-    {
-        @RenderBody()
-    }
-
-    <div id="appMain">
-        <div class="modal fade in" v-if="loadingVisible" role="dialog" aria-hidden="false" style="display:block">
-            <div style="width:100%; text-align:center;">
-                <div style="top:200px;overflow:hidden;width:100%; text-align:center;z-index:-1;position:relative;">
-                    <div style="width:100%; height:100%;">
-                        <div class="carregar-spinner">
-                            <div class="sp gear-loading">
-                                <div id="circuloLoading" class="sp sp-circle"></div>
-                                <i id="spinnerLoading" alt="Processando" class="fas fa-futbol fa-spin fa-5x fa-fw" style="left:7px;bottom:14px;"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-backdrop fade in"></div>
         </div>
     </div>
 
-    <script src="~/js/vue.min.js"></script>
-    <script src="~/js/vee-validate.min.js"></script>
-    <script src="~/js/v-mask.min.js"></script>
-    <script src="~/js/pt_BR.js"></script>
-    <script src="~/js/moment.min.js"></script>
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/jquery-ui.js"></script>
-    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="~/js/vue-bootstrap-datetimepicker.min.js"></script>
-    <script src="~/js/pt-br.js"></script>
-    <script src="~/js/popper.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js"></script>
-    <script src="~/js/jquery.metisMenu.js"></script>
-    <script src="~/js/Main.vue.js"></script>
-    <script src="~/js/LoadData.vue.js"></script>
-    <script src="~/js/jquery.dataTables.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript" src="@url/assets/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="@url/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="@url/assets/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="@url/assets/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="@url/assets/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="@url/assets/js/mask.js"></script>
+    <script type="text/javascript" src="@url/assets/js/jquery.bootgrid.js"></script>
+    <script type="text/javascript" src="@url/assets/js/datatables.js"></script>
+    <script type="text/javascript" src="@url/assets/js/script_cep.js"></script>
+    <script type="text/javascript" src="@url/assets/js/script_cep2.js"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <!--  Core Plugins  -->
-    <script src="~/js/perfect-scrollbar.jquery.min.js"></script>
 
-    <!--  Notifications Plugin  -->
-    <script src="~/js/bootstrap-notify.js"></script>
-
-    <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="~/js/black-dashboard.min.js"></script>
+    <!-- SCRIPTS LOCAIS -->
+    <script type="text/javascript" src="~/js/comum/main.js"></script>
+    <script type="text/javascript" src="~/js/comum/loadData.js"></script>
+    <script type="text/javascript" src="~/js/comum/utils.js"></script>
+    <script type="text/javascript" src="~/js/comum/jquery.unobtrusive-ajax.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 

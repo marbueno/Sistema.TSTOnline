@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Sistema.Competicao.Domain.Entities.Cadastros
+namespace Sistema.TSTOnline.Domain.Entities.Cadastros
 {
     public class FornecedorEN
     {
@@ -9,6 +9,7 @@ namespace Sistema.Competicao.Domain.Entities.Cadastros
         public string CNPJ { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
+        public string CEP { get; set; }
         public string Endereco { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
@@ -18,21 +19,22 @@ namespace Sistema.Competicao.Domain.Entities.Cadastros
 
         private FornecedorEN() { }
 
-        public FornecedorEN (string CNPJ, string RazaoSocial, string NomeFantasia, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public FornecedorEN (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
         {
-            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
         }
 
-        public void UpdateProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public void UpdateProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
         {
-            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
         }
 
-        private void ValidateAndSetProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        private void ValidateAndSetProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
         {
             DomainException.When(string.IsNullOrEmpty(CNPJ), "CNPJ não informado.");
             DomainException.When(string.IsNullOrEmpty(RazaoSocial), "Razão Social não informada.");
             DomainException.When(string.IsNullOrEmpty(NomeFantasia), "Nome Fantasia não informada.");
+            DomainException.When(string.IsNullOrEmpty(CEP), "CEP não informado.");
             DomainException.When(string.IsNullOrEmpty(Endereco), "Endereço não informado.");
             DomainException.When(string.IsNullOrEmpty(Numero), "Número não informado.");
             DomainException.When(string.IsNullOrEmpty(Bairro), "Bairro não informado.");
@@ -42,6 +44,7 @@ namespace Sistema.Competicao.Domain.Entities.Cadastros
             this.CNPJ = CNPJ;
             this.RazaoSocial = RazaoSocial;
             this.NomeFantasia = NomeFantasia;
+            this.CEP = CEP;
             this.Endereco = Endereco;
             this.Numero = Numero;
             this.Complemento = Complemento;

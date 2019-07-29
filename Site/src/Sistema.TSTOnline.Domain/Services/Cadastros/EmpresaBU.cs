@@ -1,8 +1,8 @@
-using Sistema.Competicao.Domain.Entities.Cadastros;
-using Sistema.Competicao.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Interfaces;
 using System;
 
-namespace Sistema.Competicao.Domain.Services.Cadastros
+namespace Sistema.TSTOnline.Domain.Services.Cadastros
 {
     public class EmpresaBU
     {

@@ -12,3 +12,22 @@
 	10. tbOsItem
 	11. tbCadServico
 	12. tbCadLocalServico
+	
+**** SCRIPTS
+
+	01. Adicionar Parametro "vendedor_view" na tabela "permission_params"
+	02. Adicionar Parametro "fornecedor_view" na tabela "permission_params"
+	03. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+
+	
+**** PÁGINAS ALTERADAS NO PHP
+
+	01. Template.php
+	
+	
+**** PÁGINAS CRIADAS NO PHP
+
+	01. sstVendedorController
+	02. sstVendedor
+	03. sstFornecedorController
+	04. sstFornecedor

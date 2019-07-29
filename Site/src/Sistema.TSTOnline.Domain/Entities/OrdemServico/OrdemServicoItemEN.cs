@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sistema.Competicao.Domain.Entities.OrdemServico
+namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 {
     public class OrdemServicoItemEN
     {

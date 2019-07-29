@@ -1,7 +1,7 @@
-﻿using Sistema.Competicao.Domain.Entities.PedidoVenda;
-using Sistema.Competicao.Domain.Interfaces;
+﻿using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
+using Sistema.TSTOnline.Domain.Interfaces;
 
-namespace Sistema.Competicao.Domain.Services.PedidoVenda
+namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 {
     public class PedidoVendaItemBU
     {

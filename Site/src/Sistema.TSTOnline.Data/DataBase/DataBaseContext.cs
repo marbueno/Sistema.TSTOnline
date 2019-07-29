@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Sistema.Competicao.Domain.Entities.Cadastros;
-using Sistema.Competicao.Domain.Entities.Produtos;
-using Sistema.Competicao.Domain.Entities.PedidoVenda;
-using Sistema.Competicao.Domain.Entities.OrdemServico;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Entities.Produtos;
+using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
+using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 
-namespace Sistema.Competicao.Data
+namespace Sistema.TSTOnline.Data
 {
     public class DataBaseContext : DbContext
     {

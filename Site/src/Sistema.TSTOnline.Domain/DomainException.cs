@@ -1,6 +1,6 @@
 using System;
 
-namespace Sistema.Competicao.Domain
+namespace Sistema.TSTOnline.Domain
 {
     public class DomainException : Exception
     {

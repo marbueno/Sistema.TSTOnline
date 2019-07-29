@@ -1,7 +1,7 @@
-﻿using Sistema.Competicao.Domain.Entities.OrdemServico;
-using Sistema.Competicao.Domain.Interfaces;
+﻿using Sistema.TSTOnline.Domain.Entities.OrdemServico;
+using Sistema.TSTOnline.Domain.Interfaces;
 
-namespace Sistema.Competicao.Domain.Services.OrdemServico
+namespace Sistema.TSTOnline.Domain.Services.OrdemServico
 {
     public class ServicoBU
     {

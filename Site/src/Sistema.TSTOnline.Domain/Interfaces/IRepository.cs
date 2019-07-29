@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Sistema.Competicao.Domain.Interfaces
+namespace Sistema.TSTOnline.Domain.Interfaces
 {
     public interface IRepository<TEntity>
     {

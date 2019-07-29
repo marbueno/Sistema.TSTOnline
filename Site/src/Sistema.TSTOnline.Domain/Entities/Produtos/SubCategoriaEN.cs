@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace Sistema.Competicao.Domain.Entities.Produtos
+namespace Sistema.TSTOnline.Domain.Entities.Produtos
 {
     public class SubCategoriaEN
     {

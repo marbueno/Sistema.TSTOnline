@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Sistema.Competicao.Domain.Entities.PedidoVenda
+namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
 {
     public class PedidoVendaEN
     {

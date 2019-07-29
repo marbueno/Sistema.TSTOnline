@@ -1,6 +1,6 @@
 using System;
 
-namespace Sistema.Competicao.Web.Models
+namespace Sistema.TSTOnline.Web.Models
 {
     public class ErrorViewModel
     {

@@ -1,4 +1,4 @@
-namespace Sistema.Competicao.Domain.Interfaces
+namespace Sistema.TSTOnline.Domain.Interfaces
 {
     public interface IUnitOfWork
     {

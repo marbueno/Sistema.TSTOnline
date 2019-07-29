@@ -1,24 +1,20 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Sistema.TSTOnline.Web.Areas.Admin.Models.Cadastros
 {
-    public class VendedorVM
+    public class FornecedorVM
     {
         [JsonProperty(PropertyName = "codigo")]
-        public int IDVendedor { get; set; }
+        public int IDFornecedor { get; set; }
 
-        [JsonProperty(PropertyName = "nome")]
-        public string Nome { get; set; }
+        [JsonProperty(PropertyName = "cnpj")]
+        public string CNPJ { get; set; }
 
-        [JsonProperty(PropertyName = "rg")]
-        public string RG { get; set; }
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
 
-        [JsonProperty(PropertyName = "cpf")]
-        public string CPF { get; set; }
-
-        [JsonProperty(PropertyName = "dataNascimento")]
-        public DateTime DataNascimento { get; set; }
+        [JsonProperty(PropertyName = "nomeFantasia")]
+        public string NomeFantasia { get; set; }
 
         [JsonProperty(PropertyName = "cep")]
         public string CEP { get; set; }

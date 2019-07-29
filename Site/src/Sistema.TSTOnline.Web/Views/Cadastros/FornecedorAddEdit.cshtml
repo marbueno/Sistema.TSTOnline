@@ -1,0 +1,126 @@
+﻿@model Sistema.TSTOnline.Web.Areas.Admin.Models.Cadastros.FornecedorVM
+@using Sistema.TSTOnline.Domain.Utils
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Fornecedor";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVO FORNECEDOR";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR FORNECEDOR";
+        labelButton = "Atualizar Fornecedor";
+    }
+}
+
+<form id="frmFornecedor" asp-action="FornecedorCreateOrUpdate" asp-controller="Cadastros"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/cadastros/fornecedor'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO FORNECEDOR</span></h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDFornecedor, new { id = "idFornecedor" })
+                        @Html.TextBoxFor(m => m.IDFornecedor, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control", @maxlength = "18", @placeholder = "CNPJ", @required = "true", @data_mask = "00.000.000/0000-00" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-6 col-lg-6">
+                        @Html.TextBoxFor(m => m.RazaoSocial, new { @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        @Html.TextBoxFor(m => m.NomeFantasia, new { @class = "form-control", @maxlength = "150", @placeholder = "Nome Fantasia", @required = "true" })
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DE ENDEREÇO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.CEP, new { @class = "form-control", @maxlength = "9", @placeholder = "CEP", @required = "true", @data_mask = "00000-000" })
+                    </div>
+
+                    <div class="col-sm-7 col-lg-7">
+                        @Html.TextBoxFor(m => m.Endereco, new { @class = "form-control", @maxlength = "200", @placeholder = "Endereço", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", @maxlength = "80", @placeholder = "Número" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-4 col-lg-4">
+                        @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", @maxlength = "100", @placeholder = "Complemento" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", @maxlength = "80", @placeholder = "Bairro" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", @maxlength = "50", @placeholder = "Cidade" })
+                    </div>
+
+                    <div class="col-sm-2 col-lg-2">
+                        <select name="uf" class="form-control" required="">
+
+                            @if (newRegister)
+                            {
+                                <option selected disabled>UF</option>
+                            }
+
+                            @foreach (var itemEstado in Helper.ListarEstados())
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@itemEstado.Codigo">@itemEstado.Sigla</option>
+                                }
+                                else if (Model.UF == itemEstado.Sigla)
+                                {
+                                    <option selected value="@itemEstado.Codigo">@itemEstado.Sigla</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/cadastros/fornecedor'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

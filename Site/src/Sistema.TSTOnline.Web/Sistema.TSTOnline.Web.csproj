@@ -2,27 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Marcelo Bueno</Authors>
+    <Company>TKM Solutions</Company>
+    <Product>TSTOnline</Product>
+    <Description>Módulo de cliente da TST Online</Description>
+    <AssemblyVersion>2019.08.01.01</AssemblyVersion>
+    <FileVersion>2019.08.01.01</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scripts\Cadastros\Adversario.vue.js" />
-    <None Remove="Scripts\Cadastros\Atleta.vue.js" />
-    <None Remove="Scripts\Cadastros\Equipe.vue.js" />
-    <None Remove="Scripts\Cadastros\Posicao.vue.js" />
-    <None Remove="Scripts\Cadastros\Quadra.vue.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Scripts\Cadastros\Atleta.vue.js" />
-    <Content Include="Scripts\Cadastros\Equipe.vue.js" />
-    <Content Include="Scripts\Cadastros\Adversario.vue.js" />
-    <Content Include="Scripts\Cadastros\Quadra.vue.js" />
-    <Content Include="Scripts\Cadastros\Posicao.vue.js" />
-    <Content Include="Styles\black-dashboard.css" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
   </ItemGroup>
 

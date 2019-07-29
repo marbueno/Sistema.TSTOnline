@@ -1,6 +1,6 @@
-using Sistema.Competicao.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Interfaces;
 
-namespace Sistema.Competicao.Data
+namespace Sistema.TSTOnline.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

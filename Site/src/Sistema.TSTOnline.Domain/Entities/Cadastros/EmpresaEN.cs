@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sistema.Competicao.Domain.Entities.Cadastros
+namespace Sistema.TSTOnline.Domain.Entities.Cadastros
 {    
     public class EmpresaEN
     {

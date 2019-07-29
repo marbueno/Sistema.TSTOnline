@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sistema.Competicao.Domain;
+using Sistema.TSTOnline.Domain;
 
-namespace Sistema.Competicao.Web.Filters
+namespace Sistema.TSTOnline.Web.Filters
 {
     public class CustomExceptionFilter : ExceptionFilterAttribute
     {

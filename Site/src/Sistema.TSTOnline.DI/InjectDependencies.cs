@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Sistema.Competicao.Data;
+using Sistema.TSTOnline.Data;
 using Microsoft.AspNetCore.Http;
-using Sistema.Competicao.Domain.Interfaces;
-using Sistema.Competicao.Domain.Services.Cadastros;
-using Sistema.Competicao.Domain.Services.Produtos;
-using Sistema.Competicao.Domain.Services.PedidoVenda;
-using Sistema.Competicao.Domain.Services.OrdemServico;
+using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Services.Cadastros;
+using Sistema.TSTOnline.Domain.Services.Produtos;
+using Sistema.TSTOnline.Domain.Services.PedidoVenda;
+using Sistema.TSTOnline.Domain.Services.OrdemServico;
 
-namespace Sistema.Competicao.DI
+namespace Sistema.TSTOnline.DI
 {
     public class InjectDependencies
     {

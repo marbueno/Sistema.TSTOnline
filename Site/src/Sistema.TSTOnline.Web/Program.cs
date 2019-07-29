@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Sistema.Competicao.Web
+namespace Sistema.TSTOnline.Web
 {
     public class Program
     {

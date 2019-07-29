@@ -1,16 +1,20 @@
-﻿<div id="divConfirmar" class="modal modal-black fade" tabindex="-1" role="dialog">
+﻿<div id="divConfirmar" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Confirmar Exclusão</h3>
+                <h5 class="modal-title">
+                    <i class="fa fa-search"></i> <strong>CONFIRMAR EXCLUSÃO</strong>
+                </h5>
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
                 <p class="error-text">Tem certeza que deseja excluir esse registro?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-                <button class="btn btn-fill btn-primary" v-on:click="deleteRegister(0, true)">Excluir</button>
+                <div class="btn-group">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                    <button class="btn btn-danger" onclick="deleteRegister();">Excluir</button>
+                </div>
             </div>
         </div>
     </div>

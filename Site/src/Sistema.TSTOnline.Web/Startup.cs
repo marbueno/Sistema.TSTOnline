@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Sistema.Competicao.DI;
-using Sistema.Competicao.Web.Filters;
+using Sistema.TSTOnline.DI;
+using Sistema.TSTOnline.Web.Filters;
 
-namespace Sistema.Competicao.Web
+namespace Sistema.TSTOnline.Web
 {
     public class Startup
     {
@@ -43,18 +43,18 @@ namespace Sistema.Competicao.Web
             }
 
             app.UseStaticFiles();
-            app.UseAuthentication();
+
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+            );
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapAreaRoute(
-                    name: "AdminDefault",
-                    areaName: "Admin",
-                    template: "Admin/{controller=Account}/{action=Login}/{id?}");
 
             });
         }

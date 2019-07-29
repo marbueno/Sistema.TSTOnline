@@ -1,10 +1,10 @@
-using Sistema.Competicao.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Sistema.Competicao.Data
+namespace Sistema.TSTOnline.Data
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

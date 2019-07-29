@@ -1,7 +1,7 @@
-using Sistema.Competicao.Domain.Entities.Cadastros;
-using Sistema.Competicao.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Interfaces;
 
-namespace Sistema.Competicao.Domain.Services.Cadastros
+namespace Sistema.TSTOnline.Domain.Services.Cadastros
 {
     public class FornecedorBU
     {
@@ -14,19 +14,19 @@ namespace Sistema.Competicao.Domain.Services.Cadastros
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDFornecedor, string CNPJ, string RazaoSocial, string NomeFantasia, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public void Save(int IDFornecedor, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
         {
             FornecedorEN fornecedorEN = _fornecedorRepository.GetByID(IDFornecedor);
 
             if (fornecedorEN != null)
             {
-                fornecedorEN.UpdateProperties(CNPJ, RazaoSocial, NomeFantasia, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                fornecedorEN.UpdateProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
 
                 _fornecedorRepository.Edit(fornecedorEN);
             }
             else
             {
-                fornecedorEN = new FornecedorEN(CNPJ, RazaoSocial, NomeFantasia, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                fornecedorEN = new FornecedorEN(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
 
                 _fornecedorRepository.Save(fornecedorEN);
             }

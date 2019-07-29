@@ -1,7 +1,7 @@
-﻿using Sistema.Competicao.Domain.Entities.Produtos;
-using Sistema.Competicao.Domain.Interfaces;
+﻿using Sistema.TSTOnline.Domain.Entities.Produtos;
+using Sistema.TSTOnline.Domain.Interfaces;
 
-namespace Sistema.Competicao.Domain.Services.Produtos
+namespace Sistema.TSTOnline.Domain.Services.Produtos
 {
     public class CategoriaBU
     {
