@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Sistema.TSTOnline.Web.Areas.Admin.Models.Cadastros
+namespace Sistema.TSTOnline.Web.Models.Cadastros
 {
     public class EmpresaVM
     {

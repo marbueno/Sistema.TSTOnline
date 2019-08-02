@@ -1,58 +1,42 @@
-﻿@model Sistema.TSTOnline.Web.Models.Cadastros.VendedorVM
+﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.LocalServicoVM
 @using Sistema.TSTOnline.Domain.Utils
 
 @{
     var newRegister = Model == null;
-    var labelButton = "Cadastrar Vendedor";
+    var labelButton = "Cadastrar Local Serviço";
 
     if (newRegister)
     {
-        ViewData["Title"] = "NOVO VENDEDOR";
+        ViewData["Title"] = "NOVO LOCAL SERVIÇO";
     }
     else
     {
-        ViewData["Title"] = "EDITAR VENDEDOR";
-        labelButton = "Atualizar Vendedor";
+        ViewData["Title"] = "EDITAR LOCAL SERVIÇO";
+        labelButton = "Atualizar Local Serviço";
     }
 }
 
-<form id="frmVendedor" asp-action="VendedorCreateOrUpdate" asp-controller="Cadastros"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/cadastros/vendedor'">
+<form id="frmLocalServico" asp-action="LocalServicoCreateOrUpdate" asp-controller="OrdemServico"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/ordemservico/localservico'">
     <div class="container">
         <div class="card">
             <div class="card-body">
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">
-                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO VENDEDOR</span></h5>
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO LOCAL DO SERVIÇO</span></h5>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-2 col-lg-2">
-                        @Html.HiddenFor(m => m.IDVendedor, new { id = "idVendedor" })
-                        @Html.TextBoxFor(m => m.IDVendedor, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                        @Html.HiddenFor(m => m.IDLocal, new { id = "idLocalServico" })
+                        @Html.TextBoxFor(m => m.IDLocal, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
                     </div>
 
                     <div class="col-sm-10 col-lg-10">
-                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @maxlength = "80", @placeholder = "Nome Completo", @required = "true" })
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @maxlength = "100", @placeholder = "Nome do Local", @required = "true" })
                     </div>
-                </div>
-
-                <div class="row" style="margin-top: 1%;">
-
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.RG, new { @class = "form-control", @maxlength = "12", @placeholder = "RG", @required = "true", @data_mask = "00.000.000-00" })
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.CPF, new { @class = "form-control", @maxlength = "14", @placeholder = "CPF", @required = "true", @data_mask = "000.000.000-00" })
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.DataNascimento, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data de Nascimento", @data_toggle = "tooltip", @required = "true" })
-                    </div>
-
                 </div>
 
                 <div class="row" style="margin-top:1%;">
@@ -118,7 +102,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/cadastros/vendedor'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/ordemservico/localservico'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

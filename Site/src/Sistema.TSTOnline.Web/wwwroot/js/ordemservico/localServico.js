@@ -1,9 +1,9 @@
 var codigo = 0;
 var columns = [
     { "data": "codigo" },
-    { "data": "cnpj" },
-    { "data": "razaoSocial" },
-    { "data": "nomeFantasia" },
+    { "data": "nome" },
+    { "data": "cep" },
+    { "data": "bairro" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
@@ -19,13 +19,13 @@ var columns = [
 ];
 
 function editRegister(id) {
-    window.location = '/cadastros/fornecedorAddEdit/' + id;
+    window.location = '/ordemservico/localServicoAddEdit/' + id;
 }
 
 function deleteRegister () {
     if (codigo !== 0) {
 
-        fetch('/cadastros/fornecedorDelete/' + codigo, { method: 'delete' })
+        fetch('/ordemservico/localServicoDelete/' + codigo, { method: 'delete' })
             .then(() =>
             {
                 window.location.reload();
@@ -34,9 +34,9 @@ function deleteRegister () {
 }
 
 $(document).ready(function () {
-    carregarFornecedores().then(dataLoaded => {
+    carregarLocaisServicos().then(dataLoaded => {
         if (dataLoaded) {
-            loadTable('tblFornecedor', listFornecedores, columns);
+            loadTable('tblLocalServico', listLocaisServicos, columns);
         }
     });
 });

@@ -3,15 +3,15 @@
 
 namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 {
-    public class ServicoEN
+    public class TipoServicoEN
     {
         [Key]
-        public int IDServico { get; set; }
+        public int IDTipoServico { get; set; }
         public string Descricao { get; set; }
 
-        private ServicoEN() { }
+        private TipoServicoEN() { }
 
-        public ServicoEN(string Descricao)
+        public TipoServicoEN(string Descricao)
         {
             ValidateAndSetProperties(Descricao);
         }

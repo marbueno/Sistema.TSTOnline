@@ -47,7 +47,7 @@ namespace Sistema.TSTOnline.DI
 
             services.AddTransient(typeof(OrdemServicoBU));
             services.AddTransient(typeof(OrdemServicoItemBU));
-            services.AddTransient(typeof(ServicoBU));
+            services.AddTransient(typeof(TipoServicoBU));
             services.AddTransient(typeof(LocalServicoBU));
 
             #endregion Ordem de Serviço

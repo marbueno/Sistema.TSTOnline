@@ -1,4 +1,3 @@
-var formName = "";
 var tableName = "";
 var tableData = null;
 var tableColumns = null;

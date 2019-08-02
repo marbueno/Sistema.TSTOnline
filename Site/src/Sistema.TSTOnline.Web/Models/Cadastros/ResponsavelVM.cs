@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Sistema.TSTOnline.Web.Areas.Admin.Models.Cadastros
+namespace Sistema.TSTOnline.Web.Models.Cadastros
 {
     public class ResponsavelVM
     {

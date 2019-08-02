@@ -1,0 +1,56 @@
+﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.TipoServicoVM
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Tipo Serviço";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVO TIPO SERVIÇO";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR TIPO SERVIÇO";
+        labelButton = "Atualizar Tipo Serviço";
+    }
+}
+
+<form id="frmTipoServico" asp-action="TipoServicoCreateOrUpdate" asp-controller="OrdemServico"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/ordemservico/tiposervico'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO TIPO DE SERVIÇO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDTipoServico, new { id = "idTipoServico" })
+                        @Html.TextBoxFor(m => m.IDTipoServico, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-10 col-lg-10">
+                        @Html.TextBoxFor(m => m.Descricao, new { @class = "form-control", @maxlength = "200", @placeholder = "Descrição", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/ordemservico/tiposervico'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

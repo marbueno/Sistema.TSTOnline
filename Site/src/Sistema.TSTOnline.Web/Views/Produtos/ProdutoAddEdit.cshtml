@@ -1,0 +1,147 @@
+﻿@model Sistema.TSTOnline.Web.Models.Produtos.ProdutoVM
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Cadastros
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+
+@inject IRepository<FornecedorEN> _fornecedorRepository
+@inject IRepository<CategoriaEN> _categoriaRepository
+@inject IRepository<SubCategoriaEN> _subCategoriaRepository
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Produto";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVO PRODUTO";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR PRODUTO";
+        labelButton = "Atualizar Produto";
+    }
+    
+    var listFornecedores = _fornecedorRepository.All();
+    var listCategorias = _categoriaRepository.All();
+    var listSubCategorias = _subCategoriaRepository.All();
+}
+
+<form id="frmProduto" asp-action="ProdutoCreateOrUpdate" asp-controller="Produtos"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/produtos/produto'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO PRODUTO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDProduto, new { id = "idProduto" })
+                        @Html.TextBoxFor(m => m.IDProduto, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-4">
+                        @Html.TextBoxFor(m => m.SKU, new { @class = "form-control", @maxlength = "45", @placeholder = "SKU", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-7 col-lg-6">
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @maxlength = "50", @placeholder = "Nome", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextAreaFor(m => m.Descricao, new { @class = "form-control", @placeholder = "Descrição", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-3 col-lg-3">
+                        <select name="idFornecedor" class="form-control" required="">
+
+                            @if (newRegister)
+                            {
+                                <option selected disabled>Escolha um Fornecedor</option>
+                            }
+
+                            @foreach (var itemFornecedor in listFornecedores)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
+                                }
+                                else if (Model.IDCategoria == itemFornecedor.IDFornecedor)
+                                {
+                                    <option selected value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <select name="idCategoria" class="form-control" required="">
+
+                            @if (newRegister)
+                            {
+                                <option selected disabled>Escolha uma Categoria</option>
+                            }
+
+                            @foreach (var itemCategoria in listCategorias)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
+                                }
+                                else if (Model.IDCategoria == itemCategoria.IDCategoria)
+                                {
+                                    <option selected value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <select name="idSubCategoria" class="form-control" required="">
+
+                            @if (newRegister)
+                            {
+                                <option selected disabled>Escolha uma Sub-Categoria</option>
+                            }
+
+                            @foreach (var itemSubCategoria in listSubCategorias)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
+                                }
+                                else if (Model.IDCategoria == itemSubCategoria.IDSubCategoria)
+                                {
+                                    <option selected value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Preco, new { @class = "form-control", @maxlength = "15", @placeholder = "Preço", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/produtos/produto'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

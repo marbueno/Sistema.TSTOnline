@@ -14,7 +14,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDProduto, string SKU, string Nome, string Descricao, int IDForncedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        public void Save(int IDProduto, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
             ProdutoEN produtoEN = _repositoryProduto.GetByID(IDProduto);
 
@@ -25,7 +25,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
                         SKU,
                         Nome,
                         Descricao,
-                        IDForncedor,
+                        IDFornecedor,
                         IDCategoria,
                         IDSubCategoria,
                         Preco
@@ -40,7 +40,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
                         SKU,
                         Nome,
                         Descricao,
-                        IDForncedor,
+                        IDFornecedor,
                         IDCategoria,
                         IDSubCategoria,
                         Preco

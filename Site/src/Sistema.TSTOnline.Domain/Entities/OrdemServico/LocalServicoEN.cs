@@ -7,6 +7,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         [Key]
         public int IDLocal { get; set; }
         public string Nome { get; set; }
+        public string CEP { get; set; }
         public string Endereco { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
@@ -16,19 +17,20 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 
         private LocalServicoEN() { }
 
-        public LocalServicoEN(string Nome, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public LocalServicoEN(string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
         {
-            ValidateAndSetProperties(Nome, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
         }
 
-        public void UpdateProperties (string Nome, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public void UpdateProperties (string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
         {
-            ValidateAndSetProperties(Nome, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
         }
 
-        private void ValidateAndSetProperties (string Nome, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        private void ValidateAndSetProperties (string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
         {
             DomainException.When(string.IsNullOrEmpty(Nome), "Nome não informado.");
+            DomainException.When(string.IsNullOrEmpty(CEP), "CEP não informado.");
             DomainException.When(string.IsNullOrEmpty(Endereco), "Endereço não informado.");
             DomainException.When(string.IsNullOrEmpty(Numero), "Número não informado.");
             DomainException.When(string.IsNullOrEmpty(Bairro), "Bairro não informado.");
@@ -36,6 +38,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
             DomainException.When(string.IsNullOrEmpty(UF), "UF não informada.");
 
             this.Nome = Nome;
+            this.CEP = CEP;
             this.Endereco = Endereco;
             this.Numero = Numero;
             this.Complemento = Complemento;

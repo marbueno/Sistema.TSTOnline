@@ -1,9 +1,8 @@
 var codigo = 0;
 var columns = [
     { "data": "codigo" },
-    { "data": "cnpj" },
-    { "data": "razaoSocial" },
-    { "data": "nomeFantasia" },
+    { "data": "categoriaDescricao" },
+    { "data": "descricao" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
@@ -19,13 +18,13 @@ var columns = [
 ];
 
 function editRegister(id) {
-    window.location = '/cadastros/fornecedorAddEdit/' + id;
+    window.location = '/produtos/categoriaAddEdit/' + id;
 }
 
 function deleteRegister () {
     if (codigo !== 0) {
 
-        fetch('/cadastros/fornecedorDelete/' + codigo, { method: 'delete' })
+        fetch('/produtos/categoriaDelete/' + codigo, { method: 'delete' })
             .then(() =>
             {
                 window.location.reload();
@@ -34,9 +33,9 @@ function deleteRegister () {
 }
 
 $(document).ready(function () {
-    carregarFornecedores().then(dataLoaded => {
+    carregarSubCategorias().then(dataLoaded => {
         if (dataLoaded) {
-            loadTable('tblFornecedor', listFornecedores, columns);
+            loadTable('tblSubCategoria', listSubCategorias, columns);
         }
     });
 });

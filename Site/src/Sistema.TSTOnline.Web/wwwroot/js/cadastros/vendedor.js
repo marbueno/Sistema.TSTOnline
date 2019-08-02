@@ -42,7 +42,7 @@ function editRegister(id) {
 function deleteRegister () {
     if (codigo !== 0) {
 
-        fetch('/Cadastros/vendedorDelete/' + codigo, { method: 'delete' })
+        fetch('/cadastros/vendedorDelete/' + codigo, { method: 'delete' })
             .then(() =>
             {
                 window.location.reload();
@@ -51,7 +51,6 @@ function deleteRegister () {
 }
 
 $(document).ready(function () {
-    formName = '#frmVendedor';
     carregarVendedores().then(dataLoaded => {
         if (dataLoaded) {
             loadTable('tblVendedor', listVendedores, columns);

@@ -1,9 +1,11 @@
 var codigo = 0;
 var columns = [
     { "data": "codigo" },
-    { "data": "cnpj" },
-    { "data": "razaoSocial" },
-    { "data": "nomeFantasia" },
+    { "data": "sku" },
+    { "data": "nome" },
+    { "data": "fornecedorRazaoSocial" },
+    { "data": "categoriaDescricao" },
+    { "data": "preco" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
@@ -19,13 +21,13 @@ var columns = [
 ];
 
 function editRegister(id) {
-    window.location = '/cadastros/fornecedorAddEdit/' + id;
+    window.location = '/produtos/produtoAddEdit/' + id;
 }
 
 function deleteRegister () {
     if (codigo !== 0) {
 
-        fetch('/cadastros/fornecedorDelete/' + codigo, { method: 'delete' })
+        fetch('/produtos/produtoDelete/' + codigo, { method: 'delete' })
             .then(() =>
             {
                 window.location.reload();
@@ -34,9 +36,9 @@ function deleteRegister () {
 }
 
 $(document).ready(function () {
-    carregarFornecedores().then(dataLoaded => {
+    carregarProdutos().then(dataLoaded => {
         if (dataLoaded) {
-            loadTable('tblFornecedor', listFornecedores, columns);
+            loadTable('tblProduto', listProdutos, columns);
         }
     });
 });

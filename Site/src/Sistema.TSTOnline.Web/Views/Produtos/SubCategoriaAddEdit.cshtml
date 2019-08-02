@@ -1,0 +1,86 @@
+﻿@model Sistema.TSTOnline.Web.Models.Produtos.SubCategoriaVM
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+
+@inject IRepository<CategoriaEN> _categoriaRepository
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Sub-Categoria";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVA SUB-CATEGORIA";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR SUB-CATEGORIA";
+        labelButton = "Atualizar Sub-Categoria";
+    }
+
+    var listCategorias = _categoriaRepository.All();
+}
+
+<form id="frmSubCategoria" asp-action="SubCategoriaCreateOrUpdate" asp-controller="Produtos"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/produtos/subcategoria'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DA SUB-CATEGORIA</span></h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDSubCategoria, new { id = "idSubCategoria" })
+                        @Html.TextBoxFor(m => m.IDSubCategoria, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-10 col-lg-10">
+                        <select name="idCategoria" class="form-control" required="">
+
+                            @if (newRegister)
+                            {
+                                <option selected disabled>Escolha uma Categoria</option>
+                            }
+
+                            @foreach (var itemCategoria in listCategorias)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
+                                }
+                                else if (Model.IDCategoria == itemCategoria.IDCategoria)
+                                {
+                                    <option selected value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextBoxFor(m => m.Descricao, new { @class = "form-control", @maxlength = "200", @placeholder = "Descrição", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/produtos/subcategoria'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

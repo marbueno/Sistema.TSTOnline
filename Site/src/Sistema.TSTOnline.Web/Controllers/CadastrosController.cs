@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Services.Cadastros;
-using Sistema.TSTOnline.Web.Areas.Admin.Models.Cadastros;
+using Sistema.TSTOnline.Web.Models.Cadastros;
 
 namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 {
