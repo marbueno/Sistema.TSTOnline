@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sistema.TSTOnline.Domain.Entities.Cadastros
 {
@@ -25,14 +24,5 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         public string Celular { get; set; }
         public string Email { get; set; }
         public string Obs { get; set; }
-        public DateTime HoraInicio { get; set; }
-        public DateTime HoraDuracao { get; set; }
-        public DateTime HoraFim { get; set; }
-        public DateTime DataCad { get; set; }
-        public string DataSaida { get; set; }
-        public int CodEmpresa { get; set; }
-        public string RZEmpresa { get; set; }
-        public string CnpjEmpresa { get; set; }
-        public string TipoMedico { get; set; }
     }
 }

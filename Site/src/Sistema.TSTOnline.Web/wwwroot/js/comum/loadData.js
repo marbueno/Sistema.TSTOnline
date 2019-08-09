@@ -1,3 +1,4 @@
+/* CADASTROS */
 var listVendedores = [];
 var listFornecedores = [];
 var listLocaisServicos = [];
@@ -5,6 +6,9 @@ var listTiposServicos = [];
 var listCategorias = [];
 var listSubCategorias = [];
 var listProdutos = [];
+var listOrdemServicos = [];
+var listOrdemServicoItens = [];
+var listResponsaveis = [];
 
 /* CADASTROS */
 function carregarVendedores () {
@@ -43,6 +47,24 @@ function carregarFornecedores() {
     });
 }
 
+function carregarResponsaveis() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/cadastros/listResponsaveis')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listResponsaveis.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
 /* ORDEM DE SERVIÇO */
 function carregarLocaisServicos() {
 
@@ -71,6 +93,42 @@ function carregarTiposServicos() {
             .then(data => {
                 var iCount = 0;
                 data.forEach(item => { item.id = iCount; listTiposServicos.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarOrdemServicos() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/ordemservico/listOrdemServicos')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listOrdemServicos.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarOrdemServicoItens() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/ordemservico/listOrdemServicoItens')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listOrdemServicoItens.push(item); iCount++; });
                 resolve(true);
             })
             .catch(ex => {

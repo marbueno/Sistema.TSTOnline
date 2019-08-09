@@ -61,32 +61,5 @@ namespace Sistema.TSTOnline.Web.Models.Cadastros
 
         [JsonProperty(PropertyName = "obs")]
         public string Obs { get; set; }
-
-        [JsonProperty(PropertyName = "horaInicio")]
-        public DateTime HoraInicio { get; set; }
-
-        [JsonProperty(PropertyName = "horaDuracao")]
-        public DateTime HoraDuracao { get; set; }
-
-        [JsonProperty(PropertyName = "horaFim")]
-        public DateTime HoraFim { get; set; }
-
-        [JsonProperty(PropertyName = "dataCadastro")]
-        public DateTime DataCad { get; set; }
-
-        [JsonProperty(PropertyName = "dataSaida")]
-        public string DataSaida { get; set; }
-
-        [JsonProperty(PropertyName = "codigoEmpresa")]
-        public int CodEmpresa { get; set; }
-
-        [JsonProperty(PropertyName = "razaoSocialEmpresa")]
-        public string RZEmpresa { get; set; }
-
-        [JsonProperty(PropertyName = "cnpjEmpresa")]
-        public string CnpjEmpresa { get; set; }
-
-        [JsonProperty(PropertyName = "tipoMedico")]
-        public string TipoMedico { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Sistema.TSTOnline.Data
 
         public DbSet<OrdemServicoEN> tbOs { get; set; }
         public DbSet<OrdemServicoItemEN> tbOsItem { get; set; }
-        public DbSet<TipoServicoEN> tbCadServico { get; set; }
+        public DbSet<TipoServicoEN> tbCadTipoServico { get; set; }
         public DbSet<LocalServicoEN> tbCadLocalServico { get; set; }
 
         #endregion Ordem de Serviço

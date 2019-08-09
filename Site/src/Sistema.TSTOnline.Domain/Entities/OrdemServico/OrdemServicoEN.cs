@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sistema.TSTOnline.Domain.Utils;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
@@ -9,7 +10,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         public int IDOrdemServico { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime DataServico { get; set; }
-        public int Status { get; set; }
+        public OrdemServicoStatusEnum Status { get; set; }
         public int IDResp { get; set; }
         public int IDLocal { get; set; }
 
@@ -19,17 +20,17 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
             DataServico = DateTime.Now;
         }
 
-        public OrdemServicoEN(DateTime DataServico, int Status, int IDResp, int IDLocal)
+        public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
             ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal);
         }
 
-        public void UpdateProperties(DateTime DataServico, int Status, int IDResp, int IDLocal)
+        public void UpdateProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
             ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal);
         }
 
-        private void ValidateAndSetProperties(DateTime DataServico, int Status, int IDResp, int IDLocal)
+        private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
             DomainException.When(DataServico == DateTime.MinValue, "Status não informado.");
             DomainException.When(Status == 0, "Status não informado.");

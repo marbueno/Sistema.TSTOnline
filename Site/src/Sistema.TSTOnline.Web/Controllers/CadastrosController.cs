@@ -217,16 +217,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     TelComercial = c.TelComercial,
                     Celular = c.Celular,
                     Email = c.Email,
-                    Obs = c.Obs,
-                    HoraInicio = c.HoraInicio,
-                    HoraDuracao = c.HoraDuracao,
-                    HoraFim = c.HoraFim,
-                    DataCad = c.DataCad,
-                    DataSaida = c.DataSaida,
-                    CodEmpresa = c.CodEmpresa,
-                    RZEmpresa = c.RZEmpresa,
-                    CnpjEmpresa = c.CnpjEmpresa,
-                    TipoMedico = c.TipoMedico
+                    Obs = c.Obs
                 });
 
             return Json(responsavelVM);

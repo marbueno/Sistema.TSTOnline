@@ -1,0 +1,91 @@
+﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.OrdemServicoVM
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.OrdemServico
+
+@inject IRepository<LocalServicoEN> _localServicoRepository
+@inject IRepository<TipoServicoEN> _tipoServicoRepository
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Nova Ordem de Serviço";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVA ORDEM DE SERVIÇO";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR ORDEM SERVIÇO";
+        labelButton = "Atualizar Ordem Serviço";
+    }
+
+    var listLocaisServicos = _localServicoRepository.All();
+    var listTiposServicos = _tipoServicoRepository.All();
+}
+
+<form id="frmOrdemServico" asp-action="OrdemServicoCreateOrUpdate" asp-controller="OrdemServico"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/ordemservico/ordemServico'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DA ORDEM DE SERVIÇO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDOrdemServico, new { id = "idServico" })
+                        @Html.TextBoxFor(m => m.IDOrdemServico, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO RESPONSÁVEL</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalResponsavel"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.ResponsavelNome, new { id="ResponsavelNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="IDResp" id="IDResp">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarResponsavelPartial.cshtml")
+
+
+@section Scripts{
+    <script src="~/js/cadastros/responsavel.js"></script>
+}

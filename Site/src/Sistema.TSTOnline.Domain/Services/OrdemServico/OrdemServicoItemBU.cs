@@ -14,7 +14,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDOrdemServicoItem, int IDOrdemServico, int Item, int IDServico)
+        public void Save(int IDOrdemServicoItem, int IDOrdemServico, int Item, int IDTipoServico, string Observacao, bool Concluido)
         {
             OrdemServicoItemEN ordemServicoItemEN = _repositoryOrdemServicoItem.GetByID(IDOrdemServicoItem);
 
@@ -24,7 +24,9 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                     (
                         IDOrdemServico,
                         Item,
-                        IDServico
+                        IDTipoServico,
+                        Observacao,
+                        Concluido
                     );
 
                 _repositoryOrdemServicoItem.Edit(ordemServicoItemEN);
@@ -35,7 +37,9 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                     (
                         IDOrdemServico,
                         Item,
-                        IDServico
+                        IDTipoServico,
+                        Observacao,
+                        Concluido
                     );
 
                 _repositoryOrdemServicoItem.Save(ordemServicoItemEN);

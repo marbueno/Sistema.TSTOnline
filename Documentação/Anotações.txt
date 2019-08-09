@@ -20,7 +20,10 @@
 	03. Adicionar Parametro "categoria_view" na tabela "permission_params"
 	04. Adicionar Parametro "subcategoria_view" na tabela "permission_params"
 	05. Adicionar Parametro "produto_view" na tabela "permission_params"
-	06. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+	06. Adicionar Parametro "locaisservico_view" na tabela "permission_params"
+	07. Adicionar Parametro "tiposervico_view" na tabela "permission_params"
+	08. Adicionar Parametro "ordemservico_view" na tabela "permission_params"
+	09. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 
 	
 **** PÁGINAS ALTERADAS NO PHP
@@ -40,3 +43,9 @@
 	08. sstSubCategoriaProduto
 	09. sstProdutoController
 	10. sstProduto
+	11. sstLocaisServicoController
+	12. sstLocaisServico
+	13. sstTiposServicoController
+	14. sstTiposServico
+	15. sstOrdemServicoController
+	16. sstOrdemServico
