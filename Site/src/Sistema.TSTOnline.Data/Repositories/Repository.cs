@@ -42,9 +42,9 @@ namespace Sistema.TSTOnline.Data
             Delete(entity);
         }
 
-        public virtual IQueryable Where(Expression<Func<TEntity, bool>> expression)
+        public virtual IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbContext.Set<TEntity>().Where(expression);
+            return _dbContext.Set<TEntity>().Where(expression).ToList();
         }
 
         public virtual IEnumerable<TEntity> All()

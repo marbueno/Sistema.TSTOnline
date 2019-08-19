@@ -16,7 +16,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
+        public int Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
 
@@ -46,6 +46,8 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             }
 
             _unitOfWork.Commit();
+
+            return ordemServicoEN.IDOrdemServico;
         }
 
         public void UpdateStatus(int IDOrdemServico, OrdemServicoStatusEnum Status)

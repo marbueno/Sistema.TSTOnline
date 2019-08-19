@@ -2,9 +2,10 @@ var tableName = "";
 var tableData = null;
 var tableColumns = null;
 var tableOrder = null;
+var tableColumDefs = null;
 var order = [[0, 'desc']];
 
-function loadTable (tableName, tableData, tableColumns, tableOrder) {
+function loadTable(tableName, tableData, tableColumns, tableOrder, tableColumDefs) {
 
     if (tableOrder === null || tableOrder === undefined) {
         tableOrder = this.order;
@@ -14,6 +15,7 @@ function loadTable (tableName, tableData, tableColumns, tableOrder) {
     this.tableData = tableData;
     this.tableColumns = tableColumns;
     this.tableOrder = tableOrder;
+    this.tableColumDefs = tableColumDefs;
 
     try {
         $('#' + tableName).dataTable().fnClearTable();
@@ -43,6 +45,8 @@ function loadTable (tableName, tableData, tableColumns, tableOrder) {
             "data": tableData,
 
             "columns": tableColumns,
+
+            "columnDefs": tableColumDefs,
 
             "order": tableOrder
         });

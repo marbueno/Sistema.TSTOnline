@@ -7,6 +7,7 @@ using Sistema.TSTOnline.Web.Models.OrdemServico;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using System.Collections.Generic;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -262,7 +263,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDResp = c.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(c.IDResp).NomeResponsavel,
                     IDLocal = c.IDLocal,
-                    LocalDescricao = _localServicoRepository.GetByID(c.IDLocal).Nome
+                    LocalDescricao = _localServicoRepository.GetByID(c.IDLocal).Nome,
+                    OrdemServicoItens = GetOrdemServicoItens(c.IDOrdemServico)
                 });
 
             return Json(ordemServicoVM.ToList());
@@ -270,18 +272,33 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpPost]
         [Route("ordemServicoCreateOrUpdate")]
-        public IActionResult OrdemServicoCreateOrUpdate(OrdemServicoVM ordemServicoVM)
+        public IActionResult OrdemServicoCreateOrUpdate([FromBody] OrdemServicoVM ordemServicoVM)
         {
-            _ordemServicoBU.Save
-                (
-                    ordemServicoVM.IDOrdemServico,
-                    ordemServicoVM.DataServico,
-                    ordemServicoVM.Status,
-                    ordemServicoVM.IDResp,
-                    ordemServicoVM.IDLocal
-               );
+            if (ordemServicoVM != null && ordemServicoVM.OrdemServicoItens.Count > 0)
+            {
 
-            return Ok();
+                var idOrdemServico = _ordemServicoBU.Save
+                    (
+                        ordemServicoVM.IDOrdemServico,
+                        ordemServicoVM.DataServico,
+                        ordemServicoVM.Status,
+                        ordemServicoVM.IDResp,
+                        ordemServicoVM.IDLocal
+                   );
+
+                int item = 1;
+                foreach (var itemServico in ordemServicoVM.OrdemServicoItens)
+                {
+                    _ordemServicoItemBU.Save(itemServico.IDOrdemServicoItem, idOrdemServico, item, itemServico.IDTipoServico, itemServico.Observacao, itemServico.Concluido);
+                    item++;
+                }
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut]
@@ -297,41 +314,10 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         #region Ordem de Serviço Itens
 
-        [HttpGet]
-        [Route("ordemServicoItem")]
-        public IActionResult OrdemServicoItem()
+        private List<OrdemServicoItemVM> GetOrdemServicoItens(int IDOrdemServico)
         {
-            return View();
-        }
+            var listOrdemServicoItem = _ordemServicoItemRepository.Where(obj => obj.IDOrdemServico == IDOrdemServico);
 
-        [HttpGet]
-        [Route("ordemServicoItemAddEdit/{idServico?}")]
-        public IActionResult OrdemServicoItemAddEdit(int? idServicoItem)
-        {
-            if (idServicoItem != null)
-            {
-                var ordemServicoItem = _ordemServicoItemRepository.GetByID(idServicoItem ?? 0);
-
-                var ordemServicoItemVM = new OrdemServicoItemVM()
-                {
-                    IDOrdemServicoItem = ordemServicoItem.IDOrdemServicoItem,
-                    IDOrdemServico = ordemServicoItem.IDOrdemServico,
-                    Item = ordemServicoItem.Item,
-                    IDTipoServico = ordemServicoItem.IDTipoServico,
-                    Concluido = ordemServicoItem.Concluido
-                };
-
-                return View(ordemServicoItemVM);
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        [Route("listOrdemServicoItens")]
-        public JsonResult ListOrdemServicoItens()
-        {
-            var listOrdemServicoItem = _ordemServicoItemRepository.All();
             var ordemServicoItemVM = listOrdemServicoItem.Select(
                 c => new OrdemServicoItemVM
                 {
@@ -343,24 +329,14 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Concluido = c.Concluido
                 });
 
-            return Json(ordemServicoItemVM.ToList());
+            return ordemServicoItemVM.ToList();
         }
 
-        [HttpPost]
-        [Route("ordemServicoItemCreateOrUpdate")]
-        public IActionResult OrdemServicoItemCreateOrUpdate(OrdemServicoItemVM ordemServicoItemVM)
+        [HttpGet]
+        [Route("listOrdemServicoItens/{idOrdemServico}")]
+        public JsonResult ListOrdemServicoItens(int IDOrdemServico)
         {
-            _ordemServicoItemBU.Save
-                (
-                    ordemServicoItemVM.IDOrdemServicoItem,
-                    ordemServicoItemVM.IDOrdemServico,
-                    ordemServicoItemVM.Item,
-                    ordemServicoItemVM.IDTipoServico,
-                    ordemServicoItemVM.Observacao,
-                    ordemServicoItemVM.Concluido
-               );
-
-            return Ok();
+            return Json(GetOrdemServicoItens(IDOrdemServico));
         }
 
         #endregion Ordem de Serviço Itens

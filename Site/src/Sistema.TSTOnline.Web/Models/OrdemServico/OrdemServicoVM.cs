@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sistema.TSTOnline.Domain.Utils;
 
@@ -37,5 +38,8 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
 
         [JsonProperty(PropertyName = "localDescricao")]
         public string LocalDescricao { get; set; }
+
+        [JsonProperty(PropertyName = "ordemServicoItens")]
+        public List<OrdemServicoItemVM> OrdemServicoItens { get; set; }
     }
 }

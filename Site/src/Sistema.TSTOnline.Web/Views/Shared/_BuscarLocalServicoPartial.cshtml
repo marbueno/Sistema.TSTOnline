@@ -1,5 +1,5 @@
 ﻿
-<div class="modal fade" id="modalResponsavel" role="dialog">
+<div class="modal fade" id="modalLocalServico" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,19 +11,22 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <input type="text" name="txtNomeResponsavel" placeholder="Busque o Responsável desejado ..." class="form-control" id="txtNomeResponsavel" />
+                        <input type="text" name="txtLocalServico" placeholder="Busque o Local de Serviço ..." class="form-control" id="txtLocalServico" />
                     </div>
                 </div>
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">
-                        <table name="tblResponsavel" id="tblResponsavel" class="table table-bordered table-hover">
+                        <table name="tblLocalServico" id="tblLocalServico" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th></th>
                                     <th style="width:10%;">Código</th>
-                                    <th style="width:50%;">Nome</th>
-                                    <th style="width:40%;">CPF</th>
+                                    <th style="width:20%;">Nome</th>
+                                    <th style="width:30%;">Endereço</th>
+                                    <th style="width:20%;">Bairro</th>
+                                    <th style="width:10%;">Cidade</th>
+                                    <th style="width:5%;">UF</th>
                                 </tr>
                             </thead>
 
@@ -35,7 +38,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" id="addResponsavel" data-dismiss="modal"><i class="fa fa-plus fa-lg"></i> Adicionar Responsável</button>
+                    <button class="btn btn-primary" id="addLocalServico" data-dismiss="modal"><i class="fa fa-plus fa-lg"></i> Adicionar Local de Serviço</button>
                     <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-lg"></i> Fechar</button>
                 </div>
             </div>

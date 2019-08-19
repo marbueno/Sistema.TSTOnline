@@ -13,7 +13,7 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "item")]
         public int Item { get; set; }
 
-        [JsonProperty(PropertyName = "codigoTipoServico")]
+        [JsonProperty(PropertyName = "idTipoServico")]
         public int IDTipoServico { get; set; }
 
         [JsonProperty(PropertyName = "tipoServicoDescricao")]

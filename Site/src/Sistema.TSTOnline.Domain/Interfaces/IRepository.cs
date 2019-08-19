@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Sistema.TSTOnline.Domain.Interfaces
@@ -12,7 +11,7 @@ namespace Sistema.TSTOnline.Domain.Interfaces
         void Save(TEntity entity);
         void Delete(TEntity entity);
         void Delete(int id);
-        IQueryable Where(Expression<Func<TEntity, bool>> expression);
+        IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> expression);
         IEnumerable<TEntity> All();
     }
 }

@@ -2,7 +2,6 @@
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.OrdemServico
 
-@inject IRepository<LocalServicoEN> _localServicoRepository
 @inject IRepository<TipoServicoEN> _tipoServicoRepository
 
 @{
@@ -19,12 +18,10 @@
         labelButton = "Atualizar Ordem Serviço";
     }
 
-    var listLocaisServicos = _localServicoRepository.All();
     var listTiposServicos = _tipoServicoRepository.All();
 }
 
-<form id="frmOrdemServico" asp-action="OrdemServicoCreateOrUpdate" asp-controller="OrdemServico"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/ordemservico/ordemServico'">
+<form id="frmOrdemServico">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -60,15 +57,80 @@
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
-                        @Html.TextBoxFor(m => m.ResponsavelNome, new { id="ResponsavelNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
+                        @Html.TextBoxFor(m => m.ResponsavelNome, new { id = "ResponsavelNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
                         <input type="hidden" name="IDResp" id="IDResp">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO LOCAL ONDE SERÁ REALIZADO O SERVIÇO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalLocalServico"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.LocalDescricao, new { id = "LocalDescricao", @class = "form-control", @maxlength = "150", @placeholder = "Local", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="IDLocal" id="IDLocal">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DOS SERVIÇOS QUE SERÃO REALIZADOS</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-3 col-lg-3">
+                        <select id="slcTipoServico" name="idTipoServico" class="form-control" required="">
+
+                            <option selected value="0" disabled>Escolha o Tipo de Serviço</option>
+
+                            @foreach (var itemTipoServico in listTiposServicos)
+                            {
+                                <option select value="@itemTipoServico.IDTipoServico">@itemTipoServico.Descricao</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-7 col-lg-7">
+                        <input type="text" class="form-control" id="txtObservacao" name="observacao" placeholder="Observação" required />
+                    </div>
+
+                    <div class="col-sm-2 col-lg-2">
+                        <button type="button" class="btn btn-primary" onclick="adicionarItem();">
+                            <i class="fas fa-plus fa-lg"></i> Adicionar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        <table id="tblOrdemServicoItens" class="table table-bordered table-hover">
+                            <thead>
+                                <tr id="header">
+                                    <th id="tipoServicoDescricao">Serviço</th>
+                                    <th id="observacao">Observação</th>
+                                    <th id="concluido">Concluído ?</th>
+                                    <th style="width:15px;"></th>
+                                </tr>
+                            </thead>
+                        </table>
+
                     </div>
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
                     <div class="col">
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">
+                            <button class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
                             <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico'" class="btn btn-danger">
@@ -77,15 +139,17 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </form>
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarResponsavelPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarLocalServicoPartial.cshtml")
 
 
 @section Scripts{
-    <script src="~/js/cadastros/responsavel.js"></script>
+    <script src="~/js/cadastros/responsavelPesquisa.js"></script>
+    <script src="~/js/ordemservico/localServicoPesquisa.js"></script>
+    <script src="~/js/ordemservico/ordemServicoItem.js"></script>
 }
