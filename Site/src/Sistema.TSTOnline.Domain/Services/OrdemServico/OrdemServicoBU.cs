@@ -41,6 +41,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         IDResp,
                         IDLocal
                     );
+                ordemServicoEN.DataCadastro = DateTime.Now;
 
                 _repositoryOrdemServico.Save(ordemServicoEN);
             }
@@ -57,6 +58,8 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             ordemServicoEN.Status = Status;
 
             _repositoryOrdemServico.Edit(ordemServicoEN);
+
+            _unitOfWork.Commit();
         }
     }
 }

@@ -1,5 +1,4 @@
 var _item = 1;
-var listOrdemServicoItens = [];
 
 var columns = [
     { "data": "idTipoServico" },
@@ -30,11 +29,13 @@ $(document).ready(function () {
 
 function carregarItens() {
 
-    var idOrdemServico = $("#idServico").val();
+    var idOrdemServico = $("#idOrdemServico").val();
 
     carregarOrdemServicoItens(idOrdemServico).then(dataLoaded => {
         if (dataLoaded) {
-            loadTable('tblOrdemServicoItens', listOrdemServicos, columns);
+            listOrdemServicoItens.forEach(item => {
+                addToTable(item.idTipoServico, item.tipoServicoDescricao, item.observacao, item.concluido);
+            });
         }
     });
 }
@@ -65,19 +66,18 @@ function excluirItem(row, idTipoServico) {
 }
 
 function changeStatus(check, idTipoServico) {
-
     listOrdemServicoItens.forEach(item => {
-        if (item.idTipoServico === idTipoServico) {
+        if (item.idTipoServico.toString() === idTipoServico) {
             item.concluido = check.checked;
         }
     });
 }
 
-function adicionarItem(event) {
+function adicionarItem() {
     try {
 
         var idTipoServico = $("#slcTipoServico option:selected").val();
-        var descricaoServico = $("#slcTipoServico option:selected").text();
+        var tipoServicoDescricao = $("#slcTipoServico option:selected").text();
         var observacao = $("#txtObservacao").val();
 
         if (idTipoServico !== null && idTipoServico !== undefined && idTipoServico !== "0") {
@@ -88,17 +88,7 @@ function adicionarItem(event) {
                     { idTipoServico: idTipoServico, observacao: observacao, concluido: false }
                 );
 
-                var cols = "";
-                var rowID = "row" + _item.toString();
-                var newRow = $("<tr id='" + rowID + "'>");
-                cols += '<td>' + descricaoServico + '</td>';
-                cols += '<td>' + observacao + '</td>';
-                cols += '<td><input name="concluido" type="checkbox" style="height: 20px; width: 40px;" onclick="changeStatus(this,\'' + idTipoServico.toString() + '\');" /></td>';
-                cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idTipoServico.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
-                newRow.append(cols);
-                $("#tblOrdemServicoItens").append(newRow);
-
-                _item += 1;
+                addToTable(idTipoServico, tipoServicoDescricao, observacao, false);
             }
         }
     }
@@ -107,33 +97,26 @@ function adicionarItem(event) {
     }
 }
 
-$("#frmOrdemServico").submit(function (event) {
-    debugger;
-    event.preventDefault();
-    var ordemServico = $(this).serializeObject();
-    //ordemServico.ordemServicoItens = JSON.stringify(listOrdemServicoItens);
+function addToTable(idTipoServico, tipoServicoDescricao, observacao, concluido) {
+    try {
 
-    //var dadosOrdemServico = { ordemServicoVM: JSON.stringify(ordemServico) };
+        var cols = "";
+        var rowID = "row" + _item.toString();
+        var newRow = $("<tr id='" + rowID + "'>");
+        var checked = "";
+        if (concluido)
+            checked = "checked";
 
-    ordemServico.ordemServicoItens = listOrdemServicoItens;
+        cols += '<td>' + tipoServicoDescricao + '</td>';
+        cols += '<td>' + observacao + '</td>';
+        cols += '<td><input name="concluido" type="checkbox" style="height: 20px; width: 40px;" ' + checked + ' onclick="changeStatus(this,\'' + idTipoServico.toString() + '\');" /></td>';
+        cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idTipoServico.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
+        newRow.append(cols);
+        $("#tblOrdemServicoItens").append(newRow);
 
-    var dadosOrdemServico = { ordemServicoVM: ordemServico };
-
-    fetch('/ordemservico/ordemServicoCreateOrUpdate',
-        {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ordemServico)
-        })
-        .then(response => {
-            if (response.status === 200) {
-                window.location.reload();
-            }
-        })
-        .error(ex => {
-            console.log(ex);
-        });
-});
+        _item += 1;
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}

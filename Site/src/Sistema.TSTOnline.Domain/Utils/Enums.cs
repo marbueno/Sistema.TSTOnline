@@ -2,7 +2,7 @@
 
 namespace Sistema.TSTOnline.Domain.Utils
 {
-    public enum OrdemServicoStatusEnum : byte
+    public enum OrdemServicoStatusEnum : int
     {
         [Description("INICIADO")]
         Iniciado = 1,
@@ -20,7 +20,7 @@ namespace Sistema.TSTOnline.Domain.Utils
         Cancelado = 5
     }
 
-    public enum PedidoVendaStatusEnum : byte
+    public enum PedidoVendaStatusEnum : int
     {
         [Description("ABERTO")]
         Aberto = 1,

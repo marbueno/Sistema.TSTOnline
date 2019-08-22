@@ -237,10 +237,13 @@ namespace Sistema.TSTOnline.Web.Controllers
                 var ordemServicoVM = new OrdemServicoVM()
                 {
                     IDOrdemServico = ordemServico.IDOrdemServico,
+                    DataCadastro = ordemServico.DataCadastro,
                     DataServico = ordemServico.DataServico,
                     Status = ordemServico.Status,
                     IDResp = ordemServico.IDResp,
-                    IDLocal = ordemServico.IDLocal
+                    ResponsavelNome = _responsavelRepository.GetByID(ordemServico.IDResp).NomeResponsavel,
+                    IDLocal = ordemServico.IDLocal,
+                    LocalDescricao = _localServicoRepository.GetByID(ordemServico.IDLocal).Nome,
                 };
 
                 return View(ordemServicoVM);
@@ -258,13 +261,13 @@ namespace Sistema.TSTOnline.Web.Controllers
                 c => new OrdemServicoVM
                 {
                     IDOrdemServico = c.IDOrdemServico,
+                    DataCadastro = c.DataCadastro,
                     DataServico = c.DataServico,
                     Status = c.Status,
                     IDResp = c.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(c.IDResp).NomeResponsavel,
                     IDLocal = c.IDLocal,
                     LocalDescricao = _localServicoRepository.GetByID(c.IDLocal).Nome,
-                    OrdemServicoItens = GetOrdemServicoItens(c.IDOrdemServico)
                 });
 
             return Json(ordemServicoVM.ToList());
@@ -276,15 +279,26 @@ namespace Sistema.TSTOnline.Web.Controllers
         {
             if (ordemServicoVM != null && ordemServicoVM.OrdemServicoItens.Count > 0)
             {
+                var qtdeItens = ordemServicoVM.OrdemServicoItens.Count();
+                var qtdeItensConcluidos = ordemServicoVM.OrdemServicoItens.Where(itens => itens.Concluido == true).Count();
+                var status = OrdemServicoStatusEnum.Iniciado;
+
+                if (qtdeItensConcluidos == qtdeItens)
+                    status = OrdemServicoStatusEnum.Concluido;
+
+                else if (qtdeItensConcluidos > 0)
+                    status = OrdemServicoStatusEnum.ParcialmenteConcluido;
 
                 var idOrdemServico = _ordemServicoBU.Save
                     (
                         ordemServicoVM.IDOrdemServico,
                         ordemServicoVM.DataServico,
-                        ordemServicoVM.Status,
+                        status,
                         ordemServicoVM.IDResp,
                         ordemServicoVM.IDLocal
                    );
+
+                _ordemServicoItemBU.RemoveAllItems(idOrdemServico);
 
                 int item = 1;
                 foreach (var itemServico in ordemServicoVM.OrdemServicoItens)
@@ -303,7 +317,7 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpPut]
         [Route("alterarStatus/{id}/{status}")]
-        public IActionResult OrdemServicoDelete(int id, OrdemServicoStatusEnum Status)
+        public IActionResult OrdemServicoAlterarStatus(int id, OrdemServicoStatusEnum Status)
         {
             _ordemServicoBU.UpdateStatus(id, Status);
 
@@ -326,6 +340,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Item = c.Item,
                     IDTipoServico = c.IDTipoServico,
                     TipoServicoDescricao = _tipoServicoRepository.GetByID(c.IDTipoServico).Descricao,
+                    Observacao = c.Observacao,
                     Concluido = c.Concluido
                 });
 

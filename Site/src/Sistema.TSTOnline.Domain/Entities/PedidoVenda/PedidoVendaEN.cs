@@ -13,7 +13,7 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
         public int IDUsuario { get; set; }
         public int IDVendedor { get; set; }
 
-        private PedidoVendaEN()
+        public PedidoVendaEN()
         {
             DataVenda = DateTime.Now;
         }

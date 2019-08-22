@@ -14,12 +14,6 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         public int IDResp { get; set; }
         public int IDLocal { get; set; }
 
-        private OrdemServicoEN()
-        {
-            DataCadastro = DateTime.Now;
-            DataServico = DateTime.Now;
-        }
-
         public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
             ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal);

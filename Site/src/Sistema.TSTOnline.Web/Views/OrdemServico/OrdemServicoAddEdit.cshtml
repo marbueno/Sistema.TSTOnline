@@ -19,6 +19,14 @@
     }
 
     var listTiposServicos = _tipoServicoRepository.All();
+    var IDResp = 0;
+    var IDLocal = 0;
+    if (Model != null)
+    {
+        IDResp = Model.IDResp;
+        IDLocal = Model.IDLocal;
+    }
+
 }
 
 <form id="frmOrdemServico">
@@ -34,12 +42,12 @@
 
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-2 col-lg-2">
-                        @Html.HiddenFor(m => m.IDOrdemServico, new { id = "idServico" })
+                        @Html.HiddenFor(m => m.IDOrdemServico, new { id = "idOrdemServico" })
                         @Html.TextBoxFor(m => m.IDOrdemServico, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
+                        @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { name="dataServico", @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
                     </div>
 
                 </div>
@@ -58,7 +66,7 @@
 
                     <div class="col-sm-11 col-lg-11">
                         @Html.TextBoxFor(m => m.ResponsavelNome, new { id = "ResponsavelNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
-                        <input type="hidden" name="IDResp" id="IDResp">
+                        <input type="hidden" name="idResp" id="IDResp" value="@IDResp" >
                     </div>
                 </div>
 
@@ -76,7 +84,7 @@
 
                     <div class="col-sm-11 col-lg-11">
                         @Html.TextBoxFor(m => m.LocalDescricao, new { id = "LocalDescricao", @class = "form-control", @maxlength = "150", @placeholder = "Local", @readonly = "readonly", @required = "true" })
-                        <input type="hidden" name="IDLocal" id="IDLocal">
+                        <input type="hidden" name="idLocal" id="IDLocal" value="@IDLocal">
                     </div>
                 </div>
 
@@ -88,7 +96,7 @@
 
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-3 col-lg-3">
-                        <select id="slcTipoServico" name="idTipoServico" class="form-control" required="">
+                        <select id="slcTipoServico" name="idTipoServico" class="form-control">
 
                             <option selected value="0" disabled>Escolha o Tipo de Serviço</option>
 
@@ -101,7 +109,7 @@
                     </div>
 
                     <div class="col-sm-7 col-lg-7">
-                        <input type="text" class="form-control" id="txtObservacao" name="observacao" placeholder="Observação" required />
+                        <input type="text" class="form-control" id="txtObservacao" name="observacao" placeholder="Observação" />
                     </div>
 
                     <div class="col-sm-2 col-lg-2">
@@ -151,5 +159,6 @@
 @section Scripts{
     <script src="~/js/cadastros/responsavelPesquisa.js"></script>
     <script src="~/js/ordemservico/localServicoPesquisa.js"></script>
+    <script src="~/js/ordemservico/ordemServico.js"></script>
     <script src="~/js/ordemservico/ordemServicoItem.js"></script>
 }

@@ -7,12 +7,7 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
 {
     public class OrdemServicoVM
     {
-        public OrdemServicoVM()
-        {
-            DataCadastro = DateTime.Now;
-        }
-
-        [JsonProperty(PropertyName = "codigo")]
+        [JsonProperty(PropertyName = "idOrdemServico")]
         public int IDOrdemServico { get; set; }
 
         [JsonProperty(PropertyName = "dataCadastro")]
@@ -27,13 +22,13 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "statusDescricao")]
         public string StatusDescricao { get { return Status.ToDescriptionEmum(); } }
 
-        [JsonProperty(PropertyName = "codigoResponsavel")]
+        [JsonProperty(PropertyName = "idResp")]
         public int IDResp { get; set; }
 
         [JsonProperty(PropertyName = "responsavelNome")]
         public string ResponsavelNome { get; set; }
 
-        [JsonProperty(PropertyName = "codigoLocal")]
+        [JsonProperty(PropertyName = "idLocal")]
         public int IDLocal { get; set; }
 
         [JsonProperty(PropertyName = "localDescricao")]

@@ -1,19 +1,38 @@
-﻿<div id="divConfirmar" class="modal fade" tabindex="-1" role="dialog">
+﻿@model int
+
+@{ 
+    string textoCabecalho = "CONFIRMAR EXCLUSÃO";
+    string textoConfirmacao = "Tem certeza que deseja excluir esse registro?";
+    string textoButtonCancel = "Cancelar";
+    string textoButtonOK = "Excluir";
+    string actionFunction = "deleteRegister();";
+
+    if (Model == 1)
+    {
+        textoCabecalho = "CONFIRMAR CANCELAMENTO";
+        textoConfirmacao = "Tem certeza que deseja cancelar esse registro?";
+        textoButtonCancel = "NÃO";
+        textoButtonOK = "SIM";
+        actionFunction = "cancelRegister();";
+    }
+}
+
+<div id="divConfirmar" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fa fa-search"></i> <strong>CONFIRMAR EXCLUSÃO</strong>
+                    <i class="fa fa-search"></i> <strong>@textoCabecalho</strong>
                 </h5>
                 <button class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
             <div class="modal-body">
-                <p class="error-text">Tem certeza que deseja excluir esse registro?</p>
+                <p class="error-text">@textoConfirmacao</p>
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-                    <button class="btn btn-danger" onclick="deleteRegister();">Excluir</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">@textoButtonCancel</button>
+                    <button class="btn btn-danger" onclick="@actionFunction">@textoButtonOK</button>
                 </div>
             </div>
         </div>

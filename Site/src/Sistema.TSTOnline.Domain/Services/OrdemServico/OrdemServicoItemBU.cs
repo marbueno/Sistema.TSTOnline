@@ -1,5 +1,7 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Domain.Services.OrdemServico
 {
@@ -43,6 +45,17 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                     );
 
                 _repositoryOrdemServicoItem.Save(ordemServicoItemEN);
+            }
+
+            _unitOfWork.Commit();
+        }
+
+        public void RemoveAllItems(int IDOrdemServico)
+        {
+            List<OrdemServicoItemEN> ListOrdemServicoItem = _repositoryOrdemServicoItem.Where(item => item.IDOrdemServico == IDOrdemServico).ToList();
+            foreach (var item in ListOrdemServicoItem)
+            {
+                _repositoryOrdemServicoItem.Delete(item);
             }
 
             _unitOfWork.Commit();

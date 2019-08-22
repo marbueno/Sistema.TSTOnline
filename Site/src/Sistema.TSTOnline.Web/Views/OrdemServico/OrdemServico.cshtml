@@ -22,15 +22,14 @@
                 <th width="20%" data-column-id="responsavelNome">Responsável</th>
                 <th width="20%" data-column-id="localDescricao">Local</th>
                 <th width="10%" data-column-id="commands1">Editar</th>
-                <th width="10%" data-column-id="commands3">Delete</th>
+                <th width="10%" data-column-id="commands3">Cancelar</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
-
 </div>
 
-@await Html.PartialAsync("~/Views/Shared/_DeleteRegisterPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_DeleteRegisterPartial.cshtml", 1)
 
 @section Scripts{
     <script src="~/js/ordemservico/ordemServico.js"></script>

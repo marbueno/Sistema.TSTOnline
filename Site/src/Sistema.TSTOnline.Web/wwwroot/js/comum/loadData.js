@@ -121,10 +121,13 @@ function carregarOrdemServicos() {
 }
 
 function carregarOrdemServicoItens(idOrdemServico) {
+    
+    if (idOrdemServico === null || idOrdemServico === undefined || idOrdemServico === "")
+        idOrdemServico = 0;
 
     return new Promise((resolve, reject) => {
 
-        fetch('/ordemservico/listOrdemServicoItens?idOrdemServico=' + idOrdemServico)
+        fetch('/ordemservico/listOrdemServicoItens/' + idOrdemServico)
             .then(res => res.json())
             .then(data => {
                 var iCount = 0;
