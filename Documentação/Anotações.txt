@@ -12,6 +12,7 @@
 	10. tbOsItem
 	11. tbCadTipoServico
 	12. tbCadLocalServico
+	13. tbMovimentoEstoque
 	
 **** SCRIPTS
 
@@ -23,7 +24,10 @@
 	06. Adicionar Parametro "locaisservico_view" na tabela "permission_params"
 	07. Adicionar Parametro "tiposervico_view" na tabela "permission_params"
 	08. Adicionar Parametro "ordemservico_view" na tabela "permission_params"
-	09. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+	09. Adicionar Parametro "estoque_view" na tabela "permission_params"
+	10. Adicionar Parametro "movimentoestoque_view" na tabela "permission_params"
+	11. Adicionar Parametro "pedidovenda_view" na tabela "permission_params"
+	12. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 
 	
 **** PÁGINAS ALTERADAS NO PHP
@@ -49,3 +53,9 @@
 	14. sstTiposServico
 	15. sstOrdemServicoController
 	16. sstOrdemServico
+	17. sstEstoqueController
+	18. sstEstoque
+	19. sstMovimentoEstoqueController
+	20. sstMovimentoEstoque
+	21. sstPedidoVendaController
+	22. sstPedidoVenda

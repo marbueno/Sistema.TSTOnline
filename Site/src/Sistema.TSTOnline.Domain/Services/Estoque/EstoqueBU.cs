@@ -1,7 +1,8 @@
-﻿using Sistema.TSTOnline.Domain.Entities.Produtos;
+﻿using Sistema.TSTOnline.Domain.Entities.Estoque;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Utils;
 
-namespace Sistema.TSTOnline.Domain.Services.Produtos
+namespace Sistema.TSTOnline.Domain.Services.Estoque
 {
     public class EstoqueBU
     {
@@ -14,15 +15,23 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDProduto, double Qtde)
+        public void AtualizarEstoque(int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde)
         {
             EstoqueEN estoqueEN = _repositoryEstoque.GetByID(IDProduto);
 
             if (estoqueEN != null)
             {
+                int _qtde = estoqueEN.Qtde;
+
+                if (Tipo == TipoMovimentoEstoqueEnum.Entrada)
+                    _qtde += Qtde;
+                else
+                    _qtde -= Qtde;
+
                 estoqueEN.UpdateProperties
                     (
-                        Qtde
+                        IDProduto,
+                        _qtde
                     );
 
                 _repositoryEstoque.Edit(estoqueEN);
@@ -31,13 +40,12 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             {
                 estoqueEN = new EstoqueEN
                     (
+                        IDProduto,
                         Qtde
                     );
 
                 _repositoryEstoque.Save(estoqueEN);
             }
-
-            _unitOfWork.Commit();
         }
     }
 }

@@ -15,9 +15,18 @@
         textoButtonOK = "SIM";
         actionFunction = "cancelRegister();";
     }
+
+    if (Model == 2)
+    {
+        textoCabecalho = "CONFIRMAR FECHAMENTO DO PEDIDO";
+        textoConfirmacao = "Tem certeza que deseja fechar esse pedido?";
+        textoButtonCancel = "NÃO";
+        textoButtonOK = "SIM";
+        actionFunction = "fecharPedido();";
+    }
 }
 
-<div id="divConfirmar" class="modal fade" tabindex="-1" role="dialog">
+<div id="divConfirmar_@Model" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

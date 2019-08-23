@@ -9,6 +9,10 @@ var listProdutos = [];
 var listOrdemServicos = [];
 var listOrdemServicoItens = [];
 var listResponsaveis = [];
+var listPedidosVenda = [];
+var listPedidosVendaItens = [];
+var listEstoques = [];
+var listMovimentoEstoque = [];
 
 /* CADASTROS */
 function carregarVendedores () {
@@ -187,6 +191,83 @@ function carregarProdutos() {
             .then(data => {
                 var iCount = 0;
                 data.forEach(item => { item.id = iCount; listProdutos.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+/* PEDIDO DE VENDA */
+function carregarPedidosVenda() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/pedidovenda/listPedidosVenda')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listPedidosVenda.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarPedidosVendaItens(idPedido) {
+
+    if (idPedido === null || idPedido === undefined || idPedido === "")
+        idPedido = 0;
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/pedidovenda/listPedidosVendaItens/' + idPedido)
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listPedidosVendaItens.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+/* ESTOQUES */
+function carregarEstoques() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/estoque/listEstoques')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listEstoques.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarMovimentoEstoque() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/estoque/listMovimentoEstoque')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listMovimentoEstoque.push(item); iCount++; });
                 resolve(true);
             })
             .catch(ex => {

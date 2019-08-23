@@ -18,8 +18,8 @@
                 <th data-column-id="id" data-type="numeric">Código</th>
                 <th width="10%" data-column-id="sku">SKU</th>
                 <th width="20%" data-column-id="nome">Nome</th>
-                <th width="20%" data-column-id="nome">Fornecedor</th>
-                <th width="20%" data-column-id="nome">Categoria</th>
+                <th width="20%" data-column-id="fornecedorNome">Fornecedor</th>
+                <th width="20%" data-column-id="categoriaDescricao">Categoria</th>
                 <th width="10%" data-column-id="preco">Preço</th>
                 <th width="10%" data-column-id="commands1">Editar</th>
                 <th width="10%" data-column-id="commands3">Delete</th>
@@ -30,7 +30,7 @@
 
 </div>
 
-@await Html.PartialAsync("~/Views/Shared/_DeleteRegisterPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml")
 
 @section Scripts{
     <script src="~/js/produtos/produto.js"></script>

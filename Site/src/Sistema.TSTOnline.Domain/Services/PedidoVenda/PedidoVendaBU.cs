@@ -1,5 +1,7 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Utils;
+using System;
 
 namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 {
@@ -14,7 +16,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDPedidoVenda, int Status, int IDUsuario, int IDVendedor)
+        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor)
         {
             PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
 
@@ -22,6 +24,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
             {
                 pedidoVendaEN.UpdateProperties
                     (
+                        DataVenda,
                         Status,
                         IDUsuario,
                         IDVendedor
@@ -33,13 +36,28 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
             {
                 pedidoVendaEN = new PedidoVendaEN
                     (
+                        DataVenda,
                         Status,
                         IDUsuario,
                         IDVendedor
                     );
+                pedidoVendaEN.DataCadastro = DateTime.Now;
 
                 _repositoryPedidoVenda.Save(pedidoVendaEN);
             }
+
+            _unitOfWork.Commit();
+
+            return pedidoVendaEN.IDPedido;
+        }
+
+        public void UpdateStatus(int IDPedidoVenda, PedidoVendaStatusEnum Status)
+        {
+            PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
+
+            pedidoVendaEN.Status = Status;
+
+            _repositoryPedidoVenda.Edit(pedidoVendaEN);
 
             _unitOfWork.Commit();
         }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Sistema.TSTOnline.Web.Models
 {
     public class ErrorViewModel

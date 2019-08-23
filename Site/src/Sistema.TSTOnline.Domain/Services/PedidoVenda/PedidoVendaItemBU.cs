@@ -1,5 +1,7 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 {
@@ -43,6 +45,16 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                     );
 
                 _repositoryPedidoVendaItem.Save(pedidoVendaItemEN);
+            }
+
+            _unitOfWork.Commit();
+        }
+        public void RemoveAllItems(int IDPedido)
+        {
+            List<PedidoVendaItemEN> ListPedidoVendaItem = _repositoryPedidoVendaItem.Where(item => item.IDPedido == IDPedido).ToList();
+            foreach (var item in ListPedidoVendaItem)
+            {
+                _repositoryPedidoVendaItem.Delete(item);
             }
 
             _unitOfWork.Commit();

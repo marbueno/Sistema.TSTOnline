@@ -34,4 +34,22 @@ namespace Sistema.TSTOnline.Domain.Utils
         [Description("CANCELADO")]
         Cancelado = 4
     }
+
+    public enum OrigemMovimentoEstoqueEnum : int
+    {
+        [Description("MOVIMENTAÇÃO DE ESTOQUE")]
+        MovimentacaoEstoque = 1,
+
+        [Description("PEDIDO DE VENDA")]
+        PedidoVenda = 2
+    }
+
+    public enum TipoMovimentoEstoqueEnum : int
+    {
+        [Description("ENTRADA")]
+        Entrada = 1,
+
+        [Description("SAÍDA")]
+        Saida = 2
+    }
 }

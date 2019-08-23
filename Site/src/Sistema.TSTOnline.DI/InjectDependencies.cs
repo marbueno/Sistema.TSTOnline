@@ -7,6 +7,7 @@ using Sistema.TSTOnline.Domain.Services.Cadastros;
 using Sistema.TSTOnline.Domain.Services.Produtos;
 using Sistema.TSTOnline.Domain.Services.PedidoVenda;
 using Sistema.TSTOnline.Domain.Services.OrdemServico;
+using Sistema.TSTOnline.Domain.Services.Estoque;
 
 namespace Sistema.TSTOnline.DI
 {
@@ -30,7 +31,6 @@ namespace Sistema.TSTOnline.DI
             #region Produtos
 
             services.AddTransient(typeof(ProdutoBU));
-            services.AddTransient(typeof(EstoqueBU));
             services.AddTransient(typeof(CategoriaBU));
             services.AddTransient(typeof(SubCategoriaBU));
 
@@ -51,6 +51,13 @@ namespace Sistema.TSTOnline.DI
             services.AddTransient(typeof(LocalServicoBU));
 
             #endregion Ordem de Serviço
+
+            #region Estoque
+
+            services.AddTransient(typeof(EstoqueBU));
+            services.AddTransient(typeof(MovimentoEstoqueBU));
+
+            #endregion Estoque
         }
     }
 }

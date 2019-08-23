@@ -1,0 +1,44 @@
+﻿
+<div class="modal fade" id="modalVendedor" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-search"></i> <strong>BUSCAR REGISTRO</strong>
+                </h5>
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" name="txtBusca" placeholder="Busque o Vendedor desejado ..." class="form-control" id="txtBusca" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <table name="tblVendedor" id="tblVendedor" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width:10%;">Código</th>
+                                    <th style="width:50%;">Nome</th>
+                                    <th style="width:40%;">CPF</th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addVendedor" data-dismiss="modal"><i class="fa fa-plus fa-lg"></i> Adicionar Vendedor</button>
+                    <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-lg"></i> Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

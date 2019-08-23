@@ -1,0 +1,86 @@
+﻿@model Sistema.TSTOnline.Web.Models.Estoque.MovimentoEstoqueVM
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Utils
+
+@inject IRepository<ProdutoEN> _produtoRepository
+
+@{
+    var labelButton = "Cadastrar Movimentação";
+    ViewData["Title"] = "NOVA MOVIMENTAÇÃO";
+
+    var listTipos = Enum.GetValues(typeof(TipoMovimentoEstoqueEnum)).Cast<TipoMovimentoEstoqueEnum>().ToList();
+    var listProdutos = _produtoRepository.All();
+}
+
+<form id="frmMovimentoEstqoue" asp-action="MovimentoEstoqueCreateOrUpdate" asp-controller="Estoque"
+      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/estoque/movimentoestoque'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DA MOVIMENTAÇÃO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalProduto"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.ProdutoNome, new { id = "ProdutoNome", @class = "form-control", @maxlength = "150", @placeholder = "Produto", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="idProduto" id="idProduto">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-6 col-lg-6">
+                        <select name="tipo" class="form-control" required="">
+
+                            <option selected disabled>Tipo de Movimentação</option>
+
+                            @foreach (var itemTipo in listTipos)
+                            {
+                                <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        @Html.TextBoxFor(m => m.Qtde, new { @type = "number", @class = "form-control", @maxlength = "15", @placeholder = "Qtde", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", @placeholder = "Observação" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/estoque/movimentoestoque'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarProdutoPartial.cshtml")
+
+
+@section Scripts{
+    <script src="~/js/produtos/produtoPesquisa.js"></script>
+}

@@ -1,0 +1,145 @@
+﻿@model Sistema.TSTOnline.Web.Models.PedidoVenda.PedidoVendaVM
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+
+@inject IRepository<ProdutoEN> _produtoRepository
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Novo Pedido de Venda";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVO PEDIDO DE VENDA";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR PEDIDO VENDA";
+        labelButton = "Atualizar Pedido Venda";
+    }
+
+    var listProdutos = _produtoRepository.All();
+    var IDVendedor = 0;
+    if (Model != null)
+    {
+        IDVendedor = Model.IDVendedor;
+    }
+
+}
+
+<form id="frmPedidoVenda">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO PEDIDO DE VENDA</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDPedido, new { id = "idPedidoVenda" })
+                        @Html.TextBoxFor(m => m.IDPedido, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        @Html.TextBoxFor(m => m.DataVenda, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data Efetiva da Venda", @data_toggle = "tooltip", @required = "true" })
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO VENDEDOR</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.VendedorNome, new { id = "VendedorNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="idVendedor" id="idVendedor" value="@IDVendedor" >
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DOS ITENS DO PEDIDO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-4 col-lg-4">
+                        <select id="slcProduto" name="idProduto" class="form-control">
+
+                            <option selected value="0" disabled>Escolha o Produto</option>
+
+                            @foreach (var itemProduto in listProdutos)
+                            {
+                                <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-lg-2">
+                        <input type="number" class="form-control" id="txtQtde" name="qtde" placeholder="Qtde" />
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        <input type="text" class="form-control" id="txtValor" name="valor" placeholder="Valor" />
+                    </div>
+
+                    <div class="col-sm-2 col-lg-2">
+                        <button type="button" class="btn btn-primary" onclick="adicionarItem();">
+                            <i class="fas fa-plus fa-lg"></i> Adicionar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        <table id="tblPedidoVendaItens" class="table table-bordered table-hover">
+                            <thead>
+                                <tr id="header">
+                                    <th id="produtoNome">Nome</th>
+                                    <th id="qtde">Qtde</th>
+                                    <th id="valor">Valor</th>
+                                    <th style="width:15px;"></th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/pedidovenda/pedidovenda'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
+
+@section Scripts{
+    <script src="~/js/cadastros/vendedorPesquisa.js"></script>
+    <script src="~/js/pedidovenda/pedidoVenda.js"></script>
+    <script src="~/js/pedidovenda/pedidoVendaItem.js"></script>
+}

@@ -26,7 +26,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 
         private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
         {
-            DomainException.When(DataServico == DateTime.MinValue, "Status não informado.");
+            DomainException.When(DataServico == DateTime.MinValue, "Data do Serviço Inválida.");
             DomainException.When(Status == 0, "Status não informado.");
             DomainException.When(IDResp == 0, "Responsável pelo serviço não informado.");
             DomainException.When(IDLocal == 0, "Local do serviço não informado.");

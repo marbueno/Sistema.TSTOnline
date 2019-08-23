@@ -3,6 +3,7 @@ using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Entities.OrdemServico;
+using Sistema.TSTOnline.Domain.Entities.Estoque;
 
 namespace Sistema.TSTOnline.Data
 {
@@ -24,7 +25,6 @@ namespace Sistema.TSTOnline.Data
         #region Produtos
 
         public DbSet<ProdutoEN> tbProduto { get; set; }
-        public DbSet<EstoqueEN> tbEstoque { get; set; }
         public DbSet<CategoriaEN> tbProdutoCategoria { get; set; }
         public DbSet<SubCategoriaEN> tbProdutoSubCategoria { get; set; }
 
@@ -45,5 +45,12 @@ namespace Sistema.TSTOnline.Data
         public DbSet<LocalServicoEN> tbCadLocalServico { get; set; }
 
         #endregion Ordem de Serviço
+
+        #region Estoque
+
+        public DbSet<EstoqueEN> tbEstoque { get; set; }
+        public DbSet<MovimentoEstoqueEN> tbMovimentoEstoque { get; set; }
+
+        #endregion Estoque
     }
 }

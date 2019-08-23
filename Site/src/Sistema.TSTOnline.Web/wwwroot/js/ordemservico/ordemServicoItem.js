@@ -1,28 +1,5 @@
 var _item = 1;
 
-var columns = [
-    { "data": "idTipoServico" },
-    { "data": "item" },
-    { "data": "tipoServicoDescricao" },
-    { "data": "observacao" },
-    { "data": "concluido" },
-    {
-        "mDataProp": "Excluir",
-        mRender: function (data, type, row) {
-            return "<a href='#' title='Excluir Item'><i class='far fa-trash-alt'></i></a>";
-        }
-    }
-];
-
-var columnDefs = [
-    {
-        "render": function (data, type, row, meta) {
-            return "<input name='idTipoServico' type='hidden' value='" + data + "' />";
-        },
-        "targets": [0]
-    }
-];
-
 $(document).ready(function () {
     carregarItens();
 });
