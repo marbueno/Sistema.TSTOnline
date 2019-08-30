@@ -24,6 +24,15 @@
         textoButtonOK = "SIM";
         actionFunction = "fecharPedido();";
     }
+
+    if (Model == 3)
+    {
+        textoCabecalho = "CONFIRMAR BAIXA DO TÍTULO";
+        textoConfirmacao = "Tem certeza que deseja baixar esse título?";
+        textoButtonCancel = "NÃO";
+        textoButtonOK = "SIM";
+        actionFunction = "baixarTitulo();";
+    }
 }
 
 <div id="divConfirmar_@Model" class="modal fade" tabindex="-1" role="dialog">

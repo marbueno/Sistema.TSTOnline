@@ -4,6 +4,8 @@ using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Entities.Estoque;
+using Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira;
+
 
 namespace Sistema.TSTOnline.Data
 {
@@ -52,5 +54,11 @@ namespace Sistema.TSTOnline.Data
         public DbSet<MovimentoEstoqueEN> tbMovimentoEstoque { get; set; }
 
         #endregion Estoque
+
+        #region Movimentação Financeira
+
+        public DbSet<ContasReceberEN> tbContasReceber { get; set; }
+
+        #endregion Movimentação Financeira
     }
 }

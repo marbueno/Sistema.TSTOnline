@@ -15,5 +15,20 @@ namespace Sistema.TSTOnline.Data
         {
             _dbContext.SaveChanges();
         }
+
+        public void BeginTransaction()
+        {
+            _dbContext.Database.BeginTransaction();
+        }
+
+        public void CommitTransaction()
+        {
+            _dbContext.Database.CommitTransaction();
+        }
+
+        public void RollbackTransaction()
+        {
+            _dbContext.Database.RollbackTransaction();
+        }
     }
 }

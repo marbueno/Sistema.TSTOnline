@@ -8,9 +8,9 @@ namespace Sistema.TSTOnline.Web.Filters
     {
         public override void OnException(ExceptionContext context)
         {
-            bool isAjaxCall = context.HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+            bool isDomainException = context.Exception is DomainException;
 
-            if (isAjaxCall)
+            if (isDomainException)
             {
                 context.HttpContext.Response.ContentType = "application/json";
                 context.HttpContext.Response.StatusCode = 500;

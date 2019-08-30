@@ -1,55 +1,88 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Utils;
+using System;
+using System.Transactions;
 
 namespace Sistema.TSTOnline.Domain.Services.Produtos
 {
     public class ProdutoBU
     {
         private readonly IRepository<ProdutoEN> _repositoryProduto;
+        private readonly EstoqueBU _estoqueBU;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProdutoBU(IRepository<ProdutoEN> repositoryProduto, IUnitOfWork unitOfWork)
+        public ProdutoBU(IRepository<ProdutoEN> repositoryProduto, EstoqueBU estoqueBU, IUnitOfWork unitOfWork)
         {
             _repositoryProduto = repositoryProduto;
+            _estoqueBU = estoqueBU;
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDProduto, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        public int Save(int IDProduto, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
-            ProdutoEN produtoEN = _repositoryProduto.GetByID(IDProduto);
+            int idProduto = 0;
 
-            if (produtoEN != null)
+            _unitOfWork.BeginTransaction();
+
+            try
             {
-                produtoEN.UpdateProperties
-                    (
-                        SKU,
-                        Nome,
-                        Descricao,
-                        IDFornecedor,
-                        IDCategoria,
-                        IDSubCategoria,
-                        Preco
-                    );
+                ProdutoEN produtoEN = _repositoryProduto.GetByID(IDProduto);
 
-                _repositoryProduto.Edit(produtoEN);
+                if (produtoEN != null)
+                {
+                    produtoEN.UpdateProperties
+                        (
+                            SKU,
+                            Nome,
+                            Descricao,
+                            IDFornecedor,
+                            IDCategoria,
+                            IDSubCategoria,
+                            Preco
+                        );
+
+                    _repositoryProduto.Edit(produtoEN);
+                }
+                else
+                {
+                    produtoEN = new ProdutoEN
+                        (
+                            SKU,
+                            Nome,
+                            Descricao,
+                            IDFornecedor,
+                            IDCategoria,
+                            IDSubCategoria,
+                            Preco
+                        );
+
+                    _repositoryProduto.Save(produtoEN);
+                }
+
+                _unitOfWork.Commit();
+
+                idProduto = produtoEN.IDProduto;
+
+                _estoqueBU.AtualizarEstoque(idProduto, TipoMovimentoEstoqueEnum.Entrada, 0, true);
+
+                _unitOfWork.CommitTransaction();
             }
-            else
+            catch (DomainException ex)
             {
-                produtoEN = new ProdutoEN
-                    (
-                        SKU,
-                        Nome,
-                        Descricao,
-                        IDFornecedor,
-                        IDCategoria,
-                        IDSubCategoria,
-                        Preco
-                    );
-
-                _repositoryProduto.Save(produtoEN);
+                Console.Write(ex);
+                _unitOfWork.RollbackTransaction();
+                throw new DomainException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+                _unitOfWork.RollbackTransaction();
+                throw new DomainException("Erro ao salvar pedido. Tente novamente mais tarde");
             }
 
-            _unitOfWork.Commit();
+            return idProduto;
         }
     }
 }

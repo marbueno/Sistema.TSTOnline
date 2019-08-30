@@ -16,7 +16,7 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
             get { return Qtde * Valor; }
         }
 
-        private PedidoVendaItemEN() { }
+        public PedidoVendaItemEN() { }
 
         public PedidoVendaItemEN(int IDPedido, int Item, int IDProduto, int Qtde, decimal Valor)
         {

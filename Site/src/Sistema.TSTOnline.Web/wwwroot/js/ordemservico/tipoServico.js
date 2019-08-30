@@ -11,7 +11,7 @@ var columns = [
     {
         "mDataProp": "Excluir",
         mRender: function (data, type, row) {
-            return "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar' onclick='codigo=" + row.codigo + "' title='Excluir'>Excluir</a>";
+            return "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar_0' onclick='codigo=" + row.codigo + "' title='Excluir'>Excluir</a>";
         }
     }
 ];

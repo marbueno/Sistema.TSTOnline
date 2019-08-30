@@ -49,13 +49,21 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 
             _unitOfWork.Commit();
         }
+
         public void RemoveAllItems(int IDPedido)
         {
-            List<PedidoVendaItemEN> ListPedidoVendaItem = _repositoryPedidoVendaItem.Where(item => item.IDPedido == IDPedido).ToList();
-            foreach (var item in ListPedidoVendaItem)
+            List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(item => item.IDPedido == IDPedido).ToList();
+            foreach (var item in listPedidoVendaItem)
             {
                 _repositoryPedidoVendaItem.Delete(item);
             }
+
+            _unitOfWork.Commit();
+        }
+
+        public void RemoveItem(PedidoVendaItemEN itemPedido)
+        {
+            _repositoryPedidoVendaItem.Delete(itemPedido);
 
             _unitOfWork.Commit();
         }

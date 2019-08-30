@@ -24,7 +24,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Estoque
         private void ValidateAndSetProperties(int IDProduto, int Qtde)
         {
             DomainException.When(IDProduto == 0, "Produto não informado.");
-            DomainException.When(Qtde <= 0, "Qtde não pode ser menor ou igual a zero.");
+            DomainException.When(Qtde < 0, "Qtde não pode ser negativa.");
 
             this.IDProduto = IDProduto;
             this.Qtde = Qtde;

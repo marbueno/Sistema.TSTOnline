@@ -27,7 +27,7 @@
 }
 
 <form id="frmProduto" asp-action="ProdutoCreateOrUpdate" asp-controller="Produtos"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/produtos/produto'">
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/produtos/produto'">
     <div class="container">
         <div class="card">
             <div class="card-body">

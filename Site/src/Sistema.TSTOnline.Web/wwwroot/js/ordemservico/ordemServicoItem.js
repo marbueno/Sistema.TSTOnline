@@ -21,7 +21,8 @@ function existsItem(idTipoServico) {
 
     var exists = false;
     listOrdemServicoItens.forEach(item => {
-        if (item.idTipoServico === idTipoServico) {
+        if (item.idTipoServico.toString() === idTipoServico) {
+            showMessage("error", "Servico ja adicionado");
             exists = true;
         }
     });
@@ -35,7 +36,7 @@ function excluirItem(row, idTipoServico) {
 
     var index = 0;
     listOrdemServicoItens.forEach(item => {
-        if (item.idTipoServico === idTipoServico) {
+        if (item.idTipoServico.toString() === idTipoServico) {
             listOrdemServicoItens.splice(index, 1);
         }
         index++;
@@ -50,6 +51,21 @@ function changeStatus(check, idTipoServico) {
     });
 }
 
+function validouCampos() {
+    var idTipoServico = $("#slcTipoServico option:selected").val();
+    var arrayMsg = [];
+
+    if (idTipoServico === null || idTipoServico === undefined || idTipoServico === "0")
+        arrayMsg.push("Servico nao selecionado.");
+
+    arrayMsg.forEach(item => {
+        showMessage("error", item);
+    });
+
+    return arrayMsg.length === 0;
+}
+
+
 function adicionarItem() {
     try {
 
@@ -57,7 +73,7 @@ function adicionarItem() {
         var tipoServicoDescricao = $("#slcTipoServico option:selected").text();
         var observacao = $("#txtObservacao").val();
 
-        if (idTipoServico !== null && idTipoServico !== undefined && idTipoServico !== "0") {
+        if (validouCampos()) {
 
             if (!existsItem(idTipoServico)) {
 

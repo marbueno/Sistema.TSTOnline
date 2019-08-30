@@ -21,7 +21,7 @@ var columns = [
 
             var editButton = "<a class='btn btn-primary btn-sm' href='#' onclick='editRegister(" + row.idPedido + ")' title='Editar'>Editar</a>";
 
-            if (row.status === 4 || row.status === 5)
+            if (row.status !== 1)
                 editButton = "";
 
             return editButton;
@@ -31,7 +31,7 @@ var columns = [
         "mDataProp": "Fechar Pedido",
         mRender: function (data, type, row) {
 
-            var editButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar2' onclick='codigo=" + row.idPedido + "' title='Fechar Pedido'>Fechar Pedido</a>";
+            var editButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar_2' onclick='codigo=" + row.idPedido + "' title='Fechar Pedido'>Fechar Pedido</a>";
 
             if (row.status !== 1)
                 editButton = "";
@@ -42,10 +42,10 @@ var columns = [
     {
         "mDataProp": "Cancelar",
         mRender: function (data, type, row) {
-            var cancelButton = "";
+            var cancelButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar_1' onclick='codigo=" + row.idPedido + "' title='Cancelar Pedido'>Cancelar</a>";
 
-            if (row.status !== 4)
-                cancelButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar1' onclick='codigo=" + row.idPedido + "' title='Cancelar Pedido'>Cancelar</a>";
+            if (row.status !== 1)
+                cancelButton = "";
 
             return cancelButton;
         }
@@ -60,8 +60,21 @@ function fecharPedido() {
     if (codigo !== 0) {
 
         fetch('/pedidovenda/alterarStatus/' + codigo + '/2', { method: 'put' })
-            .then(() => {
-                window.location.reload();
+            .then(response => {
+                if (response.status === 200) {
+
+                    window.location.reload();
+                }
+                else if (response.status === 500) {
+                    return response.text();
+                }
+            })
+            .then(response => {
+                showMessage("error", response);
+            })
+            .catch(error => {
+                console.log(error);
+                showMessage("error", error);
             });
     }
 }
@@ -70,9 +83,21 @@ function cancelRegister () {
     if (codigo !== 0) {
 
         fetch('/pedidovenda/alterarStatus/' + codigo + '/4', { method: 'put' })
-            .then(() =>
-            {
-                window.location.reload();
+            .then(response => {
+                if (response.status === 200) {
+
+                    window.location.reload();
+                }
+                else if (response.status === 500) {
+                    return response.text();
+                }
+            })
+            .then(response => {
+                showMessage("error", response);
+            })
+            .catch(error => {
+                console.log(error);
+                showMessage("error", error);
             });
     }
 }
@@ -83,11 +108,23 @@ $(document).ready(function () {
             loadTable('tblPedidoVenda', listPedidosVenda, columns);
         }
     });
+    carregarProdutos();
+});
+
+$("#slcProduto").change(function () {
+
+    var idProduto = $(this).val();
+
+    listProdutos.forEach(item => {
+        if (item.codigo.toString() === idProduto) {
+            $("#txtValor").val(item.preco);
+        }
+    });
 });
 
 
 $("#frmPedidoVenda").submit(function (event) {
-    debugger;
+
     event.preventDefault();
     var json = $(this).serializeObject();
 
@@ -112,10 +149,20 @@ $("#frmPedidoVenda").submit(function (event) {
         })
         .then(response => {
             if (response.status === 200) {
+
+                showMessage("success", "Pedido Salvo com sucesso");
+
                 window.location = '/pedidovenda/pedidoVenda';
             }
+            else if (response.status === 500) {
+                return response.text();
+            }
         })
-        .catch(ex => {
-            console.log(ex);
+        .then(response => {
+            showMessage("error", response);
+        })
+        .catch(error => {
+            console.log(error);
+            showMessage("error", error);
         });
 });

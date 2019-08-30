@@ -16,7 +16,7 @@
 }
 
 <form id="frmTipoServico" asp-action="TipoServicoCreateOrUpdate" asp-controller="OrdemServico"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/ordemservico/tiposervico'">
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/ordemservico/tiposervico'">
     <div class="container">
         <div class="card">
             <div class="card-body">

@@ -13,6 +13,7 @@
 	11. tbCadTipoServico
 	12. tbCadLocalServico
 	13. tbMovimentoEstoque
+	14. tbContasReceber
 	
 **** SCRIPTS
 
@@ -27,7 +28,8 @@
 	09. Adicionar Parametro "estoque_view" na tabela "permission_params"
 	10. Adicionar Parametro "movimentoestoque_view" na tabela "permission_params"
 	11. Adicionar Parametro "pedidovenda_view" na tabela "permission_params"
-	12. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+	12. Adicionar Parametro "contasreceber_view" na tabela "permission_params"
+	13. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 
 	
 **** PÁGINAS ALTERADAS NO PHP
@@ -59,3 +61,5 @@
 	20. sstMovimentoEstoque
 	21. sstPedidoVendaController
 	22. sstPedidoVenda
+	21. sstContasReceberController
+	22. sstContasReceber

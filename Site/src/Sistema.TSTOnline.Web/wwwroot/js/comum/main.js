@@ -55,3 +55,39 @@ function loadTable(tableName, tableData, tableColumns, tableOrder, tableColumDef
         console.log('Erro ao carregar tabela: ' + ex.message);
     }
 };
+
+function formOnFail(error) {
+
+    toastr.options = {
+        positionClass: "toast-top-right"
+    };
+
+    if (error.status === 500)
+        toastr.error(error.responseText);
+}
+
+function showMessage(type, msg) {
+
+    toastr.options = {
+        positionClass: "toast-top-right"
+    };
+
+    switch (type) {
+
+        case "error":
+            toastr.error(msg);
+            break;
+
+        case "warning":
+            toastr.warning(msg);
+            break;
+
+        case "success":
+            toastr.success(msg);
+            break;
+
+        default:
+            toastr.info(msg);
+            break;
+    }
+}

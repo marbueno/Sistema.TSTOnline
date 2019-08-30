@@ -8,6 +8,8 @@ using Sistema.TSTOnline.Domain.Services.Produtos;
 using Sistema.TSTOnline.Domain.Services.PedidoVenda;
 using Sistema.TSTOnline.Domain.Services.OrdemServico;
 using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
+using Sistema.TSTOnline.Domain.Services.Fluxo;
 
 namespace Sistema.TSTOnline.DI
 {
@@ -58,6 +60,18 @@ namespace Sistema.TSTOnline.DI
             services.AddTransient(typeof(MovimentoEstoqueBU));
 
             #endregion Estoque
+
+            #region Movimentação Financeira
+
+            services.AddTransient(typeof(ContasReceberBU));
+
+            #endregion Movimentação Financeira
+
+            #region Fluxo Sistema
+
+            services.AddTransient(typeof(FluxoBU));
+
+            #endregion Fluxo Sistema
         }
     }
 }

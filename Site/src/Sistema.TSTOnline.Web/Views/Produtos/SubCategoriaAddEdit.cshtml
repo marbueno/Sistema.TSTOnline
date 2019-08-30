@@ -22,7 +22,7 @@
 }
 
 <form id="frmSubCategoria" asp-action="SubCategoriaCreateOrUpdate" asp-controller="Produtos"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/produtos/subcategoria'">
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/produtos/subcategoria'">
     <div class="container">
         <div class="card">
             <div class="card-body">

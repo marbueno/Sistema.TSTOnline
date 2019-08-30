@@ -9,6 +9,8 @@ using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using System.Collections.Generic;
 using Sistema.TSTOnline.Domain.Entities.Produtos;
+using Sistema.TSTOnline.Domain;
+using Sistema.TSTOnline.Domain.Services.Fluxo;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -20,9 +22,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<PedidoVendaEN> _pedidoVendaRepository;
         private readonly PedidoVendaBU _pedidoVendaBU;
+        private readonly FluxoBU _fluxoBU;
 
         private readonly IRepository<PedidoVendaItemEN> _pedidoVendaItemRepository;
-        private readonly PedidoVendaItemBU _pedidoVendaItemBU;
 
         private readonly IRepository<VendedorEN> _vendedorRepository;
         private readonly IRepository<ProdutoEN> _produtoRepository;
@@ -33,20 +35,22 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         public PedidoVendaController(
                 IRepository<PedidoVendaEN> pedidoVendaRepository, PedidoVendaBU pedidoVendaBU,
-                IRepository<PedidoVendaItemEN> pedidoVendaItemRepository, PedidoVendaItemBU pedidoVendaItemBU,
+                IRepository<PedidoVendaItemEN> pedidoVendaItemRepository,
                 IRepository<VendedorEN> vendedorRepository,
-                IRepository<ProdutoEN> produtoRepository
+                IRepository<ProdutoEN> produtoRepository,
+                FluxoBU fluxoBU
             )
         {
             _pedidoVendaRepository = pedidoVendaRepository;
             _pedidoVendaBU = pedidoVendaBU;
 
             _pedidoVendaItemRepository = pedidoVendaItemRepository;
-            _pedidoVendaItemBU = pedidoVendaItemBU;
 
             _vendedorRepository = vendedorRepository;
 
             _produtoRepository = produtoRepository;
+
+            _fluxoBU = fluxoBU;
         }
 
         #endregion Constructor
@@ -111,29 +115,32 @@ namespace Sistema.TSTOnline.Web.Controllers
             {
                 var status = PedidoVendaStatusEnum.Aberto;
 
-                var idPedidoVenda = _pedidoVendaBU.Save
-                    (
-                        pedidoVendaVM.IDPedido,
-                        pedidoVendaVM.DataVenda,
-                        status,
-                        pedidoVendaVM.IDUsuario,
-                        pedidoVendaVM.IDVendedor
-                   );
+                var listPedidoVendaItens = pedidoVendaVM.PedidoVendaItens.Select(
+                    c => new PedidoVendaItemEN
+                    {
+                        IDPedidoItem = 0,
+                        IDPedido = 0,
+                        IDProduto = c.IDProduto,
+                        Item = 0,
+                        Qtde = c.Qtde,
+                        Valor = c.Valor
+                    });
 
-                _pedidoVendaItemBU.RemoveAllItems(idPedidoVenda);
-
-                int item = 1;
-                foreach (var itemServico in pedidoVendaVM.PedidoVendaItens)
-                {
-                    _pedidoVendaItemBU.Save(itemServico.IDPedidoItem, idPedidoVenda, item, itemServico.IDProduto, itemServico.Qtde, itemServico.Valor);
-                    item++;
-                }
+                _pedidoVendaBU.Save
+                (
+                    pedidoVendaVM.IDPedido,
+                    pedidoVendaVM.DataVenda,
+                    status,
+                    pedidoVendaVM.IDUsuario,
+                    pedidoVendaVM.IDVendedor,
+                    listPedidoVendaItens.ToList()
+                );
 
                 return Ok();
             }
             else
             {
-                return BadRequest();
+                throw new DomainException("É necessário informar pelo menos 1 item.");
             }
         }
 
@@ -141,7 +148,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("alterarStatus/{id}/{status}")]
         public IActionResult PedidoVendaAlterarStatus(int id, PedidoVendaStatusEnum Status)
         {
-            _pedidoVendaBU.UpdateStatus(id, Status);
+            _fluxoBU.FluxoPedido(id, Status);
 
             return Ok();
         }

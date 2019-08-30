@@ -52,4 +52,28 @@ namespace Sistema.TSTOnline.Domain.Utils
         [Description("SAÍDA")]
         Saida = 2
     }
+
+    public enum OrigemContasReceberEnum : int
+    {
+        [Description("CONTAS A RECEBER")]
+        ContasReceber = 1,
+
+        [Description("PEDIDO DE VENDA")]
+        PedidoVenda = 2
+    }
+
+    public enum ContasReceberStatusEnum : int
+    {
+        [Description("EM ABERTO")]
+        EmAberto = 1,
+
+        [Description("BAIXADO")]
+        Baixado = 2,
+
+        [Description("VENCIDO")]
+        Vencido = 3,
+
+        [Description("CANCELADO")]
+        Cancelado = 4
+    }
 }

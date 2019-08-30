@@ -17,7 +17,7 @@
 }
 
 <form id="frmFornecedor" asp-action="FornecedorCreateOrUpdate" asp-controller="Cadastros"
-      data-ajax="true" data-ajax-method="POST" data-ajax-success="window.location='/cadastros/fornecedor'">
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/cadastros/fornecedor'">
     <div class="container">
         <div class="card">
             <div class="card-body">

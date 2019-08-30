@@ -32,14 +32,36 @@ function existsItem(idProduto) {
 function excluirItem(row, idProduto) {
 
     $("#" + row).remove();
-
+    debugger;
     var index = 0;
     listPedidosVendaItens.forEach(item => {
-        if (item.idProduto === idProduto) {
+        if (item.idProduto.toString() === idProduto) {
             listPedidosVendaItens.splice(index, 1);
         }
         index++;
     });
+}
+
+function validouCampos() {
+    var idProduto = $("#slcProduto option:selected").val();
+    var qtde = $("#txtQtde").val();
+    var valor = $("#txtValor").val();
+    var arrayMsg = [];
+
+    if (idProduto === null || idProduto === undefined || idProduto === "0")
+        arrayMsg.push("Produto nao selecionado.");
+
+    if (qtde === null || qtde === undefined || qtde === "0" || qtde <= 0)
+        arrayMsg.push("Qtde nao informada ou invalida.");
+
+    if (valor === null || valor === undefined || valor === "0" || valor <= 0)
+        arrayMsg.push("Valor nao informado ou invalido.");
+
+    arrayMsg.forEach(item => {
+        showMessage("error", item);
+    });
+
+    return arrayMsg.length === 0;
 }
 
 function adicionarItem() {
@@ -50,7 +72,7 @@ function adicionarItem() {
         var qtde = $("#txtQtde").val();
         var valor = $("#txtValor").val();
 
-        if (idProduto !== null && idProduto !== undefined && idProduto !== "0") {
+        if (validouCampos()) {
 
             if (!existsItem(idProduto)) {
 

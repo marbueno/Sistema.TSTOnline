@@ -1,65 +1,137 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 {
     public class PedidoVendaBU
     {
         private readonly IRepository<PedidoVendaEN> _repositoryPedidoVenda;
+        private readonly IRepository<PedidoVendaItemEN> _repositoryPedidoVendaItem;
+        private readonly PedidoVendaItemBU _pedidoVendaItemBU;
+        private readonly MovimentoEstoqueBU _movimentoEstoqueBU;
+        private readonly ContasReceberBU _contasReceberBU;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PedidoVendaBU(IRepository<PedidoVendaEN> repositoryPedidoVenda, IUnitOfWork unitOfWork)
+        public PedidoVendaBU
+            (
+                IRepository<PedidoVendaEN> repositoryPedidoVenda, 
+                IRepository<PedidoVendaItemEN> repositoryPedidoVendaItem, 
+                PedidoVendaItemBU pedidoVendaItemBU,
+                MovimentoEstoqueBU movimentoEstoqueBU,
+                ContasReceberBU contasReceberBU,
+                IUnitOfWork unitOfWork
+            )
         {
             _repositoryPedidoVenda = repositoryPedidoVenda;
+            _repositoryPedidoVendaItem = repositoryPedidoVendaItem;
+            _pedidoVendaItemBU = pedidoVendaItemBU;
+            _movimentoEstoqueBU = movimentoEstoqueBU;
+            _contasReceberBU = contasReceberBU;
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor)
+        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, List<PedidoVendaItemEN> ListPedidoVendaItens)
         {
-            PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
+            int idPedido = 0;
 
-            if (pedidoVendaEN != null)
+            _unitOfWork.BeginTransaction();
+
+            try
             {
-                pedidoVendaEN.UpdateProperties
-                    (
-                        DataVenda,
-                        Status,
-                        IDUsuario,
-                        IDVendedor
-                    );
+                PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
 
-                _repositoryPedidoVenda.Edit(pedidoVendaEN);
+                if (pedidoVendaEN != null)
+                {
+                    pedidoVendaEN.UpdateProperties
+                        (
+                            DataVenda,
+                            Status,
+                            IDUsuario,
+                            IDVendedor
+                        );
+
+                    _repositoryPedidoVenda.Edit(pedidoVendaEN);
+                }
+                else
+                {
+                    pedidoVendaEN = new PedidoVendaEN
+                        (
+                            DataVenda,
+                            Status,
+                            IDUsuario,
+                            IDVendedor
+                        );
+                    pedidoVendaEN.DataCadastro = DateTime.Now;
+
+                    _repositoryPedidoVenda.Save(pedidoVendaEN);
+                }
+
+                _unitOfWork.Commit();
+
+                idPedido = pedidoVendaEN.IDPedido;
+
+                List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
+
+                //VERIFICA SE ALGUM ITEM FOI EXCLUÍDO
+                foreach (var itemPedidoBD in listPedidoVendaItem)
+                {
+                    var itemPedido = ListPedidoVendaItens.Where(obj => obj.IDProduto == itemPedidoBD.IDProduto).FirstOrDefault();
+
+                    if (itemPedido == null)
+                    {
+                        _pedidoVendaItemBU.RemoveItem(itemPedidoBD);
+                    }
+                }
+
+                listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
+
+                int item = 0;
+                foreach (var itemPedido in ListPedidoVendaItens)
+                {
+                    var itemPedidoBD = listPedidoVendaItem.Where(obj => obj.IDProduto == itemPedido.IDProduto).FirstOrDefault();
+
+                    int pedidoItem = 0;
+
+                    if (itemPedidoBD != null)
+                    {
+                        pedidoItem = itemPedidoBD.IDPedidoItem;
+                        item = itemPedidoBD.Item;
+                    }
+                    else
+                    {
+                        pedidoItem = itemPedido.IDPedidoItem;
+
+                        item++;
+                    }
+
+                    _pedidoVendaItemBU.Save(pedidoItem, idPedido, item, itemPedido.IDProduto, itemPedido.Qtde, itemPedido.Valor);
+
+                    if (pedidoItem != 0)
+                        item = listPedidoVendaItem.Count();
+                }
+
+                _unitOfWork.CommitTransaction();
             }
-            else
+            catch (DomainException ex)
             {
-                pedidoVendaEN = new PedidoVendaEN
-                    (
-                        DataVenda,
-                        Status,
-                        IDUsuario,
-                        IDVendedor
-                    );
-                pedidoVendaEN.DataCadastro = DateTime.Now;
-
-                _repositoryPedidoVenda.Save(pedidoVendaEN);
+                Console.Write(ex);
+                _unitOfWork.RollbackTransaction();
+                throw new DomainException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+                _unitOfWork.RollbackTransaction();
+                throw new DomainException("Erro ao salvar pedido. Tente novamente mais tarde");
             }
 
-            _unitOfWork.Commit();
-
-            return pedidoVendaEN.IDPedido;
-        }
-
-        public void UpdateStatus(int IDPedidoVenda, PedidoVendaStatusEnum Status)
-        {
-            PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
-
-            pedidoVendaEN.Status = Status;
-
-            _repositoryPedidoVenda.Edit(pedidoVendaEN);
-
-            _unitOfWork.Commit();
+            return idPedido;
         }
     }
 }

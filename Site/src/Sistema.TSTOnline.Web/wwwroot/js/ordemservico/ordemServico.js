@@ -34,7 +34,7 @@ var columns = [
             var cancelButton = "";
 
             if (row.status !== 5)
-                cancelButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar' onclick='codigo=" + row.idOrdemServico + "' title='Cancelar O.S.'>Cancelar</a>";
+                cancelButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar_1' onclick='codigo=" + row.idOrdemServico + "' title='Cancelar O.S.'>Cancelar</a>";
 
             return cancelButton;
         }

@@ -13,6 +13,7 @@ var listPedidosVenda = [];
 var listPedidosVendaItens = [];
 var listEstoques = [];
 var listMovimentoEstoque = [];
+var listContasReceber = [];
 
 /* CADASTROS */
 function carregarVendedores () {
@@ -268,6 +269,25 @@ function carregarMovimentoEstoque() {
             .then(data => {
                 var iCount = 0;
                 data.forEach(item => { item.id = iCount; listMovimentoEstoque.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+/* MOVIMENTAÇÃO FINANCEIRA */
+function carregarContasReceber() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/movimentacaofinanceira/listContasReceber')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listContasReceber.push(item); iCount++; });
                 resolve(true);
             })
             .catch(ex => {

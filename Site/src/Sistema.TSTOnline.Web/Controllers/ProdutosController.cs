@@ -6,6 +6,8 @@ using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Services.Produtos;
 using Sistema.TSTOnline.Web.Models.Produtos;
 using System.Linq;
+using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Utils;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -26,6 +28,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<FornecedorEN> _fornecedorRepository;
 
+        private readonly EstoqueBU _estoqueBU;
+
         #endregion Variables
 
         #region Constructor
@@ -34,7 +38,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<CategoriaEN> categoriaRepository, CategoriaBU categoriaBU,
                 IRepository<SubCategoriaEN> subCategoriaRepository, SubCategoriaBU subCategoriaBU,
                 IRepository<ProdutoEN> produtoRepository, ProdutoBU produtoBU,
-                IRepository<FornecedorEN> fornecedorRepository
+                IRepository<FornecedorEN> fornecedorRepository,
+                EstoqueBU estoqueBU
             )
         {
             _categoriaRepository = categoriaRepository;
@@ -47,6 +52,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _produtoBU = produtoBU;
 
             _fornecedorRepository = fornecedorRepository;
+
+            _estoqueBU = estoqueBU;
         }
 
         #endregion Constructor

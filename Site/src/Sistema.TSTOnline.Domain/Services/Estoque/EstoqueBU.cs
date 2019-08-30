@@ -1,4 +1,5 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.Estoque;
+using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Utils;
 
@@ -7,15 +8,17 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
     public class EstoqueBU
     {
         private readonly IRepository<EstoqueEN> _repositoryEstoque;
+        private readonly IRepository<ProdutoEN> _repositoryProduto;
         private readonly IUnitOfWork _unitOfWork;
 
-        public EstoqueBU(IRepository<EstoqueEN> repositoryEstoque, IUnitOfWork unitOfWork)
+        public EstoqueBU(IRepository<EstoqueEN> repositoryEstoque, IRepository<ProdutoEN> repositoryProduto, IUnitOfWork unitOfWork)
         {
             _repositoryEstoque = repositoryEstoque;
+            _repositoryProduto = repositoryProduto;
             _unitOfWork = unitOfWork;
         }
 
-        public void AtualizarEstoque(int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde)
+        public void AtualizarEstoque(int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde, bool doCommit = false)
         {
             EstoqueEN estoqueEN = _repositoryEstoque.GetByID(IDProduto);
 
@@ -28,11 +31,19 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
                 else
                     _qtde -= Qtde;
 
-                estoqueEN.UpdateProperties
+                if (_qtde <= 0 && Tipo == TipoMovimentoEstoqueEnum.Saida)
+                {
+                    ProdutoEN produtoEN = _repositoryProduto.GetByID(IDProduto);
+                    throw new DomainException($"Estoque do produto [{produtoEN.Nome}] Insuficiente");
+                }
+                else
+                {
+                    estoqueEN.UpdateProperties
                     (
                         IDProduto,
                         _qtde
                     );
+                }
 
                 _repositoryEstoque.Edit(estoqueEN);
             }
@@ -46,6 +57,9 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
 
                 _repositoryEstoque.Save(estoqueEN);
             }
+
+            if (doCommit)
+                _unitOfWork.Commit();
         }
     }
 }
