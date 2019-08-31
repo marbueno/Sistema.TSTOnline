@@ -14,32 +14,35 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
         public PedidoVendaStatusEnum Status { get; set; }
         public int IDUsuario { get; set; }
         public int IDVendedor { get; set; }
+        public int IDEmpresa { get; set; }
 
         public PedidoVendaEN()
         {
             DataVenda = DateTime.Now;
         }
 
-        public PedidoVendaEN(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor)
+        public PedidoVendaEN(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa)
         {
-            ValidateAndSetProperties(DataVenda, Status, IDUsuario, IDVendedor);
+            ValidateAndSetProperties(DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa);
         }
 
-        public void UpdateProperties(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor)
+        public void UpdateProperties(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa)
         {
-            ValidateAndSetProperties(DataVenda, Status, IDUsuario, IDVendedor);
+            ValidateAndSetProperties(DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa);
         }
 
-        private void ValidateAndSetProperties(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor)
+        private void ValidateAndSetProperties(DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa)
         {
             DomainException.When(DataVenda == DateTime.MinValue, "Data da Venda Inválida.");
             DomainException.When(Status == 0, "Status não informado.");
             DomainException.When(IDVendedor == 0, "Vendedor não informado.");
+            DomainException.When(IDEmpresa == 0, "Cliente não informado.");
 
             this.DataVenda = DataVenda;
             this.Status = Status;
             this.IDUsuario = IDUsuario;
             this.IDVendedor = IDVendedor;
+            this.IDEmpresa = IDEmpresa;
         }
     }
 }

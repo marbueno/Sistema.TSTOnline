@@ -7,6 +7,7 @@ using Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<ContasReceberEN> _contasReceberRepository;
         private readonly ContasReceberBU _contasReceberBU;
+        private readonly IRepository<EmpresaEN> _empresaRepository;
         private readonly FluxoBU _fluxoBU;
 
         #endregion Variables
@@ -27,11 +29,14 @@ namespace Sistema.TSTOnline.Web.Controllers
         public MovimentacaoFinanceiraController
             (
                 IRepository<ContasReceberEN> contasReceberRepository, ContasReceberBU contasReceberBU,
+                IRepository<EmpresaEN> empresaRepository,
                 FluxoBU fluxoBU
             )
         {
             _contasReceberRepository = contasReceberRepository;
             _contasReceberBU = contasReceberBU;
+
+            _empresaRepository = empresaRepository;
 
             _fluxoBU = fluxoBU;
         }
@@ -59,6 +64,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 {
                     IDContasReceber = contasReceber.IDContasReceber,
                     DataCadastro = contasReceber.DataCadastro,
+                    IDEmpresa = contasReceber.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(contasReceber.IDEmpresa).RazaoSocial,
                     NumeroTitulo = contasReceber.NumeroTitulo,
                     DataVencimento = contasReceber.DataVencimento,
                     Valor = contasReceber.Valor,
@@ -84,6 +91,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 {
                     IDContasReceber = c.IDContasReceber,
                     DataCadastro = c.DataCadastro,
+                    IDEmpresa = c.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                     NumeroTitulo = c.NumeroTitulo,
                     DataVencimento = c.DataVencimento,
                     Valor = c.Valor,
@@ -103,6 +112,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _contasReceberBU.Save
                 (
                     contasReceberVM.IDContasReceber,
+                    contasReceberVM.IDEmpresa,
                     contasReceberVM.NumeroTitulo,
                     contasReceberVM.DataVencimento,
                     contasReceberVM.Valor,

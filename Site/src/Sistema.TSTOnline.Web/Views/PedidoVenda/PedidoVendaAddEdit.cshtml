@@ -20,9 +20,11 @@
 
     var listProdutos = _produtoRepository.All();
     var IDVendedor = 0;
+    var IDEmpresa = 0;
     if (Model != null)
     {
         IDVendedor = Model.IDVendedor;
+        IDEmpresa = Model.IDEmpresa;
     }
 
 }
@@ -64,7 +66,25 @@
 
                     <div class="col-sm-11 col-lg-11">
                         @Html.TextBoxFor(m => m.VendedorNome, new { id = "VendedorNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
-                        <input type="hidden" name="idVendedor" id="idVendedor" value="@IDVendedor" >
+                        <input type="hidden" name="idVendedor" id="idVendedor" value="@IDVendedor">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO CLIENTE</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
                     </div>
                 </div>
 
@@ -137,9 +157,11 @@
 </form>
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
 
 @section Scripts{
     <script src="~/js/cadastros/vendedorPesquisa.js"></script>
+    <script src="~/js/cadastros/empresaPesquisa.js"></script>
     <script src="~/js/pedidovenda/pedidoVenda.js"></script>
     <script src="~/js/pedidovenda/pedidoVendaItem.js"></script>
 }

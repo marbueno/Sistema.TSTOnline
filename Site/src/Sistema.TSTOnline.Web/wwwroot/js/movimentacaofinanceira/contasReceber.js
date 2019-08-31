@@ -7,6 +7,7 @@ var columns = [
             return dateToPT(data);
         }
     },
+    { "data": "razaoSocial" },
     { "data": "numeroTitulo" },
     {
         "data": "dataVencimento",

@@ -10,6 +10,7 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
         [Key]
         public int IDContasReceber { get; set; }
         public DateTime DataCadastro { get; set; }
+        public int IDEmpresa { get; set; }
         public string NumeroTitulo { get; set; }
         public DateTime DataVencimento { get; set; }
         public decimal Valor { get; set; }
@@ -20,22 +21,24 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
 
         public ContasReceberEN() { }
 
-        public ContasReceberEN(string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
+        public ContasReceberEN(int IDEmpresa, string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
         {
-            ValidateAndSetProperties(NumeroTitulo, DataVencimento, Valor, ValorPago, Origem, Chave, Status);
+            ValidateAndSetProperties(IDEmpresa, NumeroTitulo, DataVencimento, Valor, ValorPago, Origem, Chave, Status);
         }
 
-        public void UpdateProperties(string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
+        public void UpdateProperties(int IDEmpresa, string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
         {
-            ValidateAndSetProperties(NumeroTitulo, DataVencimento, Valor, ValorPago, Origem, Chave, Status);
+            ValidateAndSetProperties(IDEmpresa, NumeroTitulo, DataVencimento, Valor, ValorPago, Origem, Chave, Status);
         }
 
-        private void ValidateAndSetProperties(string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
+        private void ValidateAndSetProperties(int IDEmpresa, string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, ContasReceberStatusEnum Status)
         {
+            DomainException.When(IDEmpresa == 0, "Cliente não informado.");
             DomainException.When(string.IsNullOrEmpty(NumeroTitulo), "Número do Título não informado.");
             DomainException.When(DataVencimento == DateTime.MinValue, "Data da Vencimento Inválida.");
             DomainException.When(Valor == 0, "Valor do Título não informado.");
 
+            this.IDEmpresa = IDEmpresa;
             this.NumeroTitulo = NumeroTitulo;
             this.DataVencimento = DataVencimento;
             this.Valor = Valor;

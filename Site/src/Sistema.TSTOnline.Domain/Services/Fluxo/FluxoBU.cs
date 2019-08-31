@@ -41,6 +41,11 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
         {
             PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
 
+            bool atualizaEstoque = true;
+
+            if (pedidoVendaEN.Status == PedidoVendaStatusEnum.Aberto)
+                atualizaEstoque = false;
+
             pedidoVendaEN.Status = Status;
 
             if (inTransaction == false)
@@ -52,7 +57,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
 
                 _unitOfWork.Commit();
 
-                if (Status == PedidoVendaStatusEnum.Cancelado)
+                if (atualizaEstoque && Status == PedidoVendaStatusEnum.Cancelado)
                 {
                     List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == pedidoVendaEN.IDPedido).ToList();
 
@@ -92,6 +97,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                     _contasReceberBU.Save
                         (
                             0,
+                            pedidoVendaEN.IDEmpresa,
                             $"PED{pedidoVendaEN.IDPedido.ToString("00000")}",
                             pedidoVendaEN.DataCadastro.AddDays(10),
                             listPedidoVendaItem.Sum(obj => obj.ValorTotal),

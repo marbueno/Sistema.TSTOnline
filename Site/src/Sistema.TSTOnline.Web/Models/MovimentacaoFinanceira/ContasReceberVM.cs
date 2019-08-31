@@ -12,6 +12,12 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         [JsonProperty(PropertyName = "dataCadastro")]
         public DateTime DataCadastro { get; set; }
 
+        [JsonProperty(PropertyName = "idEmpresa")]
+        public int IDEmpresa { get; set; }
+
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty(PropertyName = "numeroTitulo")]
         public string NumeroTitulo { get; set; }
 

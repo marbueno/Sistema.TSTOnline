@@ -31,6 +31,12 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         [JsonProperty(PropertyName = "vendedorNome")]
         public string VendedorNome { get; set; }
 
+        [JsonProperty(PropertyName = "idEmpresa")]
+        public int IDEmpresa { get; set; }
+
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty(PropertyName = "pedidoVendaItens")]
         public List<PedidoVendaItemVM> PedidoVendaItens { get; set; }
     }

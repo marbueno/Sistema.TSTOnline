@@ -27,6 +27,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly IRepository<PedidoVendaItemEN> _pedidoVendaItemRepository;
 
         private readonly IRepository<VendedorEN> _vendedorRepository;
+        private readonly IRepository<EmpresaEN> _empresaRepository;
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
         #endregion Variables
@@ -37,6 +38,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<PedidoVendaEN> pedidoVendaRepository, PedidoVendaBU pedidoVendaBU,
                 IRepository<PedidoVendaItemEN> pedidoVendaItemRepository,
                 IRepository<VendedorEN> vendedorRepository,
+                IRepository<EmpresaEN> empresaRepository,
                 IRepository<ProdutoEN> produtoRepository,
                 FluxoBU fluxoBU
             )
@@ -47,6 +49,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _pedidoVendaItemRepository = pedidoVendaItemRepository;
 
             _vendedorRepository = vendedorRepository;
+
+            _empresaRepository = empresaRepository;
 
             _produtoRepository = produtoRepository;
 
@@ -80,6 +84,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Status = pedidoVenda.Status,
                     IDVendedor = pedidoVenda.IDVendedor,
                     VendedorNome = _vendedorRepository.GetByID(pedidoVenda.IDVendedor).Nome,
+                    IDEmpresa = pedidoVenda.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(pedidoVenda.IDEmpresa).RazaoSocial,
                 };
 
                 return View(pedidoVendaVM);
@@ -101,7 +107,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                     DataVenda = c.DataVenda,
                     Status = c.Status,
                     IDVendedor = c.IDVendedor,
-                    VendedorNome = _vendedorRepository.GetByID(c.IDVendedor).Nome
+                    VendedorNome = _vendedorRepository.GetByID(c.IDVendedor).Nome,
+                    IDEmpresa = c.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                 });
 
             return Json(pedidoVendaVM.ToList());
@@ -133,6 +141,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     status,
                     pedidoVendaVM.IDUsuario,
                     pedidoVendaVM.IDVendedor,
+                    pedidoVendaVM.IDEmpresa,
                     listPedidoVendaItens.ToList()
                 );
 

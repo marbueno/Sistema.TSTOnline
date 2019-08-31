@@ -1,7 +1,5 @@
 ﻿using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Interfaces;
-using Sistema.TSTOnline.Domain.Services.Estoque;
-using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,8 +12,6 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
         private readonly IRepository<PedidoVendaEN> _repositoryPedidoVenda;
         private readonly IRepository<PedidoVendaItemEN> _repositoryPedidoVendaItem;
         private readonly PedidoVendaItemBU _pedidoVendaItemBU;
-        private readonly MovimentoEstoqueBU _movimentoEstoqueBU;
-        private readonly ContasReceberBU _contasReceberBU;
         private readonly IUnitOfWork _unitOfWork;
 
         public PedidoVendaBU
@@ -23,20 +19,16 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                 IRepository<PedidoVendaEN> repositoryPedidoVenda, 
                 IRepository<PedidoVendaItemEN> repositoryPedidoVendaItem, 
                 PedidoVendaItemBU pedidoVendaItemBU,
-                MovimentoEstoqueBU movimentoEstoqueBU,
-                ContasReceberBU contasReceberBU,
                 IUnitOfWork unitOfWork
             )
         {
             _repositoryPedidoVenda = repositoryPedidoVenda;
             _repositoryPedidoVendaItem = repositoryPedidoVendaItem;
             _pedidoVendaItemBU = pedidoVendaItemBU;
-            _movimentoEstoqueBU = movimentoEstoqueBU;
-            _contasReceberBU = contasReceberBU;
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, List<PedidoVendaItemEN> ListPedidoVendaItens)
+        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, List<PedidoVendaItemEN> ListPedidoVendaItens)
         {
             int idPedido = 0;
 
@@ -53,7 +45,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             DataVenda,
                             Status,
                             IDUsuario,
-                            IDVendedor
+                            IDVendedor,
+                            IDEmpresa
                         );
 
                     _repositoryPedidoVenda.Edit(pedidoVendaEN);
@@ -65,7 +58,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             DataVenda,
                             Status,
                             IDUsuario,
-                            IDVendedor
+                            IDVendedor,
+                            IDEmpresa
                         );
                     pedidoVendaEN.DataCadastro = DateTime.Now;
 

@@ -1,4 +1,5 @@
 /* CADASTROS */
+var listEmpresas = [];
 var listVendedores = [];
 var listFornecedores = [];
 var listLocaisServicos = [];
@@ -16,6 +17,24 @@ var listMovimentoEstoque = [];
 var listContasReceber = [];
 
 /* CADASTROS */
+function carregarEmpresas() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/cadastros/listEmpresas')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listEmpresas.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
 function carregarVendedores () {
 
     return new Promise((resolve, reject) => {

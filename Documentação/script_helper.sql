@@ -27,4 +27,5 @@ select * from tbMovimentoEstoque;
     truncate table tbpedidovenda;
     truncate table tbpedidovendaitem;
     truncate table tbMovimentoEstoque;
+    truncate table tbContasReceber;
  */

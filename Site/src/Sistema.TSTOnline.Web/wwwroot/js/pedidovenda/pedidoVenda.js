@@ -13,8 +13,9 @@ var columns = [
             return dateToPT(data);
         }
     },
-    { "data": "statusDescricao" },
+    { "data": "razaoSocial" },
     { "data": "vendedorNome" },
+    { "data": "statusDescricao" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
@@ -132,6 +133,7 @@ $("#frmPedidoVenda").submit(function (event) {
         "idPedido": json.IDPedido === "" ? 0 : parseInt(json.IDPedido),
         "dataVenda": json.DataVenda,
         "idVendedor": json.idVendedor,
+        "idEmpresa": json.idEmpresa,
         "idUsuario": 1,
         "pedidoVendaItens": listPedidosVendaItens
     };
