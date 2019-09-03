@@ -1,0 +1,17 @@
+- Cadastro de Fornecedor, Locis de Serviço e Vendedores
+	- Nome de Contato
+	- WhatsApp
+
+- Ordem de Serviço
+	- Opção de Imprimir OS
+	- Criar Botão para Emitir Boleto via API
+
+- Pedido de Venda
+	- Acrescentar campo de observação no pedido
+
+- Relatórios
+	- Vendas
+	- Fluxo de Caixa
+
+
+- Verificar ambiente de teste

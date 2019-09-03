@@ -30,7 +30,8 @@
 	10. Adicionar Parametro "movimentoestoque_view" na tabela "permission_params"
 	11. Adicionar Parametro "pedidovenda_view" na tabela "permission_params"
 	12. Adicionar Parametro "contasreceber_view" na tabela "permission_params"
-	13. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+	13. Adicionar Parametro "fluxocaixa_view" na tabela "permission_params"
+	14. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 
 	
 **** PÁGINAS ALTERADAS NO PHP
@@ -64,3 +65,5 @@
 	22. sstPedidoVenda
 	21. sstContasReceberController
 	22. sstContasReceber
+	23. sstFluxoCaixaController
+	24. sstFluxoCaixa
