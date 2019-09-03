@@ -15,6 +15,7 @@ var listPedidosVendaItens = [];
 var listEstoques = [];
 var listMovimentoEstoque = [];
 var listContasReceber = [];
+var listFluxoCaixa = [];
 
 /* CADASTROS */
 function carregarEmpresas() {
@@ -307,6 +308,24 @@ function carregarContasReceber() {
             .then(data => {
                 var iCount = 0;
                 data.forEach(item => { item.id = iCount; listContasReceber.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarFluxoCaixa() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/movimentacaofinanceira/listFluxoCaixa')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listFluxoCaixa.push(item); iCount++; });
                 resolve(true);
             })
             .catch(ex => {

@@ -76,4 +76,22 @@ namespace Sistema.TSTOnline.Domain.Utils
         [Description("CANCELADO")]
         Cancelado = 4
     }
+
+    public enum TipoLancamentoFluxoCaixaEnum : int
+    {
+        [Description("ENTRADA")]
+        Entrada = 1,
+
+        [Description("SAÍDA")]
+        Saida = 2,
+    }
+
+    public enum OrigemFluxoCaixaEnum : int
+    {
+        [Description("FLUXO DE CAIXA")]
+        FluxoCaixa = 1,
+
+        [Description("CONTAS A RECEBER")]
+        ContasReceber = 2
+    }
 }

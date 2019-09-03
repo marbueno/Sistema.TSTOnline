@@ -14,6 +14,7 @@
 	12. tbCadLocalServico
 	13. tbMovimentoEstoque
 	14. tbContasReceber
+	15. tbFluxoCaixa
 	
 **** SCRIPTS
 

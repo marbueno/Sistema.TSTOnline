@@ -24,7 +24,7 @@ var columns = [
 
             var editButton = "<a class='btn btn-primary btn-sm' href='#' onclick='editRegister(" + row.idContasReceber + ")' title='Editar'>Editar</a>";
 
-            if (row.status === 2 || row.status === 4)
+            if (row.status === 2 || row.status === 4 || row.origem === 2)
                 editButton = "";
 
             return editButton;

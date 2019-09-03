@@ -17,6 +17,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
         private readonly IRepository<ContasReceberEN> _repositoryContasReceber;
         private readonly MovimentoEstoqueBU _movimentoEstoqueBU;
         private readonly ContasReceberBU _contasReceberBU;
+        private readonly FluxoCaixaBU _fluxoCaixaBU;
         private readonly IUnitOfWork _unitOfWork;
 
         public FluxoBU
@@ -26,6 +27,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                 IRepository<ContasReceberEN> repositoryContasReceber,
                 MovimentoEstoqueBU movimentoEstoqueBU,
                 ContasReceberBU contasReceberBU,
+                FluxoCaixaBU fluxoCaixaBU,
                 IUnitOfWork unitOfWork
             )
         {
@@ -34,6 +36,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
             _repositoryContasReceber = repositoryContasReceber;
             _movimentoEstoqueBU = movimentoEstoqueBU;
             _contasReceberBU = contasReceberBU;
+            _fluxoCaixaBU = fluxoCaixaBU;
             _unitOfWork = unitOfWork;
         }
 
@@ -141,10 +144,27 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                 if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda && (Status == ContasReceberStatusEnum.Baixado || Status == ContasReceberStatusEnum.Cancelado))
                 {
                     if (Status == ContasReceberStatusEnum.Baixado)
+                    {
                         FluxoPedido(contasReceberEN.Chave, PedidoVendaStatusEnum.Finalizado, true);
+                    }
 
                     else if (Status == ContasReceberStatusEnum.Cancelado)
                         FluxoPedido(contasReceberEN.Chave, PedidoVendaStatusEnum.Cancelado, true);
+                }
+
+
+                if (Status == ContasReceberStatusEnum.Baixado)
+                {
+                    _fluxoCaixaBU.Save
+                        (
+                            0,
+                            DateTime.Now,
+                            TipoLancamentoFluxoCaixaEnum.Entrada,
+                            OrigemFluxoCaixaEnum.ContasReceber,
+                            contasReceberEN.IDContasReceber,
+                            contasReceberEN.Valor,
+                            "ENTRADA DE VALOR VIA CONTAS A RECEBER"
+                        );
                 }
 
                 _unitOfWork.Commit();

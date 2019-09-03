@@ -64,6 +64,7 @@ namespace Sistema.TSTOnline.DI
             #region Movimentação Financeira
 
             services.AddTransient(typeof(ContasReceberBU));
+            services.AddTransient(typeof(FluxoCaixaBU));
 
             #endregion Movimentação Financeira
 

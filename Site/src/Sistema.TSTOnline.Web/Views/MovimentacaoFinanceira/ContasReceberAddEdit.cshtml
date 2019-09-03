@@ -1,5 +1,4 @@
-﻿@model Sistema.TSTOnline.Web.Models.Cadastros.VendedorVM
-@using Sistema.TSTOnline.Domain.Utils
+﻿@model Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira.ContasReceberVM
 
 @{
     var newRegister = Model == null;
@@ -14,101 +13,62 @@
         ViewData["Title"] = "EDITAR TÍTULO";
         labelButton = "Atualizar Título";
     }
+
+    var IDEmpresa = 0;
+    if (Model != null)
+    {
+        IDEmpresa = Model.IDEmpresa;
+    }
 }
 
-<form id="frmVendedor" asp-action="VendedorCreateOrUpdate" asp-controller="Cadastros"
-      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/cadastros/vendedor'">
+<form id="frmContasReceber" asp-action="ContasReceberCreateOrUpdate" asp-controller="MovimentacaoFinanceira"
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/movimentacaofinanceira/contasreceber'">
     <div class="container">
         <div class="card">
             <div class="card-body">
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">
-                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO VENDEDOR</span></h5>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-2 col-lg-2">
-                        @Html.HiddenFor(m => m.IDVendedor, new { id = "idVendedor" })
-                        @Html.TextBoxFor(m => m.IDVendedor, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
-                    </div>
-
-                    <div class="col-sm-10 col-lg-10">
-                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @maxlength = "80", @placeholder = "Nome Completo", @required = "true" })
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO TÍTULO</span></h5>
                     </div>
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
 
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.RG, new { @class = "form-control", @maxlength = "12", @placeholder = "RG", @required = "true", @data_mask = "00.000.000-00" })
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDContasReceber, new { id = "idContasReceber" })
+                        @Html.TextBoxFor(m => m.IDContasReceber, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.CPF, new { @class = "form-control", @maxlength = "14", @placeholder = "CPF", @required = "true", @data_mask = "000.000.000-00" })
+                        @Html.TextBoxFor(m => m.NumeroTitulo, new { @class = "form-control", @maxlength = "45", @placeholder = "Número do Título", @required = "true" })
                     </div>
 
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.DataNascimento, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data de Nascimento", @data_toggle = "tooltip", @required = "true" })
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.DataVencimento, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data de Vencimento do Título", @data_toggle = "tooltip", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Valor, new { @class = "form-control", @maxlength = "45", @placeholder = "Valor", @required = "true" })
                     </div>
 
                 </div>
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">
-                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DE ENDEREÇO</span></h5>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-3 col-lg-3">
-                        @Html.TextBoxFor(m => m.CEP, new { @class = "form-control", @maxlength = "9", @placeholder = "CEP", @required = "true", @data_mask = "00000-000" })
-                    </div>
-
-                    <div class="col-sm-7 col-lg-7">
-                        @Html.TextBoxFor(m => m.Endereco, new { @class = "form-control", @maxlength = "200", @placeholder = "Endereço", @required = "true" })
-                    </div>
-
-                    <div class="col-sm-2 col-lg-2">
-                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", @maxlength = "80", @placeholder = "Número" })
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO CLIENTE</span></h5>
                     </div>
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
 
-                    <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", @maxlength = "100", @placeholder = "Complemento" })
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
                     </div>
 
-                    <div class="col-sm-3 col-lg-3">
-                        @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", @maxlength = "80", @placeholder = "Bairro" })
-                    </div>
-
-                    <div class="col-sm-3 col-lg-3">
-                        @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", @maxlength = "50", @placeholder = "Cidade" })
-                    </div>
-
-                    <div class="col-sm-2 col-lg-2">
-                        <select name="uf" class="form-control" required="">
-
-                            @if (newRegister)
-                            {
-                                <option selected disabled>UF</option>
-                            }
-
-                            @foreach (var itemEstado in Helper.ListarEstados())
-                            {
-                                @if (newRegister)
-                                {
-                                    <option select value="@itemEstado.Codigo">@itemEstado.Sigla</option>
-                                }
-                                else if (Model.UF == itemEstado.Sigla)
-                                {
-                                    <option selected value="@itemEstado.Codigo">@itemEstado.Sigla</option>
-                                }
-                            }
-                        </select>
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
                     </div>
                 </div>
 
@@ -118,7 +78,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/cadastros/vendedor'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/movimentacaofinanceira/contasreceber'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>
@@ -128,3 +88,10 @@
         </div>
     </div>
 </form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
+
+
+@section Scripts{
+    <script src="~/js/cadastros/empresaPesquisa.js"></script>
+}

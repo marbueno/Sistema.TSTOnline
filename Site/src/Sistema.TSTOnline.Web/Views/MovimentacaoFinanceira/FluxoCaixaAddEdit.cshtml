@@ -1,0 +1,108 @@
+﻿@model Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira.FluxoCaixaVM
+@using Sistema.TSTOnline.Domain.Utils
+
+@{
+    var newRegister = Model == null;
+    var labelButton = "Cadastrar Novo Lançamento";
+
+    if (newRegister)
+    {
+        ViewData["Title"] = "NOVO LANÇAMENTO";
+    }
+    else
+    {
+        ViewData["Title"] = "EDITAR LANÇAMENTO";
+        labelButton = "Atualizar Lançamento";
+    }
+
+    var listTiposLancamento = Enum.GetValues(typeof(TipoLancamentoFluxoCaixaEnum)).Cast<TipoLancamentoFluxoCaixaEnum>().ToList();
+
+    var tipoLancamento = TipoLancamentoFluxoCaixaEnum.Entrada;
+
+    if (Model != null)
+    {
+        tipoLancamento = Model.TipoLancamento;
+    }
+}
+
+<form id="frmFluxoCaixa" asp-action="FluxoCaixaCreateOrUpdate" asp-controller="MovimentacaoFinanceira"
+      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/movimentacaofinanceira/fluxocaixa'">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO LANÇAMENTO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-2 col-lg-2">
+                        @Html.HiddenFor(m => m.IDFluxoCaixa, new { id = "idFluxoCaixa" })
+                        @Html.TextBoxFor(m => m.IDFluxoCaixa, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        <select name="tipoLancamento" class="form-control" required="">
+
+                            <option selected disabled>Tipo de Lançamento</option>
+
+                            @foreach (var itemTipo in listTiposLancamento)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                                else if (Model.TipoLancamento == itemTipo)
+                                {
+                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                                else
+                                {
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.DataLancamento, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data do Lançamento", @data_toggle = "tooltip", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Valor, new { @class = "form-control", @maxlength = "45", @placeholder = "Valor", @required = "true" })
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", @placeholder = "Observação", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> @labelButton
+                            </button>
+                            <button type="button" onclick="javascript:window.location='/movimentacaofinanceira/fluxocaixa'" class="btn btn-danger">
+                                <i class="fas fa-undo fa-lg"></i> Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
+
+
+@section Scripts{
+    <script src="~/js/cadastros/empresaPesquisa.js"></script>
+}

@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "FLUXO DE CAIXA";
+}
+
+<div class="row justify-content-center">
+    <div class="btn-group">
+        <a href="/movimentacaofinanceira/fluxoCaixaAddEdit" class="btn btn-primary">
+            <i class="fa fa-plus fa-lg"></i> Novo Lançamento
+        </a>
+        <button class="btn btn-danger" onClick="backToHome()"><i class="fa fa-undo fa-lg"></i> Voltar</button>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="tblFluxoCaixa" class="table table-striped table-bordered table-hover">
+        <thead class="text-uppercase">
+            <tr>
+                <th data-column-id="id" data-type="numeric">Código</th>
+                <th width="15%" data-column-id="dataLancamento">Data Lançamento</th>
+                <th width="15%" data-column-id="tipoLancamentoDescricao">Tipo Lançamento</th>
+                <th width="15%" data-column-id="origemDescricao">Origem</th>
+                <th width="15%" data-column-id="valor">Valor</th>
+                <th width="10%" data-column-id="commands1">Editar</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/movimentacaofinanceira/fluxoCaixa.js"></script>
+}

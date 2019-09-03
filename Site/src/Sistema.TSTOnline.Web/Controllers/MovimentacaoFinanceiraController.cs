@@ -20,6 +20,10 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly IRepository<ContasReceberEN> _contasReceberRepository;
         private readonly ContasReceberBU _contasReceberBU;
         private readonly IRepository<EmpresaEN> _empresaRepository;
+
+        private readonly IRepository<FluxoCaixaEN> _fluxoCaixaRepository;
+        private readonly FluxoCaixaBU _fluxoCaixaBU;
+
         private readonly FluxoBU _fluxoBU;
 
         #endregion Variables
@@ -30,6 +34,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             (
                 IRepository<ContasReceberEN> contasReceberRepository, ContasReceberBU contasReceberBU,
                 IRepository<EmpresaEN> empresaRepository,
+                IRepository<FluxoCaixaEN> fluxoCaixaRepository, FluxoCaixaBU fluxoCaixaBU,
                 FluxoBU fluxoBU
             )
         {
@@ -37,6 +42,9 @@ namespace Sistema.TSTOnline.Web.Controllers
             _contasReceberBU = contasReceberBU;
 
             _empresaRepository = empresaRepository;
+
+            _fluxoCaixaRepository = fluxoCaixaRepository;
+            _fluxoCaixaBU = fluxoCaixaBU;
 
             _fluxoBU = fluxoBU;
         }
@@ -107,7 +115,7 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpPost]
         [Route("contasReceberCreateOrUpdate")]
-        public IActionResult ContasReceberCreateOrUpdate([FromBody] ContasReceberVM contasReceberVM)
+        public IActionResult ContasReceberCreateOrUpdate(ContasReceberVM contasReceberVM)
         {
             _contasReceberBU.Save
                 (
@@ -134,5 +142,79 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         #endregion Contas a Receber
+
+        #region Fluxo de Caixa
+
+        [HttpGet]
+        [Route("fluxoCaixa")]
+        public IActionResult FluxoCaixa()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("fluxoCaixaAddEdit/{idFluxoCaixa?}")]
+        public IActionResult FluxoCaixaAddEdit(int? idFluxoCaixa)
+        {
+            if (idFluxoCaixa != null)
+            {
+                var fluxoCaixa = _fluxoCaixaRepository.GetByID(idFluxoCaixa ?? 0);
+
+                var fluxoCaixaVM = new FluxoCaixaVM()
+                {
+                    IDFluxoCaixa = fluxoCaixa.IDFluxoCaixa,
+                    DataLancamento = fluxoCaixa.DataLancamento,
+                    TipoLancamento = fluxoCaixa.TipoLancamento,
+                    Origem = fluxoCaixa.Origem,
+                    Chave = fluxoCaixa.Chave,
+                    Valor = fluxoCaixa.Valor,
+                    Observacao = fluxoCaixa.Observacao
+                };
+
+                return View(fluxoCaixaVM);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("listFluxoCaixa")]
+        public JsonResult ListFluxoCaixa()
+        {
+            var listFluxoCaixa = _fluxoCaixaRepository.All();
+            var fluxoCaixaVM = listFluxoCaixa.Select(
+                c => new FluxoCaixaVM
+                {
+                    IDFluxoCaixa = c.IDFluxoCaixa,
+                    DataLancamento = c.DataLancamento,
+                    TipoLancamento = c.TipoLancamento,
+                    Origem = c.Origem,
+                    Chave = c.Chave,
+                    Valor = c.Valor,
+                    Observacao = c.Observacao
+                });
+
+            return Json(fluxoCaixaVM.ToList());
+        }
+
+        [HttpPost]
+        [Route("fluxoCaixaCreateOrUpdate")]
+        public IActionResult FluxoCaixaCreateOrUpdate(FluxoCaixaVM fluxoCaixaVM)
+        {
+            _fluxoCaixaBU.Save
+                (
+                    fluxoCaixaVM.IDFluxoCaixa,
+                    fluxoCaixaVM.DataLancamento,
+                    fluxoCaixaVM.TipoLancamento,
+                    OrigemFluxoCaixaEnum.FluxoCaixa,
+                    0,
+                    fluxoCaixaVM.Valor,
+                    fluxoCaixaVM.Observacao
+               );
+
+            return Ok();
+        }
+
+        #endregion Fluxo de Caixa
     }
 }
