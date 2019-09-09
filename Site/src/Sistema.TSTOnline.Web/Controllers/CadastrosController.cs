@@ -59,34 +59,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                 c => new EmpresaVM
                 {
                     IDEmpresa = c.IDEmpresa,
-                    //StatusEmpresa = c.StatusEmpresa,
-                    //Situacao = c.Situacao,
-                    //IDUser = c.IDUser,
-                    //NomeContato = c.NomeContato,
-                    //CPFContato = c.CPFContato,
-                    //TelContato = c.TelContato,
-                    //NomeRespEmpresa = c.NomeRespEmpresa,
-                    //CPFResponsavel = c.CPFResponsavel,
-                    //TelResponsavel = c.TelResponsavel,
-                    //NITResponsavel = c.NITResponsavel,
-                    //EmailResponsavel = c.EmailResponsavel,
-                    //CodEmpresa = c.CodEmpresa,
                     RazaoSocial = c.RazaoSocial,
-                    NomeFantasia = c.NomeFantasia,
-                    //TipoMatricula = c.TipoMatricula,
-                    //NRMatricula = c.NRMatricula,
-                    //CNAE = c.CNAE,
-                    //CNAEDesc = c.CNAEDesc,
-                    //CEP = c.CEP,
-                    //UF = c.UF,
-                    //Cidade = c.Cidade,
-                    //Bairro = c.Bairro,
-                    //Endereco = c.Endereco,
-                    //Numero = c.Numero,
-                    //Complemento = c.Complemento,
-                    //Telefone = c.Telefone,
-                    //Celular = c.Celular,
-                    //Email = c.Email
+                    NomeFantasia = c.NomeFantasia
                 });
 
             return Json(empresaVM);
@@ -123,7 +97,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Complemento = fornecedor.Complemento,
                     Bairro = fornecedor.Bairro,
                     Cidade = fornecedor.Cidade,
-                    UF = fornecedor.UF
+                    UF = fornecedor.UF,
+                    NomeContato = fornecedor.NomeContato,
+                    Telefone = fornecedor.Telefone,
+                    WhatsApp = fornecedor.WhatsApp
                 };
 
                 return View(fornecedorVM);
@@ -150,7 +127,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Complemento = c.Complemento,
                     Bairro = c.Bairro,
                     Cidade = c.Cidade,
-                    UF = c.UF
+                    UF = c.UF,
+                    NomeContato = c.NomeContato,
+                    Telefone = c.Telefone,
+                    WhatsApp = c.WhatsApp
                 });
 
             return Json(fornecedorVM.ToList());
@@ -172,7 +152,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     fornecedorVM.Complemento,
                     fornecedorVM.Bairro,
                     fornecedorVM.Cidade,
-                    fornecedorVM.UF
+                    fornecedorVM.UF,
+                    fornecedorVM.NomeContato,
+                    fornecedorVM.Telefone,
+                    fornecedorVM.WhatsApp
                );
 
             return Ok();
@@ -255,7 +238,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Complemento = vendedor.Complemento,
                     Bairro = vendedor.Bairro,
                     Cidade = vendedor.Cidade,
-                    UF = vendedor.UF
+                    UF = vendedor.UF,
+                    NomeContato = vendedor.NomeContato,
+                    Telefone = vendedor.Telefone,
+                    WhatsApp = vendedor.WhatsApp
                 };
 
                 return View(vendedorVM);
@@ -283,7 +269,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Complemento = c.Complemento,
                     Bairro = c.Bairro,
                     Cidade = c.Cidade,
-                    UF = c.UF
+                    UF = c.UF,
+                    NomeContato = c.NomeContato,
+                    Telefone = c.Telefone,
+                    WhatsApp = c.WhatsApp
                 });
 
             return Json(vendedorVM.ToList());
@@ -306,7 +295,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     vendedorVM.Complemento, 
                     vendedorVM.Bairro, 
                     vendedorVM.Cidade, 
-                    vendedorVM.UF
+                    vendedorVM.UF,
+                    vendedorVM.NomeContato,
+                    vendedorVM.Telefone,
+                    vendedorVM.WhatsApp
                );
 
             return Ok();

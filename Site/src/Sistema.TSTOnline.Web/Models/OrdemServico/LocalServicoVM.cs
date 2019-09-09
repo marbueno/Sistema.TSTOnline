@@ -30,5 +30,14 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
 
         [JsonProperty(PropertyName = "uf")]
         public string UF { get; set; }
+
+        [JsonProperty(PropertyName = "nomeContato")]
+        public string NomeContato { get; set; }
+
+        [JsonProperty(PropertyName = "telefone")]
+        public string Telefone { get; set; }
+
+        [JsonProperty(PropertyName = "whatsApp")]
+        public string WhatsApp { get; set; }
     }
 }

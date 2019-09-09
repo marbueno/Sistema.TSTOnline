@@ -135,6 +135,7 @@ $("#frmPedidoVenda").submit(function (event) {
         "idVendedor": json.idVendedor,
         "idEmpresa": json.idEmpresa,
         "idUsuario": 1,
+        "observacao": json.Observacao,
         "pedidoVendaItens": listPedidosVendaItens
     };
 

@@ -87,7 +87,10 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Complemento = localServico.Complemento,
                     Bairro = localServico.Bairro,
                     Cidade = localServico.Cidade,
-                    UF = localServico.UF
+                    UF = localServico.UF,
+                    NomeContato = localServico.NomeContato,
+                    Telefone = localServico.Telefone,
+                    WhatsApp = localServico.WhatsApp
                 };
 
                 return View(localServicoVM);
@@ -112,7 +115,10 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Complemento = c.Complemento,
                     Bairro = c.Bairro,
                     Cidade = c.Cidade,
-                    UF = c.UF
+                    UF = c.UF,
+                    NomeContato = c.NomeContato,
+                    Telefone = c.Telefone,
+                    WhatsApp = c.WhatsApp
                 });
 
             return Json(localServicoVM.ToList());
@@ -132,7 +138,10 @@ namespace Sistema.TSTOnline.Web.Controllers
                     localServicoVM.Complemento,
                     localServicoVM.Bairro,
                     localServicoVM.Cidade,
-                    localServicoVM.UF
+                    localServicoVM.UF,
+                    localServicoVM.NomeContato,
+                    localServicoVM.Telefone,
+                    localServicoVM.WhatsApp
                );
 
             return Ok();

@@ -16,20 +16,23 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public string UF { get; set; }
+        public string NomeContato { get; set; }
+        public string Telefone { get; set; }
+        public string WhatsApp { get; set; }
 
         private FornecedorEN() { }
 
-        public FornecedorEN (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public FornecedorEN (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
         {
-            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
         }
 
-        public void UpdateProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF) 
+        public void UpdateProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
         }
 
-        private void ValidateAndSetProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        private void ValidateAndSetProperties (string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
             DomainException.When(string.IsNullOrEmpty(CNPJ), "CNPJ não informado.");
             DomainException.When(string.IsNullOrEmpty(RazaoSocial), "Razão Social não informada.");
@@ -51,6 +54,9 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
             this.Bairro = Bairro;
             this.Cidade = Cidade;
             this.UF = UF;
+            this.NomeContato = NomeContato;
+            this.Telefone = Telefone;
+            this.WhatsApp = WhatsApp;
         }
     }
 }

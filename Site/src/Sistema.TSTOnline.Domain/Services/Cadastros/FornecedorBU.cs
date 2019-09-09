@@ -14,19 +14,19 @@ namespace Sistema.TSTOnline.Domain.Services.Cadastros
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDFornecedor, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public void Save(int IDFornecedor, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
             FornecedorEN fornecedorEN = _fornecedorRepository.GetByID(IDFornecedor);
 
             if (fornecedorEN != null)
             {
-                fornecedorEN.UpdateProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                fornecedorEN.UpdateProperties(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _fornecedorRepository.Edit(fornecedorEN);
             }
             else
             {
-                fornecedorEN = new FornecedorEN(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                fornecedorEN = new FornecedorEN(CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _fornecedorRepository.Save(fornecedorEN);
             }

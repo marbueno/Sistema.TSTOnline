@@ -14,19 +14,19 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDLocal, string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public void Save(int IDLocal, string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
             LocalServicoEN LocalServicoEN = _localServicoRepository.GetByID(IDLocal);
 
             if (LocalServicoEN != null)
             {
-                LocalServicoEN.UpdateProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                LocalServicoEN.UpdateProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _localServicoRepository.Edit(LocalServicoEN);
             }
             else
             {
-                LocalServicoEN = new LocalServicoEN(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+                LocalServicoEN = new LocalServicoEN(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _localServicoRepository.Save(LocalServicoEN);
             }

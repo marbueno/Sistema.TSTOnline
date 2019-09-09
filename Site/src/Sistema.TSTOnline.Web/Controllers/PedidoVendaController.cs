@@ -85,6 +85,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDVendedor = pedidoVenda.IDVendedor,
                     VendedorNome = _vendedorRepository.GetByID(pedidoVenda.IDVendedor).Nome,
                     IDEmpresa = pedidoVenda.IDEmpresa,
+                    Observacao = pedidoVenda.Observacao,
                     RazaoSocial = _empresaRepository.GetByID(pedidoVenda.IDEmpresa).RazaoSocial,
                 };
 
@@ -109,6 +110,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDVendedor = c.IDVendedor,
                     VendedorNome = _vendedorRepository.GetByID(c.IDVendedor).Nome,
                     IDEmpresa = c.IDEmpresa,
+                    Observacao = c.Observacao,
                     RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                 });
 
@@ -142,6 +144,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     pedidoVendaVM.IDUsuario,
                     pedidoVendaVM.IDVendedor,
                     pedidoVendaVM.IDEmpresa,
+                    pedidoVendaVM.Observacao,
                     listPedidoVendaItens.ToList()
                 );
 
