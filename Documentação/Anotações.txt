@@ -67,3 +67,9 @@
 	22. sstContasReceber
 	23. sstFluxoCaixaController
 	24. sstFluxoCaixa
+
+	
+	
+API IUGU
+
+https://docs.iugu.com/docs
