@@ -33,6 +33,15 @@
         textoButtonOK = "SIM";
         actionFunction = "baixarTitulo();";
     }
+
+    if (Model == 4)
+    {
+        textoCabecalho = "CONFIRMAR GERAÇÃO DA FATURA";
+        textoConfirmacao = "Tem certeza que deseja gerar a fatura desse título?";
+        textoButtonCancel = "NÃO";
+        textoButtonOK = "SIM";
+        actionFunction = "gerarFatura();";
+    }
 }
 
 <div id="divConfirmar_@Model" class="modal fade" tabindex="-1" role="dialog">

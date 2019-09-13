@@ -8,6 +8,7 @@ using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Microsoft.Extensions.Configuration;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -26,6 +27,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly FluxoBU _fluxoBU;
 
+        private readonly IConfiguration _configuration;
+
         #endregion Variables
 
         #region Constructor
@@ -35,7 +38,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<ContasReceberEN> contasReceberRepository, ContasReceberBU contasReceberBU,
                 IRepository<EmpresaEN> empresaRepository,
                 IRepository<FluxoCaixaEN> fluxoCaixaRepository, FluxoCaixaBU fluxoCaixaBU,
-                FluxoBU fluxoBU
+                FluxoBU fluxoBU,
+                IConfiguration configuration
             )
         {
             _contasReceberRepository = contasReceberRepository;
@@ -47,6 +51,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _fluxoCaixaBU = fluxoCaixaBU;
 
             _fluxoBU = fluxoBU;
+
+            _configuration = configuration;
         }
 
         #endregion Constructor
@@ -80,6 +86,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     ValorPago = contasReceber.ValorPago,
                     Origem = contasReceber.Origem,
                     Chave = contasReceber.Chave,
+                    LinkFatura = contasReceber.LinkFatura,
                     Status = contasReceber.Status
                 };
 
@@ -107,6 +114,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     ValorPago = c.ValorPago,
                     Origem = c.Origem,
                     Chave = c.Chave,
+                    LinkFatura = c.LinkFatura,
                     Status = c.Status
                 });
 
@@ -126,6 +134,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     contasReceberVM.Valor,
                     contasReceberVM.ValorPago,
                     OrigemContasReceberEnum.ContasReceber,
+                    contasReceberVM.LinkFatura,
                     0
                );
 
@@ -137,6 +146,16 @@ namespace Sistema.TSTOnline.Web.Controllers
         public IActionResult ContasReceberAlterarStatus(int id, ContasReceberStatusEnum Status)
         {
             _fluxoBU.FluxoContasReceber(id, Status);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("contasReceberGerarFatura/{id}")]
+        public IActionResult ContasReceberGerarFatura(int id)
+        {
+            string emailCopia = _configuration.GetSection("Environment:Email").Value;
+            _fluxoBU.GerarFatura(id, emailCopia);
 
             return Ok();
         }

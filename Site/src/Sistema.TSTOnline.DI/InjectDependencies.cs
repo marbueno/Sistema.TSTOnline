@@ -10,17 +10,33 @@ using Sistema.TSTOnline.Domain.Services.OrdemServico;
 using Sistema.TSTOnline.Domain.Services.Estoque;
 using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
+using Sistema.Pagamentos.Interface;
+using Sistema.Pagamentos.Services;
+using System;
+using Microsoft.Extensions.Configuration;
 
 namespace Sistema.TSTOnline.DI
 {
     public class InjectDependencies
     {
-        public static void Configure(IServiceCollection services, string connectionString)
+        public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("dbConnection").ToString();
+
             services.AddDbContext<DataBaseContext>(opt => opt.UseMySql(connectionString));
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+
+            #region Componentes
+
+            services.AddTransient<IIntegracaoPagamento, IntegracaoPagamentoService>(config =>
+            {
+                bool isProduction = Convert.ToBoolean(configuration.GetSection("Environment:Production").Value);
+                return new IntegracaoPagamentoService(isProduction, Pagamentos.Enum.GatewayPagamento.IUGU);
+            });
+
+            #endregion Componentes
 
             #region Cadastros
 

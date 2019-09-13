@@ -58,36 +58,52 @@ function loadTable(tableName, tableData, tableColumns, tableOrder, tableColumDef
 
 function formOnFail(error) {
 
-    toastr.options = {
-        positionClass: "toast-top-right"
-    };
-
     if (error.status === 500)
-        toastr.error(error.responseText);
+        showMessage("error", error.responseText);
 }
 
 function showMessage(type, msg) {
 
     toastr.options = {
-        positionClass: "toast-top-right"
+        positionClass: "toast-top-right",
+        showDuration: "300",
+        hideDuration: "1000",
+        newestOnTop: false,
+        progressBar: false,
+        showEasing: "swing",
+        hideEasing: "linear",
+        animation: true,
+        width: "500px"
     };
 
     switch (type) {
 
         case "error":
-            toastr.error(msg);
+            toastr.error(msg).css({
+                width: "500px",
+                "max-width": "500px"
+            });
             break;
 
         case "warning":
-            toastr.warning(msg);
+            toastr.warning(msg).css({
+                width: "500px",
+                "max-width": "500px"
+            });
             break;
 
         case "success":
-            toastr.success(msg);
+            toastr.success(msg).css({
+                width: "500px",
+                "max-width": "500px"
+            });
             break;
 
         default:
-            toastr.info(msg);
+            toastr.info(msg).css({
+                width: "500px",
+                "max-width": "500px"
+            });
             break;
     }
 }

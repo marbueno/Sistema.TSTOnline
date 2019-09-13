@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sistema.Utils" Version="1.0.1" />
+    <PackageReference Include="Sistema.Pagamentos" Version="1.0.3" />
+    <PackageReference Include="Sistema.Utils" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -39,6 +39,9 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         [JsonProperty(PropertyName = "chave")]
         public int Chave { get; set; }
 
+        [JsonProperty(PropertyName = "linkFatura")]
+        public string LinkFatura { get; set; }
+
         [JsonProperty(PropertyName = "status")]
         public ContasReceberStatusEnum Status { get; set; }
 
