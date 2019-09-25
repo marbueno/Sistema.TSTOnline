@@ -32,12 +32,24 @@
 	12. Adicionar Parametro "contasreceber_view" na tabela "permission_params"
 	13. Adicionar Parametro "fluxocaixa_view" na tabela "permission_params"
 	14. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
-
 	
+	insert into permission_params values (0, 1, 'vendedor_view');
+	insert into permission_params values (0, 1, 'fornecedor_view');
+	insert into permission_params values (0, 1, 'categoria_view');
+	insert into permission_params values (0, 1, 'subcategoria_view');
+	insert into permission_params values (0, 1, 'produto_view');
+	insert into permission_params values (0, 1, 'locaisservico_view');
+	insert into permission_params values (0, 1, 'tiposervico_view');
+	insert into permission_params values (0, 1, 'ordemservico_view');
+	insert into permission_params values (0, 1, 'estoque_view');
+	insert into permission_params values (0, 1, 'movimentoestoque_view');
+	insert into permission_params values (0, 1, 'pedidovenda_view');
+	insert into permission_params values (0, 1, 'contasreceber_view');
+	insert into permission_params values (0, 1, 'fluxocaixa_view');	
+
 **** PÁGINAS ALTERADAS NO PHP
 
 	01. Template.php
-	
 	
 **** PÁGINAS CRIADAS NO PHP
 
@@ -73,3 +85,197 @@
 API IUGU
 
 https://docs.iugu.com/docs
+
+
+
+*** SCRIPTS TABELAS
+
+
+ CREATE TABLE `tbcadvendedor` (
+  `idvendedor` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(80) DEFAULT NULL,
+  `rg` varchar(12) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `dataNascimento` date DEFAULT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `endereco` varchar(200) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  `complemento` varchar(100) DEFAULT NULL,
+  `bairro` varchar(80) DEFAULT NULL,
+  `cidade` varchar(50) DEFAULT NULL,
+  `uf` varchar(2) DEFAULT NULL,
+  `nomecontato` varchar(45) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `whatsapp` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`idvendedor`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `tbproduto` (
+  `idproduto` int(11) NOT NULL AUTO_INCREMENT,
+  `sku` varchar(45) NOT NULL,
+  `nome` varchar(50) DEFAULT NULL,
+  `descricao` varchar(8000) DEFAULT NULL,
+  `idfornecedor` int(11) DEFAULT NULL,
+  `idcategoria` int(11) DEFAULT NULL,
+  `idsubcategoria` int(11) DEFAULT NULL,
+  `preco` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`idproduto`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Produtos';
+
+
+CREATE TABLE `tbestoque` (
+  `idproduto` int(11) NOT NULL,
+  `qtde` int(11) NOT NULL,
+  PRIMARY KEY (`idproduto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabela de Estoque';
+
+
+CREATE TABLE `tbprodutocategoria` (
+  `idcategoria` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(100) NOT NULL,
+  PRIMARY KEY (`idcategoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Categoria de Produtos';
+
+CREATE TABLE `tbprodutosubcategoria` (
+  `idsubcategoria` int(11) NOT NULL AUTO_INCREMENT,
+  `idcategoria` int(11) NOT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`idsubcategoria`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Sub Categoria de Produtos';
+
+CREATE TABLE `tbcadfornecedor` (
+  `idfornecedor` int(11) NOT NULL AUTO_INCREMENT,
+  `cnpj` varchar(14) DEFAULT NULL,
+  `razaosocial` varchar(150) DEFAULT NULL,
+  `nomefantasia` varchar(150) DEFAULT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  `complemento` varchar(100) DEFAULT NULL,
+  `bairro` varchar(80) DEFAULT NULL,
+  `cidade` varchar(50) DEFAULT NULL,
+  `uf` varchar(2) DEFAULT NULL,
+  `nomecontato` varchar(45) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `whatsapp` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`idfornecedor`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tbpedidovenda` (
+  `idpedido` int(11) NOT NULL AUTO_INCREMENT,
+  `datacadastro` datetime DEFAULT NULL,
+  `datavenda` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) NOT NULL,
+  `idusuario` int(11) DEFAULT NULL,
+  `idvendedor` int(11) NOT NULL,
+  `idempresa` int(11) DEFAULT NULL,
+  `observacao` varchar(8000) DEFAULT NULL,
+  PRIMARY KEY (`idpedido`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Pedidos de Venda';
+
+CREATE TABLE `tbpedidovendaitem` (
+  `idpedidoitem` int(11) NOT NULL AUTO_INCREMENT,
+  `idpedido` int(11) NOT NULL,
+  `item` int(11) NOT NULL,
+  `idproduto` int(11) NOT NULL,
+  `qtde` int(11) NOT NULL,
+  `valor` decimal(10,0) NOT NULL,
+  PRIMARY KEY (`idpedidoitem`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Itens dos Pedidos de Venda';
+
+CREATE TABLE `tbos` (
+  `idordemservico` int(11) NOT NULL AUTO_INCREMENT,
+  `dataservico` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datacadastro` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) DEFAULT NULL,
+  `idresp` int(11) NOT NULL,
+  `idlocal` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idordemservico`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Ordem de Serviço';
+
+CREATE TABLE `tbositem` (
+  `idordemservicoitem` int(11) NOT NULL AUTO_INCREMENT,
+  `idordemservico` int(11) DEFAULT NULL,
+  `item` int(11) DEFAULT NULL,
+  `idtiposervico` int(11) DEFAULT NULL,
+  `observacao` varchar(21844) DEFAULT NULL,
+  `concluido` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`idordemservicoitem`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Item das Ordens de Serviço';
+
+CREATE TABLE `tbcadtiposervico` (
+  `idtiposervico` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(200) NOT NULL,
+  PRIMARY KEY (`idtiposervico`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Cadastro de Tipos de Serviços';
+
+CREATE TABLE `tbcadlocalservico` (
+  `idlocal` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `endereco` varchar(200) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  `complemento` varchar(100) DEFAULT NULL,
+  `bairro` varchar(80) DEFAULT NULL,
+  `cidade` varchar(50) DEFAULT NULL,
+  `uf` varchar(2) DEFAULT NULL,
+  `nomecontato` varchar(45) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `whatsapp` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`idlocal`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Locais para realização do serviço';
+
+CREATE TABLE `tbmovimentoestoque` (
+  `idmovimento` int(11) NOT NULL AUTO_INCREMENT,
+  `datamovimento` datetime DEFAULT NULL,
+  `origem` int(11) DEFAULT NULL,
+  `chave` int(11) DEFAULT NULL,
+  `idproduto` int(11) DEFAULT NULL,
+  `tipo` int(11) DEFAULT NULL,
+  `qtde` int(11) DEFAULT NULL,
+  `observacao` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`idmovimento`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Movimentação de Estoque';
+
+CREATE TABLE `tbcontasreceber` (
+  `idcontasreceber` int(11) NOT NULL AUTO_INCREMENT,
+  `datacadastro` datetime DEFAULT NULL,
+  `idempresa` int(11) DEFAULT NULL,
+  `numerotitulo` varchar(45) DEFAULT NULL,
+  `datavencimento` datetime DEFAULT NULL,
+  `valor` decimal(10,0) DEFAULT NULL,
+  `valorpago` decimal(10,0) DEFAULT NULL,
+  `origem` int(11) DEFAULT NULL,
+  `chave` int(11) DEFAULT NULL,
+  `linkfatura` varchar(500) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idcontasreceber`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Contas a Receber';
+
+CREATE TABLE `tbfluxocaixa` (
+  `idfluxocaixa` int(11) NOT NULL AUTO_INCREMENT,
+  `datalancamento` datetime DEFAULT NULL,
+  `tipolancamento` int(11) DEFAULT NULL,
+  `origem` int(11) DEFAULT NULL,
+  `chave` int(11) DEFAULT NULL,
+  `valor` decimal(10,0) DEFAULT NULL,
+  `observacao` varchar(8000) DEFAULT NULL,
+  PRIMARY KEY (`idfluxocaixa`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='Tabela de Fluxo de Caixa';
+
+truncate table tbCadVendedor;
+truncate table tbProduto;
+truncate table tbEstoque;
+truncate table tbProdutoCategoria;
+truncate table tbProdutoSubCategoria;
+truncate table tbCadFornecedor;
+truncate table tbPedidoVenda;
+truncate table tbPedidoVendaItem;
+truncate table tbOs;
+truncate table tbOsItem;
+truncate table tbCadTipoServico;
+truncate table tbCadLocalServico;
+truncate table tbMovimentoEstoque;
+truncate table tbContasReceber;
+truncate table tbFluxoCaixa;

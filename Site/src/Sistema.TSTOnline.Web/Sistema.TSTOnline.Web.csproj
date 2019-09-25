@@ -5,9 +5,9 @@
     <Authors>Marcelo Bueno</Authors>
     <Company>TKM Solutions</Company>
     <Product>TSTOnline</Product>
-    <Description>Módulo de cliente da TST Online</Description>
-    <AssemblyVersion>2019.08.01.01</AssemblyVersion>
-    <FileVersion>2019.08.01.01</FileVersion>
+    <Description>Módulo de Clientes da TST Online</Description>
+    <AssemblyVersion>2019.09.25.01</AssemblyVersion>
+    <FileVersion>2019.09.25.01</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "PRODUTOS";
 }
 
@@ -19,8 +21,8 @@
                 <th width="10%" data-column-id="sku">SKU</th>
                 <th width="20%" data-column-id="nome">Nome</th>
                 <th width="20%" data-column-id="fornecedorNome">Fornecedor</th>
-                <th width="20%" data-column-id="categoriaDescricao">Categoria</th>
-                <th width="10%" data-column-id="preco">Preço</th>
+                <th width="15%" data-column-id="categoriaDescricao">Categoria</th>
+                <th width="15%" data-column-id="preco">Preço</th>
                 <th width="10%" data-column-id="commands1">Editar</th>
                 <th width="10%" data-column-id="commands3">Delete</th>
             </tr>
@@ -33,5 +35,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 0)
 
 @section Scripts{
-    <script src="~/js/produtos/produto.js"></script>
+    <script src="~/js/produtos/produto.js?v=@Helper.GetVersion()"></script>
 }

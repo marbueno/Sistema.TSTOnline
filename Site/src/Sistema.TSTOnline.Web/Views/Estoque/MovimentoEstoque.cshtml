@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "MOVIMENTAÇÃO DE ESTOQUE";
 }
 
@@ -30,5 +32,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/estoque/movimentoEstoque.js"></script>
+    <script src="~/js/estoque/movimentoEstoque.js?v=@Helper.GetVersion()"></script>
 }

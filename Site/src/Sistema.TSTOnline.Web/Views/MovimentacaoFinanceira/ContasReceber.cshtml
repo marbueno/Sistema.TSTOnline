@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "CONTAS A RECEBER";
 }
 
@@ -40,5 +42,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 4)
 
 @section Scripts{
-    <script src="~/js/movimentacaofinanceira/contasReceber.js"></script>
+    <script src="~/js/movimentacaofinanceira/contasReceber.js?v=@Helper.GetVersion()"></script>
 }

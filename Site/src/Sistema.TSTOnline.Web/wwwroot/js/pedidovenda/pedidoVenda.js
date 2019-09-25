@@ -118,7 +118,8 @@ $("#slcProduto").change(function () {
 
     listProdutos.forEach(item => {
         if (item.codigo.toString() === idProduto) {
-            $("#txtValor").val(item.preco);
+            var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
+            $("#txtValor").val(precoItem);
         }
     });
 });

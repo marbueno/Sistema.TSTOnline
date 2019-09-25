@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "ESTOQUES";
 }
 
@@ -24,5 +26,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/estoque/estoque.js"></script>
+    <script src="~/js/estoque/estoque.js?v=@Helper.GetVersion()"></script>
 }

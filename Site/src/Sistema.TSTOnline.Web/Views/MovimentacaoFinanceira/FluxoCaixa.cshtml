@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "FLUXO DE CAIXA";
 }
 
@@ -29,5 +31,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/movimentacaofinanceira/fluxoCaixa.js"></script>
+    <script src="~/js/movimentacaofinanceira/fluxoCaixa.js?v=@Helper.GetVersion()"></script>
 }

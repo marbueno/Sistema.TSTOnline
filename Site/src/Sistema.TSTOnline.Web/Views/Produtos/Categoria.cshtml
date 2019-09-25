@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "CATEGORIAS";
 }
 
@@ -29,5 +31,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 0)
 
 @section Scripts{
-    <script src="~/js/produtos/categoria.js"></script>
+    <script src="~/js/produtos/categoria.js?v=@Helper.GetVersion()"></script>
 }

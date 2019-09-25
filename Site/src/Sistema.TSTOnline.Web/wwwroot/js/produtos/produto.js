@@ -5,7 +5,15 @@ var columns = [
     { "data": "nome" },
     { "data": "fornecedorRazaoSocial" },
     { "data": "categoriaDescricao" },
-    { "data": "preco" },
+    {
+        "mDataProp": "preco",
+        mRender: function (data, type, row) {
+
+            var preco = "R$ " + accounting.formatMoney(row.preco, "", 2, ".", ",");
+
+            return preco;
+        }
+    },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {

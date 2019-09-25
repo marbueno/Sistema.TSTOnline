@@ -16,7 +16,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
+        public int Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
 
@@ -27,7 +27,10 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         DataServico,
                         Status,
                         IDResp,
-                        IDLocal
+                        IDLocal,
+                        NomeContato, 
+                        Telefone, 
+                        WhatsApp
                     );
 
                 _repositoryOrdemServico.Edit(ordemServicoEN);
@@ -39,7 +42,10 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         DataServico,
                         Status,
                         IDResp,
-                        IDLocal
+                        IDLocal,
+                        NomeContato,
+                        Telefone,
+                        WhatsApp
                     );
                 ordemServicoEN.DataCadastro = DateTime.Now;
 

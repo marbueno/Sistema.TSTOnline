@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace Sistema.TSTOnline.Domain.Utils
 {
@@ -84,6 +85,12 @@ namespace Sistema.TSTOnline.Domain.Utils
             listEstados.Add(new Estado() { Codigo = "TO", Sigla = "TO" });
 
             return listEstados;
+        }
+
+        public static string GetVersion()
+        {
+            var version = Assembly.GetEntryAssembly().GetName().Version.ToString().Replace(".", "");
+            return version;
         }
     }
 }

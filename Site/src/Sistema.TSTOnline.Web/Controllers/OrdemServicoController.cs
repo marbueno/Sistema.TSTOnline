@@ -252,6 +252,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDResp = ordemServico.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(ordemServico.IDResp).NomeResponsavel,
                     IDLocal = ordemServico.IDLocal,
+                    NomeContato = ordemServico.NomeContato,
+                    Telefone = ordemServico.Telefone,
+                    WhatsApp = ordemServico.WhatsApp,
                     LocalDescricao = _localServicoRepository.GetByID(ordemServico.IDLocal).Nome,
                 };
 
@@ -276,6 +279,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDResp = c.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(c.IDResp).NomeResponsavel,
                     IDLocal = c.IDLocal,
+                    NomeContato = c.NomeContato,
+                    Telefone = c.Telefone,
+                    WhatsApp = c.WhatsApp,
                     LocalDescricao = _localServicoRepository.GetByID(c.IDLocal).Nome,
                 });
 
@@ -304,7 +310,10 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.DataServico,
                         status,
                         ordemServicoVM.IDResp,
-                        ordemServicoVM.IDLocal
+                        ordemServicoVM.IDLocal,
+                        ordemServicoVM.NomeContato,
+                        ordemServicoVM.Telefone,
+                        ordemServicoVM.WhatsApp
                    );
 
                 _ordemServicoItemBU.RemoveAllItems(idOrdemServico);

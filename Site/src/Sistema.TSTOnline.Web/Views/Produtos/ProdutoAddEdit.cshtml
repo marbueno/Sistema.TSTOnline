@@ -20,7 +20,7 @@
         ViewData["Title"] = "EDITAR PRODUTO";
         labelButton = "Atualizar Produto";
     }
-    
+
     var listFornecedores = _fornecedorRepository.All();
     var listCategorias = _categoriaRepository.All();
     var listSubCategorias = _subCategoriaRepository.All();
@@ -125,7 +125,10 @@
                     </div>
 
                     <div class="col-sm-3 col-lg-3">
-                        @Html.TextBoxFor(m => m.Preco, new { @class = "form-control", @maxlength = "15", @placeholder = "Preço", @required = "true" })
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">R$</span>
+                            @Html.TextBoxFor(m => m.Preco, new { id = "txtPreco", name = "txtPreco", @class = "form-control", @maxlength = "20", @placeholder = "Preço", @required = "true" })
+                        </div>
                     </div>
                 </div>
 
@@ -145,3 +148,12 @@
         </div>
     </div>
 </form>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('#txtPreco').mask("#.##0,00", { reverse: true });
+        });
+    </script>
+}

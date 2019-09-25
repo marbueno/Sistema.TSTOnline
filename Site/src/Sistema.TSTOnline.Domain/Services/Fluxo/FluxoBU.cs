@@ -153,8 +153,6 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
 
             try
             {
-                _repositoryContasReceber.Edit(contasReceberEN);
-
                 if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda && (Status == ContasReceberStatusEnum.Baixado || Status == ContasReceberStatusEnum.Cancelado))
                 {
                     if (Status == ContasReceberStatusEnum.Baixado)
@@ -169,6 +167,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
 
                 if (Status == ContasReceberStatusEnum.Baixado)
                 {
+                    contasReceberEN.ValorPago = contasReceberEN.Valor;
                     _fluxoCaixaBU.Save
                         (
                             0,
@@ -180,6 +179,8 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                             "ENTRADA DE VALOR VIA CONTAS A RECEBER"
                         );
                 }
+
+                _repositoryContasReceber.Edit(contasReceberEN);
 
                 _unitOfWork.Commit();
 

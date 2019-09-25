@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "FORNECEDORES";
 }
 
@@ -30,5 +32,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 0)
 
 @section Scripts{
-    <script src="~/js/cadastros/fornecedor.js"></script>
+    <script src="~/js/cadastros/fornecedor.js?v=@Helper.GetVersion()"></script>
 }

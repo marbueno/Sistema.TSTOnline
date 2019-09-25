@@ -11,7 +11,8 @@ function carregarItens() {
     carregarPedidosVendaItens(idPedido).then(dataLoaded => {
         if (dataLoaded) {
             listPedidosVendaItens.forEach(item => {
-                addToTable(item.idProduto, item.produtoNome, item.qtde, item.valor);
+                var valorAux = accounting.formatMoney(item.valor, "", 2, ".", ",");
+                addToTable(item.idProduto, item.produtoNome, item.qtde, valorAux);
             });
         }
     });
@@ -75,9 +76,10 @@ function adicionarItem() {
         if (validouCampos()) {
 
             if (!existsItem(idProduto)) {
+                var valorAux = valor.toString().replace('.', '').replace(',', '.');
 
                 listPedidosVendaItens.push(
-                    { idProduto: idProduto, qtde: qtde, valor: valor }
+                    { idProduto: idProduto, qtde: qtde, valor: valorAux }
                 );
 
                 addToTable(idProduto, produtoNome, qtde, valor);
@@ -95,10 +97,11 @@ function addToTable(idProduto, produtoNome, qtde, valor) {
         var cols = "";
         var rowID = "row" + _item.toString();
         var newRow = $("<tr id='" + rowID + "'>");
+        var valorFormatado = "R$ " + valor.toString();
 
         cols += '<td>' + produtoNome + '</td>';
         cols += '<td>' + qtde + '</td>';
-        cols += '<td>' + valor + '</td>';
+        cols += '<td>' + valorFormatado + '</td>';
         cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idProduto.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
         newRow.append(cols);
         $("#tblPedidoVendaItens").append(newRow);

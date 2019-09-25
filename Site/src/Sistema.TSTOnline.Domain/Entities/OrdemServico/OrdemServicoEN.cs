@@ -13,18 +13,21 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         public OrdemServicoStatusEnum Status { get; set; }
         public int IDResp { get; set; }
         public int IDLocal { get; set; }
+        public string NomeContato { get; set; }
+        public string Telefone { get; set; }
+        public string WhatsApp { get; set; }
 
-        public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
+        public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal);
+            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        public void UpdateProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
+        public void UpdateProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal);
+            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal)
+        private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
             DomainException.When(DataServico == DateTime.MinValue, "Data do Serviço Inválida.");
             DomainException.When(Status == 0, "Status não informado.");
@@ -35,6 +38,9 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
             this.Status = Status;
             this.IDResp = IDResp;
             this.IDLocal = IDLocal;
+            this.NomeContato = NomeContato;
+            this.Telefone = Telefone;
+            this.WhatsApp = WhatsApp;
         }
     }
 }

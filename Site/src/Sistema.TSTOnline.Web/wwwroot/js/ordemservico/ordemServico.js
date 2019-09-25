@@ -75,6 +75,9 @@ $("#frmOrdemServico").submit(function (event) {
         "dataServico": json.DataServico,
         "idResp": json.idResp,
         "idLocal": json.idLocal,
+        "nomeContato": json.NomeContato,
+        "telefone": json.Telefone,
+        "whatsApp": json.WhatsApp,
         "ordemServicoItens": listOrdemServicoItens
     };
 

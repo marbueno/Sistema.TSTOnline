@@ -14,7 +14,8 @@ $("#txtLocalServico").on('keyup', function () {
     listResult.forEach(item => {
         var cols = "";
         var newRow = $("<tr>");
-        cols += '<td><input type="radio" value="' + item.codigo + '" data-nomelocalservico="' + item.nome + '" data-endereco="' + item.endereco + '" data-cidade="' + item.cidade + '" data-uf="' + item.uf + '" name="IDLocal" id="IDLocal"></td>';
+        debugger;
+        cols += '<td><input type="radio" value="' + item.codigo + '" data-nomelocalservico="' + item.nome + '" data-endereco="' + item.endereco + '" data-cidade="' + item.cidade + '" data-uf="' + item.uf + '" data-nomeContato="' + item.nomeContato + '" data-telefone="' + item.telefone + '" data-whatsApp="' + item.whatsApp + '" name="IDLocal" id="IDLocal"></td>';
         cols += '<td>' + item.codigo + '</td>';
         cols += '<td>' + item.nome + '</td>';
         cols += '<td>' + item.endereco + '</td>';
@@ -34,7 +35,13 @@ $("#addLocalServico").on('click', function () {
     var endereco = checkBox[0].dataset.endereco;
     var cidade = checkBox[0].dataset.cidade;
     var uf = checkBox[0].dataset.uf;
+    var nomeContato = checkBox[0].dataset.nomecontato;
+    var telefone = checkBox[0].dataset.telefone;
+    var whatsApp = checkBox[0].dataset.whatsapp;
 
     $("#IDLocal").val(codigo);
+    $("#NomeContato").val(nomeContato);
+    $("#Telefone").val(telefone);
+    $("#WhatsApp").val(whatsApp);
     $("#LocalDescricao").val(nomeLocalServico + ' | ' + endereco + ' | ' + cidade + '-' + uf);
 });

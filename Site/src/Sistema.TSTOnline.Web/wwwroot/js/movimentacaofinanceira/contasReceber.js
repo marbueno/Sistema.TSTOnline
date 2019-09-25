@@ -9,8 +9,24 @@ var columns = [
             return dateToPT(data);
         }
     },
-    { "data": "valor" },
-    { "data": "valorPago" },
+    {
+        "mDataProp": "valor",
+        mRender: function (data, type, row) {
+
+            var valor = "R$ " + accounting.formatMoney(row.valor, "", 2, ".", ",");
+
+            return valor;
+        }
+    },
+    {
+        "mDataProp": "valorPago",
+        mRender: function (data, type, row) {
+
+            var valorPago = "R$ " + accounting.formatMoney(row.valorPago, "", 2, ".", ",");
+
+            return valorPago;
+        }
+    },
     { "data": "statusDescricao" },
     {
         "mDataProp": "Link Fatura",
@@ -19,10 +35,12 @@ var columns = [
             var linkFaturaGerada = "<a class='btn btn-primary btn-sm' href='" + row.linkFatura + "' target='_blank' style='text-align:center;width:100%' title='Clique para Visualizar Fatura'>Visualizar</a>";
             var linkGerarFatura = "<a class='btn btn-warning btn-sm' href='#' style='text-align:center;width:100%' data-toggle='modal' data-target='#divConfirmar_4' onclick='codigo=" + row.idContasReceber + "' title='Gera Link da Fatura'>Gerar Fatura</a>";
 
-            if (row.linkFatura === '' || row.linkFatura === null || row.linkFatura === undefined)
-                linkFatura = linkGerarFatura;
-            else
-                linkFatura = linkFaturaGerada;
+            if (row.status !== 2) {
+                if (row.linkFatura === '' || row.linkFatura === null || row.linkFatura === undefined)
+                    linkFatura = linkGerarFatura;
+                else
+                    linkFatura = linkFaturaGerada;
+            }
 
             return linkFatura;
         }

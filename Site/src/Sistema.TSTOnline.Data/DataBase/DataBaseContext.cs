@@ -17,48 +17,48 @@ namespace Sistema.TSTOnline.Data
 
         #region Cadastros
 
-        public DbSet<EmpresaEN> tbCadEmpresas { get; set; }
-        public DbSet<VendedorEN> tbCadVendedor { get; set; }
-        public DbSet<ResponsavelEN> tbResponsavel { get; set; }
-        public DbSet<FornecedorEN> tbCadFornecedor { get; set; }
+        public DbSet<EmpresaEN> tbcadempresas { get; set; }
+        public DbSet<VendedorEN> tbcadvendedor { get; set; }
+        public DbSet<ResponsavelEN> tbresponsavel { get; set; }
+        public DbSet<FornecedorEN> tbcadfornecedor { get; set; }
 
         #endregion Cadastros
 
         #region Produtos
 
-        public DbSet<ProdutoEN> tbProduto { get; set; }
-        public DbSet<CategoriaEN> tbProdutoCategoria { get; set; }
-        public DbSet<SubCategoriaEN> tbProdutoSubCategoria { get; set; }
+        public DbSet<ProdutoEN> tbproduto { get; set; }
+        public DbSet<CategoriaEN> tbprodutocategoria { get; set; }
+        public DbSet<SubCategoriaEN> tbprodutosubcategoria { get; set; }
 
         #endregion Produtos
 
         #region Pedidos de Venda
 
-        public DbSet<PedidoVendaEN> tbPedidoVenda { get; set; }
-        public DbSet<PedidoVendaItemEN> tbPedidoVendaItem { get; set; }
+        public DbSet<PedidoVendaEN> tbpedidovenda { get; set; }
+        public DbSet<PedidoVendaItemEN> tbpedidovendaitem { get; set; }
 
         #endregion Pedidos de Venda
 
         #region Ordem de Serviço
 
-        public DbSet<OrdemServicoEN> tbOs { get; set; }
-        public DbSet<OrdemServicoItemEN> tbOsItem { get; set; }
-        public DbSet<TipoServicoEN> tbCadTipoServico { get; set; }
-        public DbSet<LocalServicoEN> tbCadLocalServico { get; set; }
+        public DbSet<OrdemServicoEN> tbos { get; set; }
+        public DbSet<OrdemServicoItemEN> tbositem { get; set; }
+        public DbSet<TipoServicoEN> tbcadtiposervico { get; set; }
+        public DbSet<LocalServicoEN> tbcadlocalservico { get; set; }
 
         #endregion Ordem de Serviço
 
         #region Estoque
 
-        public DbSet<EstoqueEN> tbEstoque { get; set; }
-        public DbSet<MovimentoEstoqueEN> tbMovimentoEstoque { get; set; }
+        public DbSet<EstoqueEN> tbestoque { get; set; }
+        public DbSet<MovimentoEstoqueEN> tbmovimentoestoque { get; set; }
 
         #endregion Estoque
 
         #region Movimentação Financeira
 
-        public DbSet<ContasReceberEN> tbContasReceber { get; set; }
-        public DbSet<FluxoCaixaEN> tbFluxoCaixa { get; set; }
+        public DbSet<ContasReceberEN> tbcontasreceber { get; set; }
+        public DbSet<FluxoCaixaEN> tbfluxocaixa { get; set; }
 
         #endregion Movimentação Financeira
     }

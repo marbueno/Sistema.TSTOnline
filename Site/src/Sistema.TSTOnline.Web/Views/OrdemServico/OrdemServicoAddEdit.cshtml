@@ -1,6 +1,7 @@
 ﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.OrdemServicoVM
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.OrdemServico
+@using Sistema.TSTOnline.Domain.Utils;
 
 @inject IRepository<TipoServicoEN> _tipoServicoRepository
 
@@ -47,7 +48,7 @@
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { name="dataServico", @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
+                        @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { name = "dataServico", @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
                     </div>
 
                 </div>
@@ -66,7 +67,7 @@
 
                     <div class="col-sm-11 col-lg-11">
                         @Html.TextBoxFor(m => m.ResponsavelNome, new { id = "ResponsavelNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
-                        <input type="hidden" name="idResp" id="IDResp" value="@IDResp" >
+                        <input type="hidden" name="idResp" id="IDResp" value="@IDResp">
                     </div>
                 </div>
 
@@ -86,6 +87,28 @@
                         @Html.TextBoxFor(m => m.LocalDescricao, new { id = "LocalDescricao", @class = "form-control", @maxlength = "150", @placeholder = "Local", @readonly = "readonly", @required = "true" })
                         <input type="hidden" name="idLocal" id="IDLocal" value="@IDLocal">
                     </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO CONTATO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-6 col-lg-6">
+                        @Html.TextBoxFor(m => m.NomeContato, new { id = "NomeContato", @class = "form-control", @maxlength = "45", @placeholder = "Nome", @required = "true" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.Telefone, new { id = "Telefone", @class = "form-control", @maxlength = "15", @placeholder = "Telefone", @required = "true", @data_mask = "(00) 00000-0000" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.WhatsApp, new { id = "WhatsApp", @class = "form-control", @maxlength = "15", @placeholder = "WhatsApp", @required = "true", @data_mask = "(00) 00000-0000" })
+                    </div>
+
                 </div>
 
                 <div class="row" style="margin-top:1%;">
@@ -157,8 +180,8 @@
 
 
 @section Scripts{
-    <script src="~/js/cadastros/responsavelPesquisa.js"></script>
-    <script src="~/js/ordemservico/localServicoPesquisa.js"></script>
-    <script src="~/js/ordemservico/ordemServico.js"></script>
-    <script src="~/js/ordemservico/ordemServicoItem.js"></script>
+    <script src="~/js/cadastros/responsavelPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/ordemservico/localServicoPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/ordemservico/ordemServico.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/ordemservico/ordemServicoItem.js?v=@Helper.GetVersion()"></script>
 }

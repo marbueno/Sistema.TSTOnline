@@ -34,6 +34,15 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "localDescricao")]
         public string LocalDescricao { get; set; }
 
+        [JsonProperty(PropertyName = "nomeContato")]
+        public string NomeContato { get; set; }
+
+        [JsonProperty(PropertyName = "telefone")]
+        public string Telefone { get; set; }
+
+        [JsonProperty(PropertyName = "whatsApp")]
+        public string WhatsApp { get; set; }
+
         [JsonProperty(PropertyName = "ordemServicoItens")]
         public List<OrdemServicoItemVM> OrdemServicoItens { get; set; }
     }

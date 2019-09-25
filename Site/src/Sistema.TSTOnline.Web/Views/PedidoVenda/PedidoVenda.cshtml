@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "PEDIDOS DE VENDA";
 }
 
@@ -35,5 +37,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 2)
 
 @section Scripts{
-    <script src="~/js/pedidovenda/pedidoVenda.js"></script>
+    <script src="~/js/pedidovenda/pedidoVenda.js?v=@Helper.GetVersion()"></script>
 }

@@ -20,7 +20,6 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly MovimentoEstoqueBU _movimentoEstoqueBU;
 
         private readonly IRepository<EstoqueEN> _estoqueRepository;
-        private readonly EstoqueBU _estoqueBU;
 
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
@@ -38,7 +37,6 @@ namespace Sistema.TSTOnline.Web.Controllers
             _movimentoEstoqueBU = movimentoEstoqueBU;
 
             _estoqueRepository = estoqueRepository;
-            _estoqueBU = estoqueBU;
 
             _produtoRepository = produtoRepository;
         }

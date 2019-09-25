@@ -9,7 +9,15 @@ var columns = [
     },
     { "data": "tipoLancamentoDescricao" },
     { "data": "origemDescricao" },
-    { "data": "valor" },
+    {
+        "mDataProp": "valor",
+        mRender: function (data, type, row) {
+
+            var valor = "R$ " + accounting.formatMoney(row.valor, "", 2, ".", ",");
+
+            return valor;
+        }
+    },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Sistema.TSTOnline.Domain.Utils;
+
+@{
     ViewData["Title"] = "LOCAIS DE SERVIÇOS";
 }
 
@@ -31,5 +33,5 @@
 @await Html.PartialAsync("~/Views/Shared/_ConfirmActionPartial.cshtml", 0)
 
 @section Scripts{
-    <script src="~/js/ordemservico/localServico.js"></script>
+    <script src="~/js/ordemservico/localServico.js?v=@Helper.GetVersion()"></script>
 }
