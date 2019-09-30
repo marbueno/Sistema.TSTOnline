@@ -7,7 +7,7 @@ function filterValuePart(arr, part) {
     return arr.filter(function (obj) {
         return Object.keys(obj)
             .some(function (k) {
-                return obj[k].toString().indexOf(part) !== -1;
+                return obj[k].toString().toLowerCase().indexOf(part.toString().toLowerCase()) !== -1;
             });
     });
 };
