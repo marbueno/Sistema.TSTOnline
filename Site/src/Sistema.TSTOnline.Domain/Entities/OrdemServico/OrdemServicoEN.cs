@@ -11,23 +11,24 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         public DateTime DataCadastro { get; set; }
         public DateTime DataServico { get; set; }
         public OrdemServicoStatusEnum Status { get; set; }
+        public int IDEmpresa { get; set; }
         public int IDResp { get; set; }
         public int IDLocal { get; set; }
         public string NomeContato { get; set; }
         public string Telefone { get; set; }
         public string WhatsApp { get; set; }
 
-        public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public OrdemServicoEN(DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        public void UpdateProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public void UpdateProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(DataServico, Status, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        private void ValidateAndSetProperties(DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
             DomainException.When(DataServico == DateTime.MinValue, "Data do Serviço Inválida.");
             DomainException.When(Status == 0, "Status não informado.");
@@ -36,6 +37,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 
             this.DataServico = DataServico;
             this.Status = Status;
+            this.IDEmpresa = IDEmpresa;
             this.IDResp = IDResp;
             this.IDLocal = IDLocal;
             this.NomeContato = NomeContato;

@@ -1,4 +1,6 @@
-﻿using Sistema.TSTOnline.Domain.Entities.OrdemServico;
+﻿using Sistema.Documentos.Interface;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Utils;
 using System;
@@ -10,13 +12,20 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
         private readonly IRepository<OrdemServicoEN> _repositoryOrdemServico;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrdemServicoBU(IRepository<OrdemServicoEN> repositoryOrdemServico, IUnitOfWork unitOfWork)
+        public OrdemServicoBU
+            (
+                IRepository<OrdemServicoEN> repositoryOrdemServico, 
+                IDocumento documentoService, 
+                IRepository<ResponsavelEN> responsavelRepository,
+                IRepository<EmpresaEN> empresaRepository,
+                IUnitOfWork unitOfWork
+            )
         {
             _repositoryOrdemServico = repositoryOrdemServico;
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public int Save(int IDOrdemServico, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
 
@@ -26,6 +35,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                     (
                         DataServico,
                         Status,
+                        IDEmpresa,
                         IDResp,
                         IDLocal,
                         NomeContato, 
@@ -41,6 +51,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                     (
                         DataServico,
                         Status,
+                        IDEmpresa,
                         IDResp,
                         IDLocal,
                         NomeContato,

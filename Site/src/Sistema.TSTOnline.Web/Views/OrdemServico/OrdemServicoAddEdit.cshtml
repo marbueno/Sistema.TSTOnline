@@ -22,10 +22,13 @@
     var listTiposServicos = _tipoServicoRepository.All();
     var IDResp = 0;
     var IDLocal = 0;
+    var IDEmpresa = 0;
+
     if (Model != null)
     {
         IDResp = Model.IDResp;
         IDLocal = Model.IDLocal;
+        IDEmpresa = Model.IDEmpresa;
     }
 
 }
@@ -51,6 +54,24 @@
                         @Html.TextBoxFor(m => m.DataServico, "{0:yyyy-MM-dd}", new { name = "dataServico", @type = "date", @class = "form-control", @title = "Data da Prestação do Serviço", @data_toggle = "tooltip", @required = "true" })
                     </div>
 
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO CLIENTE</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
+                        <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
+                    </div>
                 </div>
 
                 <div class="row" style="margin-top:1%;">
@@ -177,11 +198,13 @@
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarResponsavelPartial.cshtml")
 @await Html.PartialAsync("~/Views/Shared/_BuscarLocalServicoPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
 
 
 @section Scripts{
     <script src="~/js/cadastros/responsavelPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/localServicoPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/ordemServico.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/ordemServicoItem.js?v=@Helper.GetVersion()"></script>
 }

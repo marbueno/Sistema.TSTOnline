@@ -22,6 +22,12 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "statusDescricao")]
         public string StatusDescricao { get { return Status.ToDescriptionEmum(); } }
 
+        [JsonProperty(PropertyName = "idEmpresa")]
+        public int IDEmpresa { get; set; }
+
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty(PropertyName = "idResp")]
         public int IDResp { get; set; }
 

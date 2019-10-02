@@ -38,6 +38,13 @@ var columns = [
 
             return cancelButton;
         }
+    },
+    {
+        "mDataProp": "ImprimirOS",
+        mRender: function (data, type, row) {
+
+            return "<a class='btn btn-primary btn-sm' href='/ordemservico/imprimir/" + row.idOrdemServico + "' target='_blank' style='text-align:center;width:100%' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";;
+        }
     }
 ];
 
@@ -55,6 +62,7 @@ function cancelRegister () {
             });
     }
 }
+
 
 $(document).ready(function () {
     carregarOrdemServicos().then(dataLoaded => {

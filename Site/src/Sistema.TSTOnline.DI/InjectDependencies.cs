@@ -14,6 +14,9 @@ using Sistema.Pagamentos.Interface;
 using Sistema.Pagamentos.Services;
 using System;
 using Microsoft.Extensions.Configuration;
+using Sistema.Documentos.Interface;
+using Sistema.Documentos.Service;
+using Sistema.TSTOnline.Domain.Services.Template;
 
 namespace Sistema.TSTOnline.DI
 {
@@ -35,6 +38,8 @@ namespace Sistema.TSTOnline.DI
                 bool isProduction = Convert.ToBoolean(configuration.GetSection("Environment:Production").Value);
                 return new IntegracaoPagamentoService(isProduction, Pagamentos.Enum.GatewayPagamento.IUGU);
             });
+
+            services.AddTransient<IDocumento, DocumentoService>();
 
             #endregion Componentes
 
@@ -89,6 +94,12 @@ namespace Sistema.TSTOnline.DI
             services.AddTransient(typeof(FluxoBU));
 
             #endregion Fluxo Sistema
+
+            #region Templates
+
+            services.AddTransient(typeof(TemplateBU));
+
+            #endregion Templates
         }
     }
 }

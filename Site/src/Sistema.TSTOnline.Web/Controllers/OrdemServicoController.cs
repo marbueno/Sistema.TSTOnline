@@ -8,6 +8,8 @@ using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using System.Collections.Generic;
+using System;
+using Sistema.TSTOnline.Domain.Services.Template;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -31,6 +33,10 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<ResponsavelEN> _responsavelRepository;
 
+        private readonly IRepository<EmpresaEN> _empresaRepository;
+
+        private readonly TemplateBU _templateBU;
+
         #endregion Variables
 
         #region Constructor
@@ -40,7 +46,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<TipoServicoEN> tipoServicoRepository, TipoServicoBU tipoServicoBU,
                 IRepository<OrdemServicoEN> ordemServicoRepository, OrdemServicoBU ordemServicoBU,
                 IRepository<OrdemServicoItemEN> ordemServicoItemRepository, OrdemServicoItemBU ordemServicoItemBU,
-                IRepository<ResponsavelEN> responsavelRepository
+                IRepository<ResponsavelEN> responsavelRepository,
+                IRepository<EmpresaEN> empresaRepository,
+                TemplateBU templateBU
             )
         {
             _localServicoRepository = localServicoRepository;
@@ -56,6 +64,10 @@ namespace Sistema.TSTOnline.Web.Controllers
             _ordemServicoItemBU = ordemServicoItemBU;
 
             _responsavelRepository = responsavelRepository;
+
+            _empresaRepository = empresaRepository;
+
+            _templateBU = templateBU;
         }
 
         #endregion Constructor
@@ -249,6 +261,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     DataCadastro = ordemServico.DataCadastro,
                     DataServico = ordemServico.DataServico,
                     Status = ordemServico.Status,
+                    IDEmpresa = ordemServico.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(ordemServico.IDEmpresa).RazaoSocial,
                     IDResp = ordemServico.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(ordemServico.IDResp).NomeResponsavel,
                     IDLocal = ordemServico.IDLocal,
@@ -276,6 +290,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     DataCadastro = c.DataCadastro,
                     DataServico = c.DataServico,
                     Status = c.Status,
+                    IDEmpresa = c.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                     IDResp = c.IDResp,
                     ResponsavelNome = _responsavelRepository.GetByID(c.IDResp).NomeResponsavel,
                     IDLocal = c.IDLocal,
@@ -309,6 +325,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.IDOrdemServico,
                         ordemServicoVM.DataServico,
                         status,
+                        ordemServicoVM.IDEmpresa,
                         ordemServicoVM.IDResp,
                         ordemServicoVM.IDLocal,
                         ordemServicoVM.NomeContato,
@@ -340,6 +357,17 @@ namespace Sistema.TSTOnline.Web.Controllers
             _ordemServicoBU.UpdateStatus(id, Status);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("imprimir/{idServico?}")]
+        public IActionResult OrdemServicoImprimir(int idServico)
+        {
+            var documento = _templateBU.OrdemServicoImprimir(idServico);
+            var nomeArquivo = $"OS_{idServico.ToString("00000")}";
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Octet, nomeArquivo);
         }
 
         #endregion Ordem de Serviço
