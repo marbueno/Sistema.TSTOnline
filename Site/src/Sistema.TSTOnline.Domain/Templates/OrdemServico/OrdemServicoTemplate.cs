@@ -6,6 +6,7 @@
         public string DataInclusao { get; set; }
         public string HorarioInclusao { get; set; }
         public string OrdemServicoData { get; set; }
+        public string OrdemServicoStatus { get; set; }
         public string ClienteRazaoSocial { get; set; }
         public string ResponsavelNome { get; set; }
         public string LocalNome { get; set; }

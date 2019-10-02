@@ -3,6 +3,7 @@ using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Templates.OrdemServico;
+using Sistema.TSTOnline.Domain.Utils;
 using System;
 
 namespace Sistema.TSTOnline.Domain.Services.Template
@@ -48,16 +49,17 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 OrdemServicoNumero = ordemServicoEN.IDOrdemServico.ToString("000000"),
                 DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
-                OrdemServicoData = ordemServicoEN.DataServico.ToString("HH:mm:sss"),
+                OrdemServicoData = ordemServicoEN.DataServico.ToString("dd/MM/yyyy"),
+                OrdemServicoStatus = ordemServicoEN.Status.ToDescriptionEmum(),
                 ClienteRazaoSocial = _empresaRepository.GetByID(ordemServicoEN.IDEmpresa).RazaoSocial,
                 ResponsavelNome = _responsavelRepository.GetByID(ordemServicoEN.IDResp).NomeResponsavel,
                 LocalNome = localServivoEN.Nome,
                 LocalCEP = Sistema.Utils.Helper.FormatarCEP(localServivoEN.CEP),
-                LocalEndereco = Sistema.Utils.Helper.FormatarCEP(localServivoEN.Endereco),
-                LocalNumero = Sistema.Utils.Helper.FormatarCEP(localServivoEN.Numero),
-                LocalComplemento = Sistema.Utils.Helper.FormatarCEP(localServivoEN.Complemento),
-                LocalBairro = Sistema.Utils.Helper.FormatarCEP(localServivoEN.Bairro),
-                LocalCidade = Sistema.Utils.Helper.FormatarCEP(localServivoEN.Cidade),
+                LocalEndereco = localServivoEN.Endereco,
+                LocalNumero = localServivoEN.Numero,
+                LocalComplemento = localServivoEN.Complemento,
+                LocalBairro = localServivoEN.Bairro,
+                LocalCidade = localServivoEN.Cidade,
                 ContatoNome = ordemServicoEN.NomeContato,
                 ContatoTelefone = ordemServicoEN.Telefone,
                 ContatoWhatsApp = ordemServicoEN.WhatsApp,
@@ -66,16 +68,18 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             };
 
             var HTMLItens = "<table>";
+            HTMLItens += $"     <tr>";
+            HTMLItens += $"         <td style=\"font-weight: bold; width: 10%\"><span>Item</span></td>";
+            HTMLItens += $"         <td style=\"font-weight: bold; width: 40%\"><span>Serviço</span></td>";
+            HTMLItens += $"         <td style=\"font-weight: bold; width: 50%\"><span>Observações</span></td>";
+            HTMLItens += $"     </tr>";
             foreach (var itemOS in listOrdemServicoItem)
             {
                 TipoServicoEN tipoServicoEN = _tipoServicoRepository.GetByID(itemOS.IDTipoServico);
 
                 HTMLItens += $"  <tr>";
-                HTMLItens += $"      <td style=\"font-weight: bold; width: 5%\"><span>Item: </span></td>";
                 HTMLItens += $"      <td>{itemOS.Item.ToString("0000")}</td>";
-                HTMLItens += $"      <td style=\"font-weight: bold; width: 40%\"><span>Serviço: </span></td>";
                 HTMLItens += $"      <td>{tipoServicoEN.Descricao}</td>";
-                HTMLItens += $"      <td style=\"font-weight: bold; width: 10%\"><span>Obs: </span></td>";
                 HTMLItens += $"      <td>{itemOS.Observacao}</td>";
                 HTMLItens += $"  </tr>";
             }

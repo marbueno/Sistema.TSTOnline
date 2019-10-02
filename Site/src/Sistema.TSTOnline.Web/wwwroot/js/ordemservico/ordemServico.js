@@ -14,6 +14,7 @@ var columns = [
         }
     },
     { "data": "statusDescricao" },
+    { "data": "razaoSocial" },
     { "data": "responsavelNome" },
     { "data": "localDescricao" },
     {
@@ -43,7 +44,8 @@ var columns = [
         "mDataProp": "ImprimirOS",
         mRender: function (data, type, row) {
 
-            return "<a class='btn btn-primary btn-sm' href='/ordemservico/imprimir/" + row.idOrdemServico + "' target='_blank' style='text-align:center;width:100%' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";;
+            return "<a class='btn btn-primary btn-sm' href='#' onclick='imprimirOS(" + row.idOrdemServico + ")' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";
+            //return "<a class='btn btn-primary btn-sm' href='/ordemservico/imprimir/" + row.idOrdemServico + "' target='_blank' style='text-align:center;width:100%' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";
         }
     }
 ];
@@ -60,6 +62,17 @@ function cancelRegister () {
             {
                 window.location.reload();
             });
+    }
+}
+
+function imprimirOS(id) {
+
+    try {
+        window.open('/ordemservico/imprimir/' + id, '_blank');
+    }
+    catch (ex) {
+        console.log(error);
+        showMessage("error", error);
     }
 }
 
@@ -83,6 +96,7 @@ $("#frmOrdemServico").submit(function (event) {
         "dataServico": json.DataServico,
         "idResp": json.idResp,
         "idLocal": json.idLocal,
+        "idEmpresa": json.idEmpresa,
         "nomeContato": json.NomeContato,
         "telefone": json.Telefone,
         "whatsApp": json.WhatsApp,
@@ -104,8 +118,15 @@ $("#frmOrdemServico").submit(function (event) {
             if (response.status === 200) {
                 window.location = '/ordemservico/ordemServico';
             }
+            else if (response.status === 500) {
+                return response.text();
+            }
         })
-        .catch(ex => {
-            console.log(ex);
+        .then(response => {
+            showMessage("error", response);
+        })
+        .catch(error => {
+            console.log(error);
+            showMessage("error", error);
         });
 });

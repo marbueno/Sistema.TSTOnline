@@ -364,10 +364,18 @@ namespace Sistema.TSTOnline.Web.Controllers
         public IActionResult OrdemServicoImprimir(int idServico)
         {
             var documento = _templateBU.OrdemServicoImprimir(idServico);
-            var nomeArquivo = $"OS_{idServico.ToString("00000")}";
+            var nomeArquivo = $"OS_{idServico.ToString("00000")}.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = "someFilename.pdf"
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
 
             byte[] byteArray = Convert.FromBase64String(documento);
-            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Octet, nomeArquivo);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf) ;
         }
 
         #endregion Ordem de Serviço

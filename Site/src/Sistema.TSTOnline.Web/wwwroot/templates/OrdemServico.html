@@ -26,18 +26,18 @@
 			.header{
 				color: #E00500;
 				font-size: 22px;
-				padding-bottom: 20px;
+				padding-bottom: 5px;
 			}
 			
 			header {
 				position: running(header);
-				font-family: Conduit !important;
+				font-family: Arial, Helvetica, Sans-serif !important;
 				font-size: 14px;
 				color: #888888;
 			}
 
 			footer {
-				font-family: Conduit !important;
+				font-family: Arial, Helvetica, Sans-serif !important;
 				font-size: 12px;
 				height: 30px;
 				background: #E00500;
@@ -95,6 +95,13 @@
 			</header>
 
 			<table cellpadding="0" cellspacing="0" style="font-size: 15px;">
+
+				<tr>
+					<td>
+						<br />
+					</td>
+				</tr>
+
 				<tr>
 					<td>
 						<div class="header">Dados da O.S</div>
@@ -112,7 +119,17 @@
 								<td style="font-weight: bold; width: 40%"><span>Data da prestação de serviço:</span></td>
 								<td>${OrdemServicoData}</td>
 							</tr>
+							<tr>
+								<td style="font-weight: bold; width: 40%"><span>Status:</span></td>
+								<td>${OrdemServicoStatus}</td>
+							</tr>
 						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<br />
 					</td>
 				</tr>
 
@@ -136,7 +153,6 @@
 				<tr>
 					<td>
 						<br />
-						<br />
 					</td>
 				</tr>
 
@@ -159,7 +175,6 @@
 
 				<tr>
 					<td>
-						<br />
 						<br />
 					</td>
 				</tr>
@@ -208,7 +223,6 @@
 				<tr>
 					<td>
 						<br />
-						<br />
 					</td>
 				</tr>
 
@@ -240,7 +254,6 @@
 				<tr>
 					<td>
 						<br />
-						<br />
 					</td>
 				</tr>
 
@@ -253,14 +266,6 @@
 				<tr>
 					<td>
 						${OrdemServicoItens}
-						<table>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Serviço: </span></td>
-								<td>Acompanhamento</td>
-								<td style="font-weight: bold; width: 10%"><span>Obs: </span></td>
-								<td>Fazer Acompanhamento lamsdlaksmd laksmd laksd malkdm alskdm alskdm alskdm alskdm alsdkm</td>
-							</tr>
-						</table>
 					</td>
 				</tr>
 				
