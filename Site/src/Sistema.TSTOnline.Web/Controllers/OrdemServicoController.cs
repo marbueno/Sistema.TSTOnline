@@ -369,7 +369,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             var contentDispositionHeader = new System.Net.Mime.ContentDisposition
             {
                 Inline = true,
-                FileName = "someFilename.pdf"
+                FileName = nomeArquivo
             };
 
             Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
