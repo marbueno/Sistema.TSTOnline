@@ -8,7 +8,7 @@ var columns = [
         }
     },
     { "data": "origemDescricao" },
-    { "data": "sku" },
+    //{ "data": "sku" },
     { "data": "produtoNome" },
     { "data": "tipoDescricao" },
     { "data": "qtde" }

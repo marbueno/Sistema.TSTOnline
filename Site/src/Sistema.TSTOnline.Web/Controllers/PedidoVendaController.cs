@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
+using Sistema.TSTOnline.Domain.Services.Template;
+using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -30,6 +33,10 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly IRepository<EmpresaEN> _empresaRepository;
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
+        private readonly IConfiguration _configuration;
+
+        private readonly TemplateBU _templateBU;
+
         #endregion Variables
 
         #region Constructor
@@ -40,7 +47,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<VendedorEN> vendedorRepository,
                 IRepository<EmpresaEN> empresaRepository,
                 IRepository<ProdutoEN> produtoRepository,
-                FluxoBU fluxoBU
+                FluxoBU fluxoBU,
+                IConfiguration configuration,
+                TemplateBU templateBU
             )
         {
             _pedidoVendaRepository = pedidoVendaRepository;
@@ -55,6 +64,10 @@ namespace Sistema.TSTOnline.Web.Controllers
             _produtoRepository = produtoRepository;
 
             _fluxoBU = fluxoBU;
+
+            _configuration = configuration;
+
+            _templateBU = templateBU;
         }
 
         #endregion Constructor
@@ -112,7 +125,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDEmpresa = c.IDEmpresa,
                     Observacao = c.Observacao,
                     RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
-                });
+                    ValorTotal = Utils.Helper.FormatReal(GetPedidoVendaItens(c.IDPedido).Sum(obj => obj.ValorTotal), true),
+                }); ;
 
             return Json(pedidoVendaVM.ToList());
         }
@@ -163,6 +177,27 @@ namespace Sistema.TSTOnline.Web.Controllers
             _fluxoBU.FluxoPedido(id, Status);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("imprimir/{idPedido}")]
+        public IActionResult OrdemServicoImprimir(int idPedido)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.PedidoVendaImprimir(idPedido, caminhoTemplate);
+            var nomeArquivo = $"PedidoVenda_{idPedido.ToString("00000")}.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
         }
 
         #endregion Pedido de Venda

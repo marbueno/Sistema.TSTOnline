@@ -29,7 +29,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Produtos
 
         private void ValidateAndSetProperties(string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
-            DomainException.When(string.IsNullOrEmpty(SKU), "SKU não informado.");
+            //DomainException.When(string.IsNullOrEmpty(SKU), "SKU não informado.");
             DomainException.When(string.IsNullOrEmpty(Nome), "Nome não informado.");
             DomainException.When(string.IsNullOrEmpty(Descricao), "Descrição não informada.");
             DomainException.When(IDFornecedor == 0, "Fornecedor não informado.");

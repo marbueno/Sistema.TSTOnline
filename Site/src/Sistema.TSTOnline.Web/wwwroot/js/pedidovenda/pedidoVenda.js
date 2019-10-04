@@ -15,6 +15,7 @@ var columns = [
     },
     { "data": "razaoSocial" },
     { "data": "vendedorNome" },
+    { "data": "valorTotal" },
     { "data": "statusDescricao" },
     {
         "mDataProp": "Editar",
@@ -26,6 +27,13 @@ var columns = [
                 editButton = "";
 
             return editButton;
+        }
+    },
+    {
+        "mDataProp": "ImprimirPedido",
+        mRender: function (data, type, row) {
+
+            return "<a class='btn btn-primary btn-sm' href='#' onclick='imprimirPedido(" + row.idPedido + ")' title='Clique para Imprimir o Pedido'>Imprimir</a>";
         }
     },
     {
@@ -45,7 +53,7 @@ var columns = [
         mRender: function (data, type, row) {
             var cancelButton = "<a class='btn btn-danger btn-sm' href='#' data-toggle='modal' data-target='#divConfirmar_1' onclick='codigo=" + row.idPedido + "' title='Cancelar Pedido'>Cancelar</a>";
 
-            if (row.status !== 1)
+            if (row.status !== 1 && row.status !== 2)
                 cancelButton = "";
 
             return cancelButton;
@@ -55,6 +63,17 @@ var columns = [
 
 function editRegister(id) {
     window.location = '/pedidovenda/pedidoVendaAddEdit/' + id;
+}
+
+function imprimirPedido(id) {
+
+    try {
+        window.open('/pedidovenda/imprimir/' + id, '_blank');
+    }
+    catch (ex) {
+        console.log(error);
+        showMessage("error", error);
+    }
 }
 
 function fecharPedido() {
@@ -119,6 +138,8 @@ $("#slcProduto").change(function () {
     listProdutos.forEach(item => {
         if (item.codigo.toString() === idProduto) {
             var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
+            debugger;
+            $("#txtQtde").val("1");
             $("#txtValor").val(precoItem);
         }
     });

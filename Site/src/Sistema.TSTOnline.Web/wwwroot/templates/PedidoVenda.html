@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Ordem de Serviço</title>
+		<title>Pedido de Venda</title>
 
 		<style type="text/css">
 
@@ -84,10 +84,10 @@
 				</div>
 
 				<div style="width: 71%; height: 120px; text-align:right; display: inline-block; margin-top:20px;">
-					<h2 style="font-weight: normal; margin: 0">Ordem de Serviço</h2>
-					<h2 style="margin: 0">${OrdemServicoNumero}</h2>
+					<h2 style="font-weight: normal; margin: 0">Pedido de Venda</h2>
+					<h2 style="margin: 0">${PedidoVendaNumero}</h2>
 					<p>
-						O.S. emitida em ${DataInclusao} às ${HorarioInclusao}
+						Pedido emitido em ${DataInclusao} às ${HorarioInclusao}
 					</p>
 				</div>
 
@@ -100,7 +100,7 @@
 
 				<tr>
 					<td>
-						<div class="header">Dados da O.S</div>
+						<div class="header">Dados do Pedido</div>
 					</td>
 				</tr>
 
@@ -108,16 +108,20 @@
 					<td>
 						<table>
 							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Número O.S: </span></td>
-								<td>${OrdemServicoNumero}</td>
+								<td style="font-weight: bold; width: 40%"><span>Número Pedido: </span></td>
+								<td>${PedidoVendaNumero}</td>
 							</tr>
 							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Data da prestação de serviço:</span></td>
-								<td>${OrdemServicoData}</td>
+								<td style="font-weight: bold; width: 40%"><span>Data da Venda:</span></td>
+								<td>${PedidoVendaData}</td>
 							</tr>
 							<tr>
 								<td style="font-weight: bold; width: 40%"><span>Status:</span></td>
-								<td>${OrdemServicoStatus}</td>
+								<td>${PedidoVendaStatus}</td>
+							</tr>
+							<tr>
+								<td style="font-weight: bold; width: 40%"><span>Observações:</span></td>
+								<td>${PedidoVendaObservacao}</td>
 							</tr>
 						</table>
 					</td>
@@ -142,7 +146,7 @@
 
 				<tr>
 					<td>
-						<div class="header">Dados do Técnico</div>
+						<div class="header">Dados do Vendedor</div>
 					</td>
 				</tr>
 
@@ -151,7 +155,7 @@
 						<table>
 							<tr>
 								<td style="font-weight: bold; width: 40%"><span>Nome: </span></td>
-								<td>${ResponsavelNome}</td>
+								<td>${VendedorNome}</td>
 							</tr>
 						</table>
 					</td>
@@ -159,75 +163,13 @@
 				
 				<tr>
 					<td>
-						<div class="header">Dados do Local de Realização do Serviço</div>
+						<div class="header">Itens do Pedido</div>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
-						<table>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Nome Local: </span></td>
-								<td>${LocalNome}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>CEP:</span></td>
-								<td>${LocalCEP}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Endereço:</span></td>
-								<td>${LocalEndereco}</td>
-								<td style="font-weight: bold; width: 20%"><span>Complemento:</span></td>
-								<td>${LocalComplemento}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Número:</span></td>
-								<td>${LocalNumero}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Bairro:</span></td>
-								<td>${LocalBairro}</td>
-								<td style="font-weight: bold; width: 20%"><span>Cidade:</span></td>
-								<td>${LocalCidade}</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<div class="header">Dados do Contato</div>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Nome: </span></td>
-								<td>${ContatoNome}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Telefone: </span></td>
-								<td>${ContatoTelefone}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>WhatsApp: </span></td>
-								<td>${ContatoWhatsApp}</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<div class="header">Serviços que serão realizados</div>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						${OrdemServicoItens}
+						${PedidoVendaItens}
 					</td>
 				</tr>
 
@@ -242,7 +184,7 @@
 						<table>
 							<tr>
 								<td style="text-align: center;">__________________________________________________________ <br />
-									${ResponsavelNome}
+									${VendedorNome}
 								</td>
 								<td style="text-align: center;">__________________________________________________________ <br />
 									${ClienteRazaoSocial}
@@ -267,10 +209,10 @@
 						</div>
 
 						<div style="width: 71%; height: 90px; text-align:right; display: inline-block; margin-top:20px;">
-							<h2 style="font-weight: normal; margin: 0">Ordem de Serviço</h2>
-							<h2 style="margin: 0">${OrdemServicoNumero}</h2>
+							<h2 style="font-weight: normal; margin: 0">Pedido de Venda</h2>
+							<h2 style="margin: 0">${PedidoVendaNumero}</h2>
 							<p>
-								O.S. emitida em ${DataInclusao} às ${HorarioInclusao}
+								Pedido emitido em ${DataInclusao} às ${HorarioInclusao}
 							</p>
 						</div>
 
@@ -283,7 +225,7 @@
 
 				<tr>
 					<td>
-						<div class="header">Dados da O.S</div>
+						<div class="header">Dados do Pedido</div>
 					</td>
 				</tr>
 
@@ -291,16 +233,20 @@
 					<td>
 						<table>
 							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Número O.S: </span></td>
-								<td>${OrdemServicoNumero}</td>
+								<td style="font-weight: bold; width: 40%"><span>Número Pedido: </span></td>
+								<td>${PedidoVendaNumero}</td>
 							</tr>
 							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Data da prestação de serviço:</span></td>
-								<td>${OrdemServicoData}</td>
+								<td style="font-weight: bold; width: 40%"><span>Data da Venda:</span></td>
+								<td>${PedidoVendaData}</td>
 							</tr>
 							<tr>
 								<td style="font-weight: bold; width: 40%"><span>Status:</span></td>
-								<td>${OrdemServicoStatus}</td>
+								<td>${PedidoVendaStatus}</td>
+							</tr>
+							<tr>
+								<td style="font-weight: bold; width: 40%"><span>Observações:</span></td>
+								<td>${PedidoVendaObservacao}</td>
 							</tr>
 						</table>
 					</td>
@@ -325,7 +271,7 @@
 
 				<tr>
 					<td>
-						<div class="header">Dados do Técnico</div>
+						<div class="header">Dados do Vendedor</div>
 					</td>
 				</tr>
 
@@ -334,44 +280,7 @@
 						<table>
 							<tr>
 								<td style="font-weight: bold; width: 40%"><span>Nome: </span></td>
-								<td>${ResponsavelNome}</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-						<div class="header">Dados do Local de Realização do Serviço</div>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<table>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Nome Local: </span></td>
-								<td>${LocalNome}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>CEP:</span></td>
-								<td>${LocalCEP}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Endereço:</span></td>
-								<td>${LocalEndereco}</td>
-								<td style="font-weight: bold; width: 20%"><span>Complemento:</span></td>
-								<td>${LocalComplemento}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Número:</span></td>
-								<td>${LocalNumero}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Bairro:</span></td>
-								<td>${LocalBairro}</td>
-								<td style="font-weight: bold; width: 20%"><span>Cidade:</span></td>
-								<td>${LocalCidade}</td>
+								<td>${VendedorNome}</td>
 							</tr>
 						</table>
 					</td>
@@ -379,38 +288,13 @@
 
 				<tr>
 					<td>
-						<div class="header">Dados do Contato</div>
+						<div class="header">Itens do Pedido</div>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
-						<table>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Nome: </span></td>
-								<td>${ContatoNome}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>Telefone: </span></td>
-								<td>${ContatoTelefone}</td>
-							</tr>
-							<tr>
-								<td style="font-weight: bold; width: 40%"><span>WhatsApp: </span></td>
-								<td>${ContatoWhatsApp}</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<div class="header">Serviços que serão realizados</div>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						${OrdemServicoItens}
+						${PedidoVendaItens}
 					</td>
 				</tr>
 
@@ -425,7 +309,7 @@
 						<table>
 							<tr>
 								<td style="text-align: center;">__________________________________________________________ <br />
-									${ResponsavelNome}
+									${VendedorNome}
 								</td>
 								<td style="text-align: center;">__________________________________________________________ <br />
 									${ClienteRazaoSocial}
@@ -438,12 +322,10 @@
 		
 				
 				<footer>
-					<div style="width:80%; display: inline-block;">O.S ${OrdemServicoNumero} emitida em ${DataInclusaoPorExtenso} </div> <div style="width:15%; text-align:right; display: inline-block;"><span class="custom-footer-page-number">PÁGINA: </span></div>
+					<div style="width:80%; display: inline-block;">Pedido ${PedidoVendaNumero} emitido em ${DataInclusaoPorExtenso} </div> <div style="width:15%; text-align:right; display: inline-block;"><span class="custom-footer-page-number">PÁGINA: </span></div>
 				</footer>
 
 			</table>
-
-			
 
 		</div>
 

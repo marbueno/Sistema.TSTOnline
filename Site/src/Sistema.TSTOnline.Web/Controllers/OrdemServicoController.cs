@@ -10,6 +10,7 @@ using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using System.Collections.Generic;
 using System;
 using Sistema.TSTOnline.Domain.Services.Template;
+using Microsoft.Extensions.Configuration;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -35,6 +36,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<EmpresaEN> _empresaRepository;
 
+        private readonly IConfiguration _configuration;
+
         private readonly TemplateBU _templateBU;
 
         #endregion Variables
@@ -48,6 +51,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<OrdemServicoItemEN> ordemServicoItemRepository, OrdemServicoItemBU ordemServicoItemBU,
                 IRepository<ResponsavelEN> responsavelRepository,
                 IRepository<EmpresaEN> empresaRepository,
+                IConfiguration configuration,
                 TemplateBU templateBU
             )
         {
@@ -66,6 +70,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _responsavelRepository = responsavelRepository;
 
             _empresaRepository = empresaRepository;
+
+            _configuration = configuration;
 
             _templateBU = templateBU;
         }
@@ -360,10 +366,12 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         [HttpGet]
-        [Route("imprimir/{idServico?}")]
+        [Route("imprimir/{idServico}")]
         public IActionResult OrdemServicoImprimir(int idServico)
         {
-            var documento = _templateBU.OrdemServicoImprimir(idServico);
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.OrdemServicoImprimir(idServico, caminhoTemplate);
             var nomeArquivo = $"OS_{idServico.ToString("00000")}.pdf";
 
             var contentDispositionHeader = new System.Net.Mime.ContentDisposition

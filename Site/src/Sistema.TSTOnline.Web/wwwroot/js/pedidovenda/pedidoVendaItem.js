@@ -12,7 +12,8 @@ function carregarItens() {
         if (dataLoaded) {
             listPedidosVendaItens.forEach(item => {
                 var valorAux = accounting.formatMoney(item.valor, "", 2, ".", ",");
-                addToTable(item.idProduto, item.produtoNome, item.qtde, valorAux);
+                var valorTotalAux = accounting.formatMoney(item.valorTotal, "", 2, ".", ",");
+                addToTable(item.idProduto, item.produtoNome, item.qtde, valorAux, valorTotalAux);
             });
         }
     });
@@ -77,12 +78,14 @@ function adicionarItem() {
 
             if (!existsItem(idProduto)) {
                 var valorAux = valor.toString().replace('.', '').replace(',', '.');
+                var valorTotalAux = parseInt(qtde) * parseFloat(valorAux);
+                valorTotalAux = accounting.formatMoney(valorTotalAux, "", 2, ".", ",");
 
                 listPedidosVendaItens.push(
                     { idProduto: idProduto, qtde: qtde, valor: valorAux }
                 );
 
-                addToTable(idProduto, produtoNome, qtde, valor);
+                addToTable(idProduto, produtoNome, qtde, valor, valorTotalAux);
             }
         }
     }
@@ -91,17 +94,19 @@ function adicionarItem() {
     }
 }
 
-function addToTable(idProduto, produtoNome, qtde, valor) {
+function addToTable(idProduto, produtoNome, qtde, valor, valorTotal) {
     try {
 
         var cols = "";
         var rowID = "row" + _item.toString();
         var newRow = $("<tr id='" + rowID + "'>");
         var valorFormatado = "R$ " + valor.toString();
+        var valorTotalFormatado = "R$ " + valorTotal.toString();
 
         cols += '<td>' + produtoNome + '</td>';
         cols += '<td>' + qtde + '</td>';
         cols += '<td>' + valorFormatado + '</td>';
+        cols += '<td>' + valorTotalFormatado + '</td>';
         cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idProduto.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
         newRow.append(cols);
         $("#tblPedidoVendaItens").append(newRow);

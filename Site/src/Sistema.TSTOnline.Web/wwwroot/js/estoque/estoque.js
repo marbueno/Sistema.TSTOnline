@@ -1,7 +1,7 @@
 var codigo = 0;
 var columns = [
     { "data": "codigo" },
-    { "data": "sku" },
+    //{ "data": "sku" },
     { "data": "produtoNome" },
     { "data": "qtde" }
 ];
