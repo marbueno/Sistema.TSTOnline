@@ -8,8 +8,21 @@
         public string PedidoVendaData { get; set; }
         public string PedidoVendaStatus { get; set; }
         public string PedidoVendaObservacao { get; set; }
+        public string ClienteCNPJ { get; set; }
         public string ClienteRazaoSocial { get; set; }
+        public string ClienteEmail { get; set; }
+        public string ClienteCEP { get; set; }
+        public string ClienteEndereco { get; set; }
+        public string ClienteComplemento { get; set; }
+        public string ClienteNumero { get; set; }
+        public string ClienteBairro { get; set; }
+        public string ClienteCidade { get; set; }
+        public string ClienteContato { get; set; }
+        public string ClienteTelefone { get; set; }
+        public string ClienteCelular { get; set; }
         public string VendedorNome { get; set; }
+        public string VendedorTelefone { get; set; }
+        public string VendedorWhatsApp { get; set; }
         public string PedidoVendaItens { get; set; }
         public string DataInclusaoPorExtenso { get; set; }
     }

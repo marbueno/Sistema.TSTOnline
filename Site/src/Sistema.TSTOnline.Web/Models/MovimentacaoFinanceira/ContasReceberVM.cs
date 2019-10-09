@@ -21,6 +21,9 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         [JsonProperty(PropertyName = "numeroTitulo")]
         public string NumeroTitulo { get; set; }
 
+        [JsonProperty(PropertyName = "seq")]
+        public int Seq { get; set; }
+
         [JsonProperty(PropertyName = "dataVencimento")]
         public DateTime DataVencimento { get; set; }
 

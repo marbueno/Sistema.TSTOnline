@@ -156,6 +156,8 @@ $("#frmPedidoVenda").submit(function (event) {
         "dataVenda": json.DataVenda,
         "idVendedor": json.idVendedor,
         "idEmpresa": json.idEmpresa,
+        "tipoPagamento": json.tipoPagamento,
+        "qtdeParcelas": json.qtdeParcelas,
         "idUsuario": 1,
         "observacao": json.Observacao,
         "pedidoVendaItens": listPedidosVendaItens

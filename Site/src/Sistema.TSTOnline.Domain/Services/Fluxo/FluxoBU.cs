@@ -109,19 +109,48 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                             );
                     }
 
-                    //GRAVA O TÍTULO NO CONTAS A RECEBER
-                    _contasReceberBU.Save
-                        (
-                            0,
-                            pedidoVendaEN.IDEmpresa,
-                            $"PED{pedidoVendaEN.IDPedido.ToString("00000")}",
-                            pedidoVendaEN.DataCadastro.AddDays(10),
-                            listPedidoVendaItem.Sum(obj => obj.ValorTotal),
-                            0,
-                            OrigemContasReceberEnum.PedidoVenda,
-                            string.Empty,
-                            pedidoVendaEN.IDPedido
-                        );
+                    decimal valorTotalPedido = listPedidoVendaItem.Sum(obj => obj.ValorTotal);
+                    decimal valorTitulo = valorTotalPedido / (int)pedidoVendaEN.QtdeParcelas;
+                    decimal somaDosValorTitulo = 0;
+                    DateTime dataVencimento = pedidoVendaEN.DataCadastro.AddDays(10);
+                    int seq = 1;
+
+
+                    for (int iQtdeParcelas = 1; iQtdeParcelas <= (int)pedidoVendaEN.QtdeParcelas; iQtdeParcelas++)
+                    {
+                        somaDosValorTitulo += valorTitulo;
+
+                        //VERIFICA SE NA ÚLTIMA PARCELA EXISTE DIFERENÇA DE CENTAVOS
+                        if (iQtdeParcelas == (int)pedidoVendaEN.QtdeParcelas)
+                        {
+                            if (valorTotalPedido != somaDosValorTitulo)
+                            {
+                                decimal valorDiferenca = valorTotalPedido - somaDosValorTitulo;
+                                if (valorDiferenca < 0)
+                                    valorDiferenca = valorDiferenca * -1;
+
+                                valorTitulo += valorDiferenca;
+                            }
+                        }
+
+                        //GRAVA O TÍTULO NO CONTAS A RECEBER
+                        _contasReceberBU.Save
+                            (
+                                0,
+                                pedidoVendaEN.IDEmpresa,
+                                $"PED{pedidoVendaEN.IDPedido.ToString("00000")}_{iQtdeParcelas.ToString()}",
+                                seq,
+                                dataVencimento,
+                                valorTitulo,
+                                0,
+                                OrigemContasReceberEnum.PedidoVenda,
+                                string.Empty,
+                                pedidoVendaEN.IDPedido
+                            );
+
+                        dataVencimento = dataVencimento.AddDays(30);
+                        seq += 1;
+                    }
                 }
 
                 if (inTransaction == false)
@@ -203,35 +232,35 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
         public void GerarFatura(int IDContasReceber, string EmailCopia)
         {
             var contasReceberEN = _repositoryContasReceber.GetByID(IDContasReceber);
-            List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == contasReceberEN.Chave).ToList();
+            //List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == contasReceberEN.Chave).ToList();
 
             _unitOfWork.BeginTransaction();
 
             try
             {
                 List<Item> listItens = new List<Item>();
-                if (listPedidoVendaItem != null && listPedidoVendaItem.Count > 0)
-                {
-                    foreach (var itemPedido in listPedidoVendaItem)
-                    {
-                        var produtoEN = _repositoryProduto.GetByID(itemPedido.IDProduto);
-                        listItens.Add(new Item()
-                        {
-                            Descricao = produtoEN.Nome,
-                            Qtde = itemPedido.Qtde,
-                            Valor = int.Parse(itemPedido.Valor.ToString("#0.00").Replace(",", "").Replace(".",""))
-                        });
-                    }
-                }
-                else
-                {
+                //if (listPedidoVendaItem != null && listPedidoVendaItem.Count > 0)
+                //{
+                //    foreach (var itemPedido in listPedidoVendaItem)
+                //    {
+                //        var produtoEN = _repositoryProduto.GetByID(itemPedido.IDProduto);
+                //        listItens.Add(new Item()
+                //        {
+                //            Descricao = produtoEN.Nome,
+                //            Qtde = itemPedido.Qtde,
+                //            Valor = int.Parse(itemPedido.Valor.ToString("#0.00").Replace(",", "").Replace(".",""))
+                //        });
+                //    }
+                //}
+                //else
+                //{
                     listItens.Add(new Item()
                     {
                         Descricao = $"Título: [{contasReceberEN.NumeroTitulo}]",
                         Qtde = 1,
                         Valor = int.Parse(contasReceberEN.Valor.ToString("#0.00").Replace(",", "").Replace(".", ""))
                     });
-                }
+                //}
 
                 var empresaEN = _repositoryEmpresa.GetByID(contasReceberEN.IDEmpresa);
                 var emailCopia = EmailCopia;

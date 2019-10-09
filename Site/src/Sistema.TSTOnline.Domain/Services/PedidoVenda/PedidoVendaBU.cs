@@ -28,7 +28,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, string Observacao, List<PedidoVendaItemEN> ListPedidoVendaItens)
+        public int Save(int IDPedidoVenda, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, List<PedidoVendaItemEN> ListPedidoVendaItens)
         {
             int idPedido = 0;
 
@@ -47,6 +47,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             IDUsuario,
                             IDVendedor,
                             IDEmpresa,
+                            TipoPagamento,
+                            QtdeParcelas,
                             Observacao
                         );
 
@@ -61,6 +63,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             IDUsuario,
                             IDVendedor,
                             IDEmpresa,
+                            TipoPagamento,
+                            QtdeParcelas,
                             Observacao
                         );
                     pedidoVendaEN.DataCadastro = DateTime.Now;

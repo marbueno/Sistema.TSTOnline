@@ -34,6 +34,12 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         [JsonProperty(PropertyName = "idEmpresa")]
         public int IDEmpresa { get; set; }
 
+        [JsonProperty(PropertyName = "tipoPagamento")]
+        public TipoPagamentoEnum TipoPagamento { get; set; }
+
+        [JsonProperty(PropertyName = "qtdeParcelas")]
+        public QtdeParcelasEnum QtdeParcelas { get; set; }
+
         [JsonProperty(PropertyName = "razaoSocial")]
         public string RazaoSocial { get; set; }
 

@@ -17,7 +17,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDContasReceber, int IDEmpresa, string NumeroTitulo, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave)
+        public int Save(int IDContasReceber, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave)
         {
             ContasReceberEN contasReceberEN = null;
 
@@ -27,7 +27,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             }
             else
             {
-                contasReceberEN = _repositoryContasReceber.Where(obj => obj.Chave == Chave).FirstOrDefault();
+                contasReceberEN = _repositoryContasReceber.Where(obj => obj.Chave == Chave && obj.Seq == Seq).FirstOrDefault();
             }
 
             if (contasReceberEN != null)
@@ -36,6 +36,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
                     (
                         IDEmpresa,
                         NumeroTitulo,
+                        Seq,
                         DataVencimento,
                         Valor,
                         ValorPago,
@@ -53,6 +54,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
                     (
                         IDEmpresa,
                         NumeroTitulo,
+                        Seq,
                         DataVencimento,
                         Valor,
                         ValorPago,

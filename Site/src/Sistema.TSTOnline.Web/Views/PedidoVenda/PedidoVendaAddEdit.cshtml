@@ -18,7 +18,9 @@
         ViewData["Title"] = "EDITAR PEDIDO VENDA";
         labelButton = "Atualizar Pedido Venda";
     }
-
+    
+    var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
+    var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
     var listProdutos = _produtoRepository.All();
     var IDVendedor = 0;
     var IDEmpresa = 0;
@@ -92,6 +94,60 @@
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-12 col-lg-12">
                         @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", @placeholder = "Observações do Pedido", @required = "true" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO PAGAMENTO</span></h5>
+                    </div>
+                </div>
+                
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-sm-6 col-lg-6">
+                        <select name="tipoPagamento" id="tipoPagamento" class="form-control" required="">
+
+                            <option selected disabled>Formas de Pagamento</option>
+
+                            @foreach (var itemTipo in listTiposPagamento)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                                else if (Model.TipoPagamento == itemTipo)
+                                {
+                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                                else
+                                {
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <select name="qtdeParcelas" id="qtdeParcelas" class="form-control" required="">
+
+                            <option selected disabled>Qtde de Parcelas</option>
+
+                            @foreach (var itemQtde in listQtdeParcelas)
+                            {
+                                @if (newRegister)
+                                {
+                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                }
+                                else if (Model.QtdeParcelas == itemQtde)
+                                {
+                                    <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                }
+                                else
+                                {
+                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                }
+                            }
+                        </select>
                     </div>
                 </div>
 

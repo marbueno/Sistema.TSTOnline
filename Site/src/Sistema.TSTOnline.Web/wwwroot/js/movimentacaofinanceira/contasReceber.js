@@ -3,6 +3,7 @@ var columns = [
     { "data": "idContasReceber" },
     { "data": "razaoSocial" },
     { "data": "numeroTitulo" },
+    { "data": "seq" },
     {
         "data": "dataVencimento",
         "render": function (data, type, row) {

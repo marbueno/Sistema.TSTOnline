@@ -19,6 +19,9 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public string UF { get; set; }
+        public string NomeContato { get; set; }
+        public string Telefone { get; set; }
+        public string Celular { get; set; }
 
         #endregion Properties
 

@@ -98,6 +98,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDVendedor = pedidoVenda.IDVendedor,
                     VendedorNome = _vendedorRepository.GetByID(pedidoVenda.IDVendedor).Nome,
                     IDEmpresa = pedidoVenda.IDEmpresa,
+                    TipoPagamento = pedidoVenda.TipoPagamento,
+                    QtdeParcelas = pedidoVenda.QtdeParcelas,
                     Observacao = pedidoVenda.Observacao,
                     RazaoSocial = _empresaRepository.GetByID(pedidoVenda.IDEmpresa).RazaoSocial,
                 };
@@ -123,6 +125,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDVendedor = c.IDVendedor,
                     VendedorNome = _vendedorRepository.GetByID(c.IDVendedor).Nome,
                     IDEmpresa = c.IDEmpresa,
+                    TipoPagamento = c.TipoPagamento,
+                    QtdeParcelas = c.QtdeParcelas,
                     Observacao = c.Observacao,
                     RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                     ValorTotal = Utils.Helper.FormatReal(GetPedidoVendaItens(c.IDPedido).Sum(obj => obj.ValorTotal), true),
@@ -158,6 +162,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     pedidoVendaVM.IDUsuario,
                     pedidoVendaVM.IDVendedor,
                     pedidoVendaVM.IDEmpresa,
+                    pedidoVendaVM.TipoPagamento,
+                    pedidoVendaVM.QtdeParcelas,
                     pedidoVendaVM.Observacao,
                     listPedidoVendaItens.ToList()
                 );

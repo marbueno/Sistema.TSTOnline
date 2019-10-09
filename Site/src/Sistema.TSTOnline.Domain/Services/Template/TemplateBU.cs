@@ -140,6 +140,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
         {
             PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
             var listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == IDPedidoVenda);
+            var empresa = _empresaRepository.GetByID(pedidoVendaEN.IDEmpresa);
+            var vendedor = _vendedorRepository.GetByID(pedidoVendaEN.IDVendedor);
 
             PedidoVendaTemplate osTemplate = new PedidoVendaTemplate()
             {
@@ -149,8 +151,21 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 PedidoVendaData = pedidoVendaEN.DataVenda.ToString("dd/MM/yyyy"),
                 PedidoVendaStatus = pedidoVendaEN.Status.ToDescriptionEmum(),
                 PedidoVendaObservacao = pedidoVendaEN.Observacao,
-                ClienteRazaoSocial = _empresaRepository.GetByID(pedidoVendaEN.IDEmpresa).RazaoSocial,
-                VendedorNome = _vendedorRepository.GetByID(pedidoVendaEN.IDVendedor).Nome,
+                ClienteCNPJ = empresa.NrMatricula,
+                ClienteRazaoSocial = empresa.RazaoSocial,
+                ClienteEmail = empresa.Email,
+                ClienteCEP = Sistema.Utils.Helper.FormatarCEP(empresa.Cep),
+                ClienteEndereco = empresa.Endereco,
+                ClienteComplemento = empresa.Complemento,
+                ClienteNumero = empresa.Numero,
+                ClienteBairro = empresa.Bairro,
+                ClienteCidade = empresa.Cidade,
+                ClienteContato = empresa.NomeContato,
+                ClienteTelefone = empresa.Telefone,
+                ClienteCelular = empresa.Celular,
+                VendedorNome = vendedor.Nome,
+                VendedorTelefone = vendedor.Telefone,
+                VendedorWhatsApp = vendedor.WhatsApp,
                 DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
             };
 

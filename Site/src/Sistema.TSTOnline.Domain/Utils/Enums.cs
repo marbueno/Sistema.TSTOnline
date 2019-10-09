@@ -94,4 +94,31 @@ namespace Sistema.TSTOnline.Domain.Utils
         [Description("CONTAS A RECEBER")]
         ContasReceber = 2
     }
+
+    public enum TipoPagamentoEnum : int
+    {
+        [Description("BOLETO")]
+        Boleto = 1,
+
+        [Description("CARTÃO DE CRÉDITO")]
+        CartaoCredito = 2,
+    }
+
+    public enum QtdeParcelasEnum : int
+    {
+        [Description("À VISTA")]
+        AVista = 1,
+
+        [Description("2x")]
+        DuasVezes = 2,
+
+        [Description("3x")]
+        TresVezes = 3,
+
+        [Description("4x")]
+        QuatroVezes = 4,
+
+        [Description("5x")]
+        CincoVezes = 5,
+    }
 }

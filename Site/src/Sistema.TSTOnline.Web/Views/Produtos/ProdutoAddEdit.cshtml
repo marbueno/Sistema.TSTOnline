@@ -45,8 +45,8 @@
                     </div>
 
                     @*<div class="col-sm-3 col-lg-4">
-                        @Html.TextBoxFor(m => m.SKU, new { @class = "form-control", @maxlength = "45", @placeholder = "SKU", @required = "true" })
-                    </div>*@
+                            @Html.TextBoxFor(m => m.SKU, new { @class = "form-control", @maxlength = "45", @placeholder = "SKU", @required = "true" })
+                        </div>*@
 
                     <div class="col-sm-10 col-lg-10">
                         @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @maxlength = "50", @placeholder = "Nome", @required = "true" })
@@ -78,6 +78,10 @@
                                 {
                                     <option selected value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
                                 }
+                                else
+                                {
+                                    <option value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
+                                }
                             }
                         </select>
                     </div>
@@ -99,6 +103,10 @@
                                 {
                                     <option selected value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
                                 }
+                                else
+                                {
+                                    <option value="@itemCategoria.IDCategoria">@itemCategoria.Descricao</option>
+                                }
                             }
                         </select>
                     </div>
@@ -119,6 +127,10 @@
                                 else if (Model.IDCategoria == itemSubCategoria.IDSubCategoria)
                                 {
                                     <option selected value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
+                                }
+                                else
+                                {
+                                    <option value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
                                 }
                             }
                         </select>
