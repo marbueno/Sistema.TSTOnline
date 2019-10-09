@@ -4,7 +4,7 @@ namespace Sistema.TSTOnline.Web.Models.Produtos
 {
     public class ProdutoVM
     {
-        [JsonProperty(PropertyName = "codigo")]
+        [JsonProperty(PropertyName = "idProduto")]
         public int IDProduto { get; set; }
 
         [JsonProperty(PropertyName = "sku")]

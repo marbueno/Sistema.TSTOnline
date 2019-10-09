@@ -136,7 +136,7 @@ $("#slcProduto").change(function () {
     var idProduto = $(this).val();
 
     listProdutos.forEach(item => {
-        if (item.codigo.toString() === idProduto) {
+        if (item.idProduto.toString() === idProduto) {
             var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
             debugger;
             $("#txtQtde").val("1");

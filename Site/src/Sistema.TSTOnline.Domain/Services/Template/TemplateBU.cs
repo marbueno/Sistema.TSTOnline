@@ -7,6 +7,7 @@ using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Templates.OrdemServico;
 using Sistema.TSTOnline.Domain.Utils;
 using System;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Domain.Services.Template
 {
@@ -142,6 +143,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             var listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == IDPedidoVenda);
             var empresa = _empresaRepository.GetByID(pedidoVendaEN.IDEmpresa);
             var vendedor = _vendedorRepository.GetByID(pedidoVendaEN.IDVendedor);
+            decimal valorTotalPedido = listPedidoVendaItem.Sum(obj => obj.ValorTotal);
+            decimal valorParcela = valorTotalPedido / (int)pedidoVendaEN.QtdeParcelas;
 
             PedidoVendaTemplate osTemplate = new PedidoVendaTemplate()
             {
@@ -166,6 +169,9 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 VendedorNome = vendedor.Nome,
                 VendedorTelefone = vendedor.Telefone,
                 VendedorWhatsApp = vendedor.WhatsApp,
+                PedidoFormaPagamento = pedidoVendaEN.TipoPagamento.ToDescriptionEmum(),
+                PedidoQtdeParcelas = pedidoVendaEN.QtdeParcelas.ToDescriptionEmum(),
+                PedidoValorParcela = Sistema.Utils.Helper.FormatReal(valorParcela, true),
                 DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
             };
 
@@ -189,6 +195,19 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 HTMLItens += $"      <td>{Sistema.Utils.Helper.FormatReal(itemPedido.ValorTotal, true)}</td>";
                 HTMLItens += $"  </tr>";
             }
+
+            HTMLItens += $"      <tr>";
+            HTMLItens += $"          <td colspan=\"5\" style=\"text-align:left; padding-left:290px;\"><hr style=\"border: dashed 1px #6a6d73; width: 260px;\" /></td>";
+            HTMLItens += $"      </tr>";
+
+            HTMLItens += $"      <tr>";
+            HTMLItens += $"          <td>&nbsp;</td>";
+            HTMLItens += $"          <td>&nbsp;</td>";
+            HTMLItens += $"          <td>&nbsp;</td>";
+            HTMLItens += $"          <td style=\"text-align:center;\"><strong>Total do Pedido</strong></td>";
+            HTMLItens += $"          <td><strong>{Sistema.Utils.Helper.FormatReal(valorTotalPedido, true)}</strong></td>";
+            HTMLItens += $"      </tr>";
+
             HTMLItens += "  </table>";
 
             osTemplate.PedidoVendaItens = HTMLItens;

@@ -120,5 +120,26 @@ namespace Sistema.TSTOnline.Domain.Utils
 
         [Description("5x")]
         CincoVezes = 5,
+
+        [Description("6x")]
+        SeisVezes = 6,
+
+        [Description("7x")]
+        SeteVezes = 7,
+
+        [Description("8x")]
+        OitoVezes = 8,
+
+        [Description("9x")]
+        NoveVezes = 9,
+
+        [Description("10x")]
+        DezVezes = 10,
+
+        [Description("11x")]
+        OnzeVezes = 11,
+
+        [Description("12x")]
+        DozeVezes = 12,
     }
 }

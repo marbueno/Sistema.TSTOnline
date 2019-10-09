@@ -2,6 +2,7 @@
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.Cadastros
 @using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Utils
 
 @inject IRepository<FornecedorEN> _fornecedorRepository
 @inject IRepository<CategoriaEN> _categoriaRepository
@@ -26,8 +27,7 @@
     var listSubCategorias = _subCategoriaRepository.All();
 }
 
-<form id="frmProduto" asp-action="ProdutoCreateOrUpdate" asp-controller="Produtos"
-      data-ajax="true" data-ajax-method="POST" data-ajax-failure="formOnFail" data-ajax-success="window.location='/produtos/produto'">
+<form id="frmProduto">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -74,7 +74,7 @@
                                 {
                                     <option select value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
                                 }
-                                else if (Model.IDCategoria == itemFornecedor.IDFornecedor)
+                                else if (Model.IDFornecedor == itemFornecedor.IDFornecedor)
                                 {
                                     <option selected value="@itemFornecedor.IDFornecedor">@itemFornecedor.NomeFantasia</option>
                                 }
@@ -124,7 +124,7 @@
                                 {
                                     <option select value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
                                 }
-                                else if (Model.IDCategoria == itemSubCategoria.IDSubCategoria)
+                                else if (Model.IDSubCategoria == itemSubCategoria.IDSubCategoria)
                                 {
                                     <option selected value="@itemSubCategoria.IDSubCategoria">@itemSubCategoria.Descricao</option>
                                 }
@@ -163,6 +163,9 @@
 
 
 @section Scripts{
+
+    <script src="~/js/produtos/produto.js?v=@Helper.GetVersion()"></script>
+
     <script>
         $(function () {
             $('#txtPreco').mask("#.##0,00", { reverse: true });

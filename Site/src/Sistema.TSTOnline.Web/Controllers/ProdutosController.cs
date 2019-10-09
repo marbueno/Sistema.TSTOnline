@@ -262,7 +262,7 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpPost]
         [Route("produtoCreateOrUpdate")]
-        public IActionResult ProdutoCreateOrUpdate(ProdutoVM produtoVM)
+        public IActionResult ProdutoCreateOrUpdate([FromBody] ProdutoVM produtoVM)
         {
             _produtoBU.Save
                 (

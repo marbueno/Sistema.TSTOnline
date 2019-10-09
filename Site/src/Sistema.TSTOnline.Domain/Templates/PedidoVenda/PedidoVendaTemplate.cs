@@ -23,6 +23,9 @@
         public string VendedorNome { get; set; }
         public string VendedorTelefone { get; set; }
         public string VendedorWhatsApp { get; set; }
+        public string PedidoFormaPagamento { get; set; }
+        public string PedidoQtdeParcelas { get; set; }
+        public string PedidoValorParcela { get; set; }
         public string PedidoVendaItens { get; set; }
         public string DataInclusaoPorExtenso { get; set; }
     }
