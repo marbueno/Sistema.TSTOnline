@@ -89,12 +89,37 @@
                         @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
                         <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
                     </div>
+
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">DADOS DO RESPONSÁVEL</span></h5>
+                    </div>
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
-                    <div class="col-sm-12 col-lg-12">
-                        @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", @placeholder = "Observações do Pedido", @required = "true" })
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.ResponsavelEmpresaNome, new { id = "ResponsavelEmpresaNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome do Responsável", @readonly = "readonly" })
                     </div>
+
+                    <div class="col-sm-3 col-lg-2">
+                        @Html.TextBoxFor(m => m.ResponsavelEmpresaCPF, new { id = "ResponsavelEmpresaCPF", @class = "form-control", @maxlength = "150", @placeholder = "CPF do Responsável", @readonly = "readonly" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-2">
+                        @Html.TextBoxFor(m => m.ResponsavelEmpresaTelefone, new { id = "ResponsavelEmpresaTelefone", @class = "form-control", @maxlength = "150", @placeholder = "Telefone do Responsável", @readonly = "readonly" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-2">
+                        @Html.TextBoxFor(m => m.ResponsavelEmpresaNIT, new { id = "ResponsavelEmpresaNIT", @class = "form-control", @maxlength = "150", @placeholder = "NIT do Responsável", @readonly = "readonly" })
+                    </div>
+
+                    <div class="col-sm-3 col-lg-3">
+                        @Html.TextBoxFor(m => m.ResponsavelEmpresaEmail, new { id = "ResponsavelEmpresaEmail", @class = "form-control", @maxlength = "150", @placeholder = "Email do Responsável", @readonly = "readonly" })
+                    </div>
+
                 </div>
 
                 <div class="row" style="margin-top:1%;">
@@ -102,7 +127,7 @@
                         <h5><span class="badge badge-secondary w-100 text-left">DADOS DO PAGAMENTO</span></h5>
                     </div>
                 </div>
-                
+
                 <div class="row" style="margin-top:1%;">
                     <div class="col-sm-6 col-lg-6">
                         <select name="tipoPagamento" id="tipoPagamento" class="form-control" required="">
@@ -148,6 +173,18 @@
                                 }
                             }
                         </select>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">OBSERVAÇÕES DO PEDIDO</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextAreaFor(m => m.Observacao, new { @class = "form-control", @placeholder = "Observações do Pedido", @required = "true" })
                     </div>
                 </div>
 
@@ -199,6 +236,19 @@
                                     <th id="valor">Valor Unitário</th>
                                     <th id="valorTotal">Valor Total</th>
                                     <th style="width:15px;"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <br />
+                        <table style="border: none; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width:75%; text-align:right; padding-right: 50px;"><strong>Total Pedido</strong></th>
+                                    <th><span id="valorTotalPedido">R$ 0,00</span></th>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%; text-align:right; padding-right: 50px;"><strong>Parcelamento</strong></th>
+                                    <th><span id="opcaoParcelamento">1x | R$ 0,00</span></th>
                                 </tr>
                             </thead>
                         </table>

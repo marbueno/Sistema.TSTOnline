@@ -15,6 +15,8 @@ function carregarItens() {
                 var valorTotalAux = accounting.formatMoney(item.valorTotal, "", 2, ".", ",");
                 addToTable(item.idProduto, item.produtoNome, item.qtde, valorAux, valorTotalAux);
             });
+
+            calcularTotalPedido();
         }
     });
 }
@@ -42,6 +44,8 @@ function excluirItem(row, idProduto) {
         }
         index++;
     });
+
+    calcularTotalPedido();
 }
 
 function validouCampos() {
@@ -86,6 +90,8 @@ function adicionarItem() {
                 );
 
                 addToTable(idProduto, produtoNome, qtde, valor, valorTotalAux);
+
+                calcularTotalPedido();
             }
         }
     }
@@ -116,4 +122,30 @@ function addToTable(idProduto, produtoNome, qtde, valor, valorTotal) {
     catch (ex) {
         console.log(ex.message);
     }
+}
+
+$('#qtdeParcelas').on('change', function () {
+    calcularTotalPedido();
+});
+
+function calcularTotalPedido() {
+
+    var valorTotal = 0;
+
+    listPedidosVendaItens.forEach(item => {
+        valorTotal += item.valor * item.qtde;
+    });
+
+    var valorFormatado = "R$ " + accounting.formatMoney(valorTotal, "", 2, ".", ",");
+
+    $("#valorTotalPedido").text(valorFormatado);
+
+    var qtdeParcelas = parseInt($("#qtdeParcelas").val());
+    var opcaoParcelamento = $("#qtdeParcelas option:selected").text();
+
+    var valorParcela = valorTotal / qtdeParcelas;
+    var valorParcelaFormatado = "R$ " + accounting.formatMoney(valorParcela, "", 2, ".", ",");
+
+    $("#opcaoParcelamento").text(opcaoParcelamento + " | " + valorParcelaFormatado);
+
 }

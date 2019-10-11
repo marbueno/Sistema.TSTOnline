@@ -43,6 +43,21 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         [JsonProperty(PropertyName = "razaoSocial")]
         public string RazaoSocial { get; set; }
 
+        [JsonProperty(PropertyName = "responsavelEmpresaNome")]
+        public string ResponsavelEmpresaNome { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaCPF")]
+        public string ResponsavelEmpresaCPF { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaTelefone")]
+        public string ResponsavelEmpresaTelefone { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaNIT")]
+        public string ResponsavelEmpresaNIT { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaEmail")]
+        public string ResponsavelEmpresaEmail { get; set; }
+
         [JsonProperty(PropertyName = "observacao")]
         public string Observacao { get; set; }
 

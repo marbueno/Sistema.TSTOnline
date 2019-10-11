@@ -60,7 +60,12 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                 {
                     IDEmpresa = c.IDEmpresa,
                     RazaoSocial = c.RazaoSocial,
-                    NomeFantasia = c.NomeFantasia
+                    NomeFantasia = c.NomeFantasia,
+                    NomeRespEmpresa = c.NomeRespEmpresa,
+                    CPFResponsavel = c.CPFResponsavel,
+                    TelResponsavel = c.TelResponsavel,
+                    NitResponsavel = c.NitResponsavel,
+                    EmailResponsavel = c.EmailResponsavel
                 });
 
             return Json(empresaVM);

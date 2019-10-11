@@ -89,6 +89,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             {
                 var pedidoVenda = _pedidoVendaRepository.GetByID(idPedido ?? 0);
 
+                var empresa = _empresaRepository.GetByID(pedidoVenda.IDEmpresa);
+
                 var pedidoVendaVM = new PedidoVendaVM()
                 {
                     IDPedido = pedidoVenda.IDPedido,
@@ -101,7 +103,12 @@ namespace Sistema.TSTOnline.Web.Controllers
                     TipoPagamento = pedidoVenda.TipoPagamento,
                     QtdeParcelas = pedidoVenda.QtdeParcelas,
                     Observacao = pedidoVenda.Observacao,
-                    RazaoSocial = _empresaRepository.GetByID(pedidoVenda.IDEmpresa).RazaoSocial,
+                    RazaoSocial = empresa.RazaoSocial,
+                    ResponsavelEmpresaNome = empresa.NomeRespEmpresa,
+                    ResponsavelEmpresaCPF = empresa.CPFResponsavel,
+                    ResponsavelEmpresaTelefone = empresa.TelResponsavel,
+                    ResponsavelEmpresaNIT = empresa.NitResponsavel,
+                    ResponsavelEmpresaEmail = empresa.EmailResponsavel,
                 };
 
                 return View(pedidoVendaVM);

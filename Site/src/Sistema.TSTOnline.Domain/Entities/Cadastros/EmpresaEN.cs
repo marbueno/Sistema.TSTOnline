@@ -22,6 +22,11 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         public string NomeContato { get; set; }
         public string Telefone { get; set; }
         public string Celular { get; set; }
+        public string NomeRespEmpresa { get; set; }
+        public string CPFResponsavel { get; set; }
+        public string TelResponsavel { get; set; }
+        public string NitResponsavel { get; set; }
+        public string EmailResponsavel { get; set; }
 
         #endregion Properties
 
