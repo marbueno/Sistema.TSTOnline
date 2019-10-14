@@ -198,6 +198,31 @@
 
 				<tr>
 					<td>
+						<div class="header">Dados do Responsável</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td style="font-weight: bold; width: 40%"><span>CPF: </span></td>
+								<td>${ResponsavelCPF}</td>
+							</tr>
+							<tr>
+								<td style="font-weight: bold; width: 40%"><span>Nome: </span></td>
+								<td>${ResponsavelNome}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td>
 						<div class="header">Dados do Vendedor</div>
 					</td>
 				</tr>
@@ -288,7 +313,7 @@
 									${VendedorNome}
 								</td>
 								<td style="text-align: center;">_____________________________________________ <br />
-									${ClienteRazaoSocial}
+									${ResponsavelNome} - ${ResponsavelCPF}
 								</td>
 							</tr>
 						</table>

@@ -166,6 +166,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 ClienteContato = empresa.NomeContato,
                 ClienteTelefone = empresa.Telefone,
                 ClienteCelular = empresa.Celular,
+                ResponsavelCPF = empresa.CPFResponsavel,
+                ResponsavelNome = empresa.NomeRespEmpresa,
                 VendedorNome = vendedor.Nome,
                 VendedorTelefone = vendedor.Telefone,
                 VendedorWhatsApp = vendedor.WhatsApp,

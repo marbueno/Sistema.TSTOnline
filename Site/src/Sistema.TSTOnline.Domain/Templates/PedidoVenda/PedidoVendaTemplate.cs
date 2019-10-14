@@ -20,6 +20,8 @@
         public string ClienteContato { get; set; }
         public string ClienteTelefone { get; set; }
         public string ClienteCelular { get; set; }
+        public string ResponsavelCPF { get; set; }
+        public string ResponsavelNome { get; set; }
         public string VendedorNome { get; set; }
         public string VendedorTelefone { get; set; }
         public string VendedorWhatsApp { get; set; }
