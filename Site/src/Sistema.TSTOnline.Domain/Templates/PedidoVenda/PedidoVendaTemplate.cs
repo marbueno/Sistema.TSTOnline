@@ -23,6 +23,7 @@
         public string ResponsavelCPF { get; set; }
         public string ResponsavelNome { get; set; }
         public string VendedorNome { get; set; }
+        public string VendedorEmail { get; set; }
         public string VendedorTelefone { get; set; }
         public string VendedorWhatsApp { get; set; }
         public string PedidoFormaPagamento { get; set; }

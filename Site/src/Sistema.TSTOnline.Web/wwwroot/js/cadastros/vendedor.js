@@ -13,6 +13,7 @@ var columns = [
             return dateToPT(data);
         }
     },
+    { "data": "email" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {

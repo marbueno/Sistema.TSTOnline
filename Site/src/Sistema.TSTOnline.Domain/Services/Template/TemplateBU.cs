@@ -1,9 +1,11 @@
 ﻿using Sistema.Documentos.Interface;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Templates.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Templates.OrdemServico;
 using Sistema.TSTOnline.Domain.Utils;
 using System;
@@ -13,6 +15,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 {
     public class TemplateBU
     {
+        #region Variables
+
         private readonly IRepository<OrdemServicoEN> _repositoryOrdemServico;
         private readonly IRepository<OrdemServicoItemEN> _repositoryOrdemServicoItem;
 
@@ -31,7 +35,15 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
+        private readonly IRepository<FluxoCaixaEN> _fluxoCaixaRepository;
+
+        private readonly IRepository<ContasReceberEN> _contasReceberRepository;
+
         private readonly IDocumento _documentoService;
+
+        #endregion Variables
+
+        #region Constructor
 
         public TemplateBU
             (
@@ -52,6 +64,10 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 IRepository<TipoServicoEN> tipoServicoRepository,
 
                 IRepository<ProdutoEN> produtoRepository,
+
+                IRepository<FluxoCaixaEN> fluxoCaixaRepository,
+
+                IRepository<ContasReceberEN> contasReceberRepository,
 
                 IDocumento documentoService
             )
@@ -74,9 +90,16 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             _produtoRepository = produtoRepository;
 
+            _fluxoCaixaRepository = fluxoCaixaRepository;
+
+            _contasReceberRepository = contasReceberRepository;
+
             _documentoService = documentoService;
         }
 
+        #endregion Constructor
+
+        #region Ordem de Serviço
         public string OrdemServicoImprimir(int IDOrdemServico, string CaminhoTemplate)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
@@ -137,16 +160,20 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             return documentoBase64;
         }
 
+        #endregion Ordem de Serviço
+
+        #region Pedido de Venda
+
         public string PedidoVendaImprimir(int IDPedidoVenda, string CaminhoTemplate)
         {
             PedidoVendaEN pedidoVendaEN = _repositoryPedidoVenda.GetByID(IDPedidoVenda);
+            EmpresaEN empresa = _empresaRepository.GetByID(pedidoVendaEN.IDEmpresa);
+            VendedorEN vendedor = _vendedorRepository.GetByID(pedidoVendaEN.IDVendedor);
             var listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == IDPedidoVenda);
-            var empresa = _empresaRepository.GetByID(pedidoVendaEN.IDEmpresa);
-            var vendedor = _vendedorRepository.GetByID(pedidoVendaEN.IDVendedor);
             decimal valorTotalPedido = listPedidoVendaItem.Sum(obj => obj.ValorTotal);
             decimal valorParcela = valorTotalPedido / (int)pedidoVendaEN.QtdeParcelas;
 
-            PedidoVendaTemplate osTemplate = new PedidoVendaTemplate()
+            PedidoVendaTemplate pvTemplate = new PedidoVendaTemplate()
             {
                 PedidoVendaNumero = pedidoVendaEN.IDPedido.ToString("000000"),
                 DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
@@ -169,6 +196,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 ResponsavelCPF = empresa.CPFResponsavel,
                 ResponsavelNome = empresa.NomeRespEmpresa,
                 VendedorNome = vendedor.Nome,
+                VendedorEmail = vendedor.Email,
                 VendedorTelefone = vendedor.Telefone,
                 VendedorWhatsApp = vendedor.WhatsApp,
                 PedidoFormaPagamento = pedidoVendaEN.TipoPagamento.ToDescriptionEmum(),
@@ -212,14 +240,92 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             HTMLItens += "  </table>";
 
-            osTemplate.PedidoVendaItens = HTMLItens;
+            pvTemplate.PedidoVendaItens = HTMLItens;
 
             string caminhoBaseArquivo = CaminhoTemplate;
             string caminhoArquivoHTML = $"{CaminhoTemplate}PedidoVenda.html";
 
-            var documentoBase64 = _documentoService.GerarDocumento<PedidoVendaTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, osTemplate);
+            var documentoBase64 = _documentoService.GerarDocumento<PedidoVendaTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvTemplate);
 
             return documentoBase64;
         }
+
+        #endregion Pedido de Venda
+
+        #region Fluxo de Caixa
+        public string FluxoCaixaImprimir(int IDFluxoCaixa, string CaminhoTemplate)
+        {
+            FluxoCaixaEN fluxoCaixaEN = _fluxoCaixaRepository.GetByID(IDFluxoCaixa);
+            EmpresaEN empresa = null;
+
+            if (fluxoCaixaEN.Origem == OrigemFluxoCaixaEnum.ContasReceber)
+            {
+                ContasReceberEN contasReceberEN = _contasReceberRepository.GetByID(fluxoCaixaEN.Chave);
+                empresa = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
+            }
+
+            string clienteCNPJ = string.Empty;
+            string clienteRazaoSocial = string.Empty;
+            string clienteEmail = string.Empty;
+            string clienteCEP = string.Empty;
+            string clienteEndereco = string.Empty;
+            string clienteComplemento = string.Empty;
+            string clienteNumero = string.Empty;
+            string clienteBairro = string.Empty;
+            string clienteCidade = string.Empty;
+            string clienteContato = string.Empty;
+            string clienteTelefone = string.Empty;
+            string clienteCelular = string.Empty;
+
+            if (empresa != null)
+            {
+                clienteCNPJ = empresa.NrMatricula;
+                clienteRazaoSocial = empresa.RazaoSocial;
+                clienteEmail = empresa.Email;
+                clienteCEP = Sistema.Utils.Helper.FormatarCEP(empresa.Cep);
+                clienteEndereco = empresa.Endereco;
+                clienteComplemento = empresa.Complemento;
+                clienteNumero = empresa.Numero;
+                clienteBairro = empresa.Bairro;
+                clienteCidade = empresa.Cidade;
+                clienteContato = empresa.NomeContato;
+                clienteTelefone = empresa.Telefone;
+                clienteCelular = empresa.Celular;
+            }
+
+            FluxoCaixaTemplate fcTemplate = new FluxoCaixaTemplate()
+            {
+                FluxoCaixaCodigo = fluxoCaixaEN.IDFluxoCaixa.ToString("000000"),
+                DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
+                FluxoCaixaDataLancamento = fluxoCaixaEN.DataLancamento.ToString("dd/MM/yyyy"),
+                FluxoCaixaTipoLancamento = fluxoCaixaEN.TipoLancamento.ToDescriptionEmum(),
+                FluxoCaixaOrigem = fluxoCaixaEN.Origem.ToDescriptionEmum(),
+                FluxoCaixaObservacao = fluxoCaixaEN.Observacao,
+                FluxoCaixaValor = Sistema.Utils.Helper.FormatReal(fluxoCaixaEN.Valor, true),
+                ClienteCNPJ = clienteCNPJ,
+                ClienteRazaoSocial = clienteRazaoSocial,
+                ClienteEmail = clienteEmail,
+                ClienteCEP = clienteCEP,
+                ClienteEndereco = clienteEndereco,
+                ClienteComplemento = clienteComplemento,
+                ClienteNumero = clienteNumero,
+                ClienteBairro = clienteBairro,
+                ClienteCidade = clienteCidade,
+                ClienteContato = clienteContato,
+                ClienteTelefone = clienteTelefone,
+                ClienteCelular = clienteCelular,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
+            };
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}FluxoCaixa.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<FluxoCaixaTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, fcTemplate);
+
+            return documentoBase64;
+        }
+
+        #endregion Fluxo de Caixa
     }
 }

@@ -8,7 +8,10 @@ using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Services.Template;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -29,6 +32,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IConfiguration _configuration;
 
+        private readonly TemplateBU _templateBU;
+
         #endregion Variables
 
         #region Constructor
@@ -39,7 +44,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<EmpresaEN> empresaRepository,
                 IRepository<FluxoCaixaEN> fluxoCaixaRepository, FluxoCaixaBU fluxoCaixaBU,
                 FluxoBU fluxoBU,
-                IConfiguration configuration
+                IConfiguration configuration,
+                TemplateBU templateBU
             )
         {
             _contasReceberRepository = contasReceberRepository;
@@ -53,6 +59,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _fluxoBU = fluxoBU;
 
             _configuration = configuration;
+
+            _templateBU = templateBU;
         }
 
         #endregion Constructor
@@ -204,19 +212,41 @@ namespace Sistema.TSTOnline.Web.Controllers
         public JsonResult ListFluxoCaixa()
         {
             var listFluxoCaixa = _fluxoCaixaRepository.All();
-            var fluxoCaixaVM = listFluxoCaixa.Select(
-                c => new FluxoCaixaVM
-                {
-                    IDFluxoCaixa = c.IDFluxoCaixa,
-                    DataLancamento = c.DataLancamento,
-                    TipoLancamento = c.TipoLancamento,
-                    Origem = c.Origem,
-                    Chave = c.Chave,
-                    Valor = c.Valor,
-                    Observacao = c.Observacao
-                });
+            var listFluxoCaixaVM = new List<FluxoCaixaVM>();
 
-            return Json(fluxoCaixaVM.ToList());
+            foreach (var itemCaixa in listFluxoCaixa)
+            {
+                FluxoCaixaVM fluxoCaixaVM = new FluxoCaixaVM();
+
+                fluxoCaixaVM.IDFluxoCaixa = itemCaixa.IDFluxoCaixa;
+                fluxoCaixaVM.DataLancamento = itemCaixa.DataLancamento;
+                fluxoCaixaVM.TipoLancamento = itemCaixa.TipoLancamento;
+                fluxoCaixaVM.Origem = itemCaixa.Origem;
+                fluxoCaixaVM.Chave = itemCaixa.Chave;
+                fluxoCaixaVM.Valor = itemCaixa.Valor;
+                fluxoCaixaVM.Observacao = itemCaixa.Observacao;
+                fluxoCaixaVM.RazaoSocial = string.Empty;
+
+                if (itemCaixa.Origem == OrigemFluxoCaixaEnum.ContasReceber)
+                {
+                    var contasReceberEN = _contasReceberRepository.GetByID(itemCaixa.Chave);
+
+                    if (contasReceberEN != null)
+                    {
+                        var empresaEN = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
+
+                        if (empresaEN != null)
+                        {
+                            fluxoCaixaVM.RazaoSocial = empresaEN.RazaoSocial;
+                        }
+                    }
+                }
+
+                listFluxoCaixaVM.Add(fluxoCaixaVM);
+
+            }
+
+            return Json(listFluxoCaixaVM.ToList());
         }
 
         [HttpPost]
@@ -235,6 +265,27 @@ namespace Sistema.TSTOnline.Web.Controllers
                );
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("fluxoCaixaImprimir/{idFluxoCaixa}")]
+        public IActionResult FluxoCaixaImprimir(int idFluxoCaixa)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.FluxoCaixaImprimir(idFluxoCaixa, caminhoTemplate);
+            var nomeArquivo = $"FluxoVenda_{idFluxoCaixa.ToString("00000")}.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
         }
 
         #endregion Fluxo de Caixa

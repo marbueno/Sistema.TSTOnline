@@ -20,6 +20,9 @@ namespace Sistema.TSTOnline.Web.Models.Cadastros
         [JsonProperty(PropertyName = "dataNascimento")]
         public DateTime DataNascimento { get; set; }
 
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
+
         [JsonProperty(PropertyName = "cep")]
         public string CEP { get; set; }
 

@@ -9,6 +9,7 @@ var columns = [
     },
     { "data": "tipoLancamentoDescricao" },
     { "data": "origemDescricao" },
+    { "data": "razaoSocial" },
     {
         "mDataProp": "valor",
         mRender: function (data, type, row) {
@@ -29,11 +30,29 @@ var columns = [
 
             return editButton;
         }
-    }
+    },
+    {
+        "mDataProp": "ImprimirFluxo",
+        mRender: function (data, type, row) {
+
+            return "<a class='btn btn-primary btn-sm' href='#' onclick='imprimirFluxo(" + row.idFluxoCaixa + ")' title='Clique para Imprimir'>Imprimir</a>";
+        }
+    },
 ];
 
 function editRegister(id) {
     window.location = '/movimentacaofinanceira/fluxoCaixaAddEdit/' + id;
+}
+
+function imprimirFluxo(id) {
+
+    try {
+        window.open('/movimentacaofinanceira/fluxoCaixaImprimir/' + id, '_blank');
+    }
+    catch (ex) {
+        console.log(error);
+        showMessage("error", error);
+    }
 }
 
 $(document).ready(function () {

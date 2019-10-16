@@ -27,6 +27,9 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         [JsonProperty(PropertyName = "chave")]
         public int Chave { get; set; }
 
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty(PropertyName = "valor")]
         public decimal Valor { get; set; }
 

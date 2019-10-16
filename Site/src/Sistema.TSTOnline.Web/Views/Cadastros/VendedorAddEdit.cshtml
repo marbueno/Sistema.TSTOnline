@@ -55,7 +55,15 @@
 
                 </div>
 
-                <div class="row" style="margin-top:1%;">
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-12 col-lg-12">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @maxlength = "200", @placeholder = "E-mail", @required = "true" })
+                    </div>
+
+                </div>
+
+                @*<div class="row" style="margin-top:1%;">
                     <div class="col-12">
                         <h5><span class="badge badge-secondary w-100 text-left">DADOS DE ENDEREÇO</span></h5>
                     </div>
@@ -114,7 +122,7 @@
                             }
                         </select>
                     </div>
-                </div>
+                </div>*@
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-12">

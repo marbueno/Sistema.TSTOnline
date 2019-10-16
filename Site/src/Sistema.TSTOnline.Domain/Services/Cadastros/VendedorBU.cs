@@ -15,19 +15,19 @@ namespace Sistema.TSTOnline.Domain.Services.Cadastros
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDVendedor, string Nome, string RG, string CPF, DateTime DataNascimento, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
+        public void Save(int IDVendedor, string Nome, string RG, string CPF, DateTime DataNascimento, string Email, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
             VendedorEN vendedorEN = _vendedorRepository.GetByID(IDVendedor);
 
             if (vendedorEN != null)
             {
-                vendedorEN.UpdateProperties(Nome, RG, CPF, DataNascimento, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
+                vendedorEN.UpdateProperties(Nome, RG, CPF, DataNascimento, Email, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _vendedorRepository.Edit(vendedorEN);
             }
             else
             {
-                vendedorEN = new VendedorEN(Nome, RG, CPF, DataNascimento, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
+                vendedorEN = new VendedorEN(Nome, RG, CPF, DataNascimento, Email, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
 
                 _vendedorRepository.Save(vendedorEN);
             }
