@@ -233,6 +233,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
                     if (contasReceberEN != null)
                     {
+                        if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda)
+                            fluxoCaixaVM.PedidoVendaNumero = contasReceberEN.Chave.ToString("00000");
+
                         var empresaEN = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
 
                         if (empresaEN != null)
