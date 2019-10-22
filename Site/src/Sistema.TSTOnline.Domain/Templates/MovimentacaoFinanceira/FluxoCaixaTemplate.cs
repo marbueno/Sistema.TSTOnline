@@ -8,6 +8,7 @@
         public string FluxoCaixaDataLancamento { get; set; }
         public string FluxoCaixaTipoLancamento { get; set; }
         public string FluxoCaixaOrigem { get; set; }
+        public string PedidoVendaNumero { get; set; }
         public string FluxoCaixaValor { get; set; }
         public string FluxoCaixaObservacao { get; set; }
         public string ClienteCNPJ { get; set; }

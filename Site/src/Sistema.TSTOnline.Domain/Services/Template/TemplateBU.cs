@@ -258,12 +258,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             FluxoCaixaEN fluxoCaixaEN = _fluxoCaixaRepository.GetByID(IDFluxoCaixa);
             EmpresaEN empresa = null;
 
-            if (fluxoCaixaEN.Origem == OrigemFluxoCaixaEnum.ContasReceber)
-            {
-                ContasReceberEN contasReceberEN = _contasReceberRepository.GetByID(fluxoCaixaEN.Chave);
-                empresa = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
-            }
-
+            string numeroPedidoVenda = string.Empty;
             string clienteCNPJ = string.Empty;
             string clienteRazaoSocial = string.Empty;
             string clienteEmail = string.Empty;
@@ -276,6 +271,17 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             string clienteContato = string.Empty;
             string clienteTelefone = string.Empty;
             string clienteCelular = string.Empty;
+
+            if (fluxoCaixaEN.Origem == OrigemFluxoCaixaEnum.ContasReceber)
+            {
+                ContasReceberEN contasReceberEN = _contasReceberRepository.GetByID(fluxoCaixaEN.Chave);
+                empresa = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
+
+                if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda)
+                {
+                    numeroPedidoVenda = contasReceberEN.Chave.ToString("00000");
+                }
+            }
 
             if (empresa != null)
             {
@@ -301,6 +307,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 FluxoCaixaDataLancamento = fluxoCaixaEN.DataLancamento.ToString("dd/MM/yyyy"),
                 FluxoCaixaTipoLancamento = fluxoCaixaEN.TipoLancamento.ToDescriptionEmum(),
                 FluxoCaixaOrigem = fluxoCaixaEN.Origem.ToDescriptionEmum(),
+                PedidoVendaNumero = numeroPedidoVenda,
                 FluxoCaixaObservacao = fluxoCaixaEN.Observacao,
                 FluxoCaixaValor = Sistema.Utils.Helper.FormatReal(fluxoCaixaEN.Valor, true),
                 ClienteCNPJ = clienteCNPJ,

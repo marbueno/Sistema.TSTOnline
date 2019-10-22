@@ -16,10 +16,12 @@ $("#txtBusca").on('keyup', function () {
         var newRow = $("<tr>");
         var preco = "R$ " + accounting.formatMoney(item.preco, "", 2, ".", ",");
 
-        cols += '<td><input type="radio" value="' + item.codigo + '" data-nome="' + item.nome + '" data-preco="' + preco + '" name="IDProduto" id="IDProduto"></td>';
-        cols += '<td>' + item.codigo + '</td>';
+        console.log(item);
+
+        cols += '<td><input type="radio" value="' + item.idProduto + '" data-nome="' + item.nome + '" data-preco="' + preco + '" name="IDProduto" id="IDProduto"></td>';
+        cols += '<td>' + item.idProduto + '</td>';
         cols += '<td>' + item.nome + '</td>';
-        cols += '<td>' + item.preco + '</td>';
+        cols += '<td>' + preco + '</td>';
         newRow.append(cols);
         $("#tblProduto").append(newRow);
     });
@@ -28,9 +30,9 @@ $("#txtBusca").on('keyup', function () {
 $("#addProduto").on('click', function () {
 
     var checkBox = $("input[name='IDProduto']:checked");
-    var codigo = checkBox.val();
+    var idProduto = checkBox.val();
     var nome = checkBox[0].dataset.nome;
 
-    $("#idProduto").val(codigo);
+    $("#idProduto").val(idProduto);
     $("#ProdutoNome").val(nome);
 });

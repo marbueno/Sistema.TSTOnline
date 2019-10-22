@@ -8,6 +8,7 @@ using Sistema.TSTOnline.Web.Models.Produtos;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Services.Estoque;
 using Sistema.TSTOnline.Domain.Utils;
+using System.Collections.Generic;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -241,23 +242,50 @@ namespace Sistema.TSTOnline.Web.Controllers
         public JsonResult ListProdutos()
         {
             var listProdutos = _produtoRepository.All();
-            var produtoVM = listProdutos.Select(
-                c => new ProdutoVM
-                {
-                    IDProduto = c.IDProduto,
-                    SKU = c.SKU,
-                    Nome = c.Nome,
-                    Descricao = c.Descricao,
-                    IDFornecedor = c.IDFornecedor,
-                    FornecedorRazaoSocial = _fornecedorRepository.GetByID(c.IDFornecedor).RazaoSocial,
-                    IDCategoria = c.IDCategoria,
-                    CategoriaDescricao = _categoriaRepository.GetByID(c.IDCategoria).Descricao,
-                    IDSubCategoria = c.IDSubCategoria,
-                    SubCategoriaDescricao = _subCategoriaRepository.GetByID(c.IDSubCategoria).Descricao,
-                    Preco = c.Preco
-                });
 
-            return Json(produtoVM.ToList());
+            List<ProdutoVM> listProdutoVM = new List<ProdutoVM>();
+
+            foreach (var itemProduto in listProdutos)
+            {
+                var fornecedor = _fornecedorRepository.GetByID(itemProduto.IDFornecedor);
+                var categoria = _categoriaRepository.GetByID(itemProduto.IDCategoria);
+                var subCategoria = _subCategoriaRepository.GetByID(itemProduto.IDSubCategoria);
+
+                ProdutoVM produtoVM = new ProdutoVM()
+                {
+                    IDProduto = itemProduto.IDProduto,
+                    //SKU = itemProduto.SKU,
+                    SKU = string.Empty,
+                    Nome = itemProduto.Nome,
+                    Descricao = itemProduto.Descricao,
+                    IDFornecedor = itemProduto.IDFornecedor,
+                    FornecedorRazaoSocial = string.Empty,
+                    IDCategoria = itemProduto.IDCategoria,
+                    CategoriaDescricao = string.Empty,
+                    IDSubCategoria = itemProduto.IDSubCategoria,
+                    SubCategoriaDescricao = string.Empty,
+                    Preco = itemProduto.Preco
+                };
+
+                if (fornecedor != null)
+                {
+                    produtoVM.FornecedorRazaoSocial = fornecedor.RazaoSocial;
+                }
+
+                if (categoria != null)
+                {
+                    produtoVM.CategoriaDescricao = categoria.Descricao;
+                }
+
+                if (subCategoria != null)
+                {
+                    produtoVM.SubCategoriaDescricao = subCategoria.Descricao;
+                }
+
+                listProdutoVM.Add(produtoVM);
+            }
+
+            return Json(listProdutoVM.ToList());
         }
 
         [HttpPost]
