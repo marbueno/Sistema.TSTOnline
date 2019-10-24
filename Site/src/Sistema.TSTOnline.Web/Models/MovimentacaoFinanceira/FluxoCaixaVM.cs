@@ -30,6 +30,9 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         [JsonProperty(PropertyName = "pedidoVendaNumero")]
         public string PedidoVendaNumero { get; set; }
 
+        [JsonProperty(PropertyName = "contasReceberParcela")]
+        public string ContasReceberParcela { get; set; }
+
         [JsonProperty(PropertyName = "razaoSocial")]
         public string RazaoSocial { get; set; }
 

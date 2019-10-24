@@ -44,6 +44,12 @@ namespace Sistema.TSTOnline.Web.Models.Cadastros
         [JsonProperty(PropertyName = "uf")]
         public string UF { get; set; }
 
+        [JsonProperty(PropertyName = "idEmpresa")]
+        public int IDEmpresa { get; set; }
+
+        [JsonProperty(PropertyName = "razaoSocial")]
+        public string RazaoSocial { get; set; }
+
         [JsonProperty(PropertyName = "nomeContato")]
         public string NomeContato { get; set; }
 

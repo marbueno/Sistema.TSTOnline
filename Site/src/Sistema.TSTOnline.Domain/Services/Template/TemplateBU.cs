@@ -205,6 +205,11 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
             };
 
+            empresa = _empresaRepository.GetByID(vendedor.IDEmpresa);
+            pvTemplate.VendedorEmpresa = empresa.RazaoSocial;
+            pvTemplate.VendedorEmpresaEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}";
+            pvTemplate.VendedorEmpresaTelefoneCompleto = $"Fone: {empresa.Telefone} | WhatsApp: {empresa.Celular}";
+
             var HTMLItens = "<table>";
             HTMLItens += $"     <tr>";
             HTMLItens += $"         <td style=\"font-weight: bold; width: 10%\"><span>Item</span></td>";
@@ -259,6 +264,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             EmpresaEN empresa = null;
 
             string numeroPedidoVenda = string.Empty;
+            string contasReceberParcela = string.Empty;
             string clienteCNPJ = string.Empty;
             string clienteRazaoSocial = string.Empty;
             string clienteEmail = string.Empty;
@@ -276,6 +282,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             {
                 ContasReceberEN contasReceberEN = _contasReceberRepository.GetByID(fluxoCaixaEN.Chave);
                 empresa = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
+                contasReceberParcela = contasReceberEN.Seq.ToString();
 
                 if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda)
                 {
@@ -308,6 +315,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 FluxoCaixaTipoLancamento = fluxoCaixaEN.TipoLancamento.ToDescriptionEmum(),
                 FluxoCaixaOrigem = fluxoCaixaEN.Origem.ToDescriptionEmum(),
                 PedidoVendaNumero = numeroPedidoVenda,
+                ContasReceberParcela = contasReceberParcela,
                 FluxoCaixaObservacao = fluxoCaixaEN.Observacao,
                 FluxoCaixaValor = Sistema.Utils.Helper.FormatReal(fluxoCaixaEN.Valor, true),
                 ClienteCNPJ = clienteCNPJ,

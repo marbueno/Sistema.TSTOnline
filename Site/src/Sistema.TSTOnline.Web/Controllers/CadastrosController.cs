@@ -245,6 +245,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Bairro = vendedor.Bairro,
                     Cidade = vendedor.Cidade,
                     UF = vendedor.UF,
+                    IDEmpresa = vendedor.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(vendedor.IDEmpresa).RazaoSocial,
                     NomeContato = vendedor.NomeContato,
                     Telefone = vendedor.Telefone,
                     WhatsApp = vendedor.WhatsApp
@@ -277,6 +279,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Bairro = c.Bairro,
                     Cidade = c.Cidade,
                     UF = c.UF,
+                    IDEmpresa = c.IDEmpresa,
+                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
                     NomeContato = c.NomeContato,
                     Telefone = c.Telefone,
                     WhatsApp = c.WhatsApp
@@ -304,6 +308,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     vendedorVM.Bairro, 
                     vendedorVM.Cidade, 
                     vendedorVM.UF,
+                    vendedorVM.IDEmpresa,
                     vendedorVM.NomeContato,
                     vendedorVM.Telefone,
                     vendedorVM.WhatsApp

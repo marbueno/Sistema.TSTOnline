@@ -135,18 +135,24 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("contasReceberCreateOrUpdate")]
         public IActionResult ContasReceberCreateOrUpdate(ContasReceberVM contasReceberVM)
         {
+            if ((int)contasReceberVM.Origem == 0)
+                contasReceberVM.Origem = OrigemContasReceberEnum.ContasReceber;
+
+            if (contasReceberVM.Seq == 0)
+                contasReceberVM.Seq = 1;
+
             _contasReceberBU.Save
                 (
                     contasReceberVM.IDContasReceber,
                     contasReceberVM.IDEmpresa,
                     contasReceberVM.NumeroTitulo,
-                    1,
+                    contasReceberVM.Seq,
                     contasReceberVM.DataVencimento,
                     contasReceberVM.Valor,
                     contasReceberVM.ValorPago,
-                    OrigemContasReceberEnum.ContasReceber,
+                    contasReceberVM.Origem,
                     contasReceberVM.LinkFatura,
-                    0
+                    contasReceberVM.Chave
                );
 
             return Ok();
@@ -230,6 +236,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 if (itemCaixa.Origem == OrigemFluxoCaixaEnum.ContasReceber)
                 {
                     var contasReceberEN = _contasReceberRepository.GetByID(itemCaixa.Chave);
+                    fluxoCaixaVM.ContasReceberParcela = contasReceberEN.Seq.ToString();
 
                     if (contasReceberEN != null)
                     {

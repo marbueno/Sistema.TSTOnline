@@ -60,14 +60,14 @@
 			@page {
 
 				@top-left {
-					height: 60px;
+					height: 100px;
 					content: element(header);
 				}
 
 				@bottom-left {
 					content: element(footer);
 				}
-				margin-top: 120px;
+				margin-top: 140px;
 				margin-left : 0px;
 				margin-right : 0px;
 			}
@@ -79,19 +79,23 @@
 		<div style="width: 750px; margin: 0 auto; background: #ffffff">
 
 			<header>
-				<div style="width: 25%; height: 130px; display: inline-block;">
+				<div style="width: 25%; height: 130px; margin-left: 20px; margin-top: 20px; display: inline-block;">
 					<img src="https://sistema.tstonline.com.br/assets/images/logo.png" style="margin-left: 20px; height: 70px;" />
+					<h3>&nbsp;</h3>
 				</div>
 
 				<div style="width: 71%; height: 130px; text-align:right; display: inline-block; margin-top:20px;">
 					<h2 style="font-weight: normal; margin: 0">Pedido de Venda</h2>
 					<h2 style="margin: 0">${PedidoVendaNumero}</h2>
+					<h3 style="font-weight: normal; margin: 0">${VendedorEmpresa}</h3>
+					<h3 style="font-weight: normal; margin: 0">${VendedorEmpresaEnderecoCompleto}</h3>
+					<h3 style="font-weight: normal; margin: 0">${VendedorEmpresaTelefoneCompleto}</h3>
 					<p>
 						Pedido emitido em ${DataInclusao} às ${HorarioInclusao}
 					</p>
 				</div>
 
-				<div style="width: 94%; position: absolute; top:110px; z-index: -1; margin-left:20px;">
+				<div style="width: 94%; position: absolute; top:130px; z-index: -1; margin-left:20px;">
 					<hr style="border: dashed 1px #6a6d73;" />
 				</div>
 			</header>

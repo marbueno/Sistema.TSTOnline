@@ -16,10 +16,22 @@
     }
 
     var IDEmpresa = 0;
+    bool disabled = false;
     if (Model != null)
     {
         IDEmpresa = Model.IDEmpresa;
+
+        if (Model.Origem == OrigemContasReceberEnum.PedidoVenda)
+        {
+            disabled = true;
+        }
     }
+    //else
+    //{
+    //    Model.Origem = OrigemContasReceberEnum.ContasReceber;
+    //    Model.Seq = 1;
+    //    Model.Chave = 0;
+    //}
 }
 
 <form id="frmContasReceber" asp-action="ContasReceberCreateOrUpdate" asp-controller="MovimentacaoFinanceira"
@@ -38,11 +50,14 @@
 
                     <div class="col-sm-2 col-lg-2">
                         @Html.HiddenFor(m => m.IDContasReceber, new { id = "idContasReceber" })
+                        @Html.HiddenFor(m => m.Seq, new { id = "seq" })
+                        @Html.HiddenFor(m => m.Chave, new { id = "chave" })
+                        @Html.HiddenFor(m => m.Origem, new { id = "origem" })
                         @Html.TextBoxFor(m => m.IDContasReceber, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.NumeroTitulo, new { @class = "form-control", @maxlength = "45", @placeholder = "Número do Título", @required = "true" })
+                        @Html.TextBoxFor(m => m.NumeroTitulo, @disabled ? (object)new { @class = "form-control", @readonly = "readonly" } : new { @class = "form-control", @maxlength = "45", @placeholder = "Número do Título", @required = "true" })
                     </div>
 
                     <div class="col-sm-3 col-lg-3">
@@ -52,7 +67,7 @@
                     <div class="col-sm-3 col-lg-3">
                         <div class="input-group mb-3">
                             <span class="input-group-text">R$</span>
-                            @Html.TextBoxFor(m => m.Valor, new { id = "txtValor", name = "txtValor", @class = "form-control", @maxlength = "20", @placeholder = "Valor", @required = "true" })
+                            @Html.TextBoxFor(m => m.Valor, @disabled ? (object)new { @class = "form-control", @readonly = "readonly" } : new { id = "txtValor", name = "txtValor", @class = "form-control", @maxlength = "20", @placeholder = "Valor", @required = "true" })
                         </div>
                     </div>
 
@@ -67,11 +82,18 @@
                 <div class="row" style="margin-top: 1%;">
 
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                        @if (disabled)
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa" disabled><i class="fa fa-search fa-lg"></i></button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                        }
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
-                        @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
+                        @Html.TextBoxFor(m => m.RazaoSocial, @disabled ? (object)new { @class = "form-control", @disabled = "disabled" } : new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
                         <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
                     </div>
                 </div>

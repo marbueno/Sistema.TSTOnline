@@ -10,6 +10,7 @@ var columns = [
     { "data": "tipoLancamentoDescricao" },
     { "data": "origemDescricao" },
     { "data": "pedidoVendaNumero" },
+    { "data": "contasReceberParcela" },
     { "data": "razaoSocial" },
     {
         "mDataProp": "valor",
