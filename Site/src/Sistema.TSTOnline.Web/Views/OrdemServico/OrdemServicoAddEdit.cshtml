@@ -1,9 +1,11 @@
 ﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.OrdemServicoVM
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.OrdemServico
+@using Sistema.TSTOnline.Domain.Services.Usuario
 @using Sistema.TSTOnline.Domain.Utils;
 
 @inject IRepository<TipoServicoEN> _tipoServicoRepository
+@inject UsuarioService _usuarioService
 
 @{
     var newRegister = Model == null;
@@ -18,8 +20,9 @@
         ViewData["Title"] = "EDITAR ORDEM SERVIÇO";
         labelButton = "Atualizar Ordem Serviço";
     }
-
-    var listTiposServicos = _tipoServicoRepository.All();
+    
+    int idUser = _usuarioService.GetUserId();
+    var listTiposServicos = _tipoServicoRepository.Where(obj => obj.IDUser == idUser).ToList();
     var IDResp = 0;
     var IDLocal = 0;
     var IDEmpresa = 0;
@@ -185,7 +188,7 @@
                             <button class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico?idUser=@idUser'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

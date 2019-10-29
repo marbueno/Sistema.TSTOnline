@@ -9,6 +9,7 @@ using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Services.Template;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,10 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly TemplateBU _templateBU;
 
+        private readonly UsuarioService _usuarioService;
+
+        private int idUser => _usuarioService.GetUserId();
+
         #endregion Variables
 
         #region Constructor
@@ -45,7 +50,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<FluxoCaixaEN> fluxoCaixaRepository, FluxoCaixaBU fluxoCaixaBU,
                 FluxoBU fluxoBU,
                 IConfiguration configuration,
-                TemplateBU templateBU
+                TemplateBU templateBU,
+                UsuarioService usuarioService
             )
         {
             _contasReceberRepository = contasReceberRepository;
@@ -61,6 +67,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _configuration = configuration;
 
             _templateBU = templateBU;
+
+            _usuarioService = usuarioService;
         }
 
         #endregion Constructor
@@ -69,8 +77,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("contasReceber")]
-        public IActionResult ContasReceber()
+        public IActionResult ContasReceber(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -109,7 +118,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listContasReceber")]
         public JsonResult ListContasReceber()
         {
-            var listContasReceber = _contasReceberRepository.All();
+            var listContasReceber = _contasReceberRepository.Where(obj => obj.IDUser == idUser).ToList();
             var contasReceberVM = listContasReceber.Select(
                 c => new ContasReceberVM
                 {
@@ -144,6 +153,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _contasReceberBU.Save
                 (
                     contasReceberVM.IDContasReceber,
+                    idUser,
                     contasReceberVM.IDEmpresa,
                     contasReceberVM.NumeroTitulo,
                     contasReceberVM.Seq,
@@ -183,8 +193,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("fluxoCaixa")]
-        public IActionResult FluxoCaixa()
+        public IActionResult FluxoCaixa(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -217,7 +228,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listFluxoCaixa")]
         public JsonResult ListFluxoCaixa()
         {
-            var listFluxoCaixa = _fluxoCaixaRepository.All();
+            var listFluxoCaixa = _fluxoCaixaRepository.Where(obj => obj.IDUser == idUser).ToList();
             var listFluxoCaixaVM = new List<FluxoCaixaVM>();
 
             foreach (var itemCaixa in listFluxoCaixa)
@@ -266,6 +277,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _fluxoCaixaBU.Save
                 (
                     fluxoCaixaVM.IDFluxoCaixa,
+                    idUser,
                     fluxoCaixaVM.DataLancamento,
                     fluxoCaixaVM.TipoLancamento,
                     OrigemFluxoCaixaEnum.FluxoCaixa,

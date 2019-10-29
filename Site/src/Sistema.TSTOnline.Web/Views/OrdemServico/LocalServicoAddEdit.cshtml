@@ -1,7 +1,11 @@
 ﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.LocalServicoVM
+@using Sistema.TSTOnline.Domain.Services.Usuario
 @using Sistema.TSTOnline.Domain.Utils
 
+@inject UsuarioService _usuarioService
+
 @{
+    int idUser = _usuarioService.GetUserId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Local Serviço";
 

@@ -6,6 +6,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
     {
         [Key]
         public int IDLocal { get; set; }
+        public int IDUser { get; set; }
         public string Nome { get; set; }
         public string CEP { get; set; }
         public string Endereco { get; set; }
@@ -20,18 +21,19 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
 
         private LocalServicoEN() { }
 
-        public LocalServicoEN(string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
+        public LocalServicoEN(int IDUser, string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
         {
-            ValidateAndSetProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(IDUser, Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
         }
 
-        public void UpdateProperties (string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
+        public void UpdateProperties (int IDUser, string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
         {
-            ValidateAndSetProperties(Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(IDUser, Nome, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, NomeContato, Telefone, WhatsApp);
         }
 
-        private void ValidateAndSetProperties (string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp) 
+        private void ValidateAndSetProperties (int IDUser, string Nome, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string NomeContato, string Telefone, string WhatsApp)
         {
+            DomainException.When(IDUser == 0, "Usuário não informado.");
             DomainException.When(string.IsNullOrEmpty(Nome), "Nome não informado.");
             DomainException.When(string.IsNullOrEmpty(CEP), "CEP não informado.");
             DomainException.When(string.IsNullOrEmpty(Endereco), "Endereço não informado.");
@@ -40,6 +42,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
             DomainException.When(string.IsNullOrEmpty(Cidade), "Cidade não informada.");
             DomainException.When(string.IsNullOrEmpty(UF), "UF não informada.");
 
+            this.IDUser = IDUser;
             this.Nome = Nome;
             this.CEP = CEP;
             this.Endereco = Endereco;

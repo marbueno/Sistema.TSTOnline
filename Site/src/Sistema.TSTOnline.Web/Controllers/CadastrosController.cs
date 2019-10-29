@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Services.Cadastros;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Web.Models.Cadastros;
 
 namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
@@ -24,6 +25,10 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         private readonly IRepository<VendedorEN> _vendedorRepository;
         private readonly VendedorBU _vendedorBU;
 
+        private readonly UsuarioService _usuarioService;
+
+        private int idUser => _usuarioService.GetUserId();
+
         #endregion Variables
 
         #region Constructor
@@ -32,7 +37,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                 IRepository<EmpresaEN> empresaRepository,
                 IRepository<FornecedorEN> fornecedorRepository, FornecedorBU fornecedorBU,
                 IRepository<ResponsavelEN> responsavelRepository,
-                IRepository<VendedorEN> vendedorRepository, VendedorBU vendedorBU
+                IRepository<VendedorEN> vendedorRepository, VendedorBU vendedorBU,
+                UsuarioService usuarioService
             )
         {
             _empresaRepository = empresaRepository;
@@ -44,6 +50,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 
             _vendedorRepository = vendedorRepository;
             _vendedorBU = vendedorBU;
+
+            _usuarioService = usuarioService;
         }
 
         #endregion Constructor
@@ -54,7 +62,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         [Route("listEmpresas")]
         public JsonResult ListEmpresas()
         {
-            var listEmpresa = _empresaRepository.All();
+            var listEmpresa = _empresaRepository.Where(obj => obj.IDUser == idUser).ToList();
             var empresaVM = listEmpresa.Select(
                 c => new EmpresaVM
                 {
@@ -77,8 +85,9 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("fornecedor")]
-        public IActionResult Fornecedor()
+        public IActionResult Fornecedor(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -118,7 +127,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         [Route("listFornecedores")]
         public JsonResult ListFornecedores()
         {
-            var listFornecedor = _fornecedorRepository.All();
+            var listFornecedor = _fornecedorRepository.Where(obj => obj.IDUser == idUser).ToList();
             var fornecedorVM = listFornecedor.Select(
                 c => new FornecedorVM
                 {
@@ -148,6 +157,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
             _fornecedorBU.Save
                 (
                     fornecedorVM.IDFornecedor,
+                    idUser,
                     fornecedorVM.CNPJ,
                     fornecedorVM.RazaoSocial,
                     fornecedorVM.NomeFantasia,
@@ -183,7 +193,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         [Route("listResponsaveis")]
         public JsonResult ListResponsaveis()
         {
-            var listResponsaveis = _responsavelRepository.All();
+            var listResponsaveis = _responsavelRepository.Where(obj => obj.IDUser == idUser).ToList();
             var responsavelVM = listResponsaveis.Select(
                 c => new ResponsavelVM
                 {
@@ -217,8 +227,9 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("vendedor")]
-        public IActionResult Vendedor()
+        public IActionResult Vendedor(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -262,7 +273,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         [Route("listVendedores")]
         public JsonResult ListVendedores()
         {
-            var listVendedor = _vendedorRepository.All();
+            var listVendedor = _vendedorRepository.Where(obj => obj.IDUser == idUser).ToList();
             var vendedorVM = listVendedor.Select(
                 c => new VendedorVM
                 {
@@ -295,7 +306,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         {
             _vendedorBU.Save
                 (
-                    vendedorVM.IDVendedor, 
+                    vendedorVM.IDVendedor,
+                    idUser,
                     vendedorVM.Nome,
                     vendedorVM.RG,
                     vendedorVM.CPF, 

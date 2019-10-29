@@ -14,7 +14,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDCategoria, string Descricao)
+        public void Save(int IDCategoria, int IDUser, string Descricao)
         {
             CategoriaEN categoriaEN = _repositoryCategoria.GetByID(IDCategoria);
 
@@ -22,6 +22,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             {
                 categoriaEN.UpdateProperties
                     (
+                        IDUser,
                         Descricao
                     );
 
@@ -31,6 +32,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             {
                 categoriaEN = new CategoriaEN
                     (
+                        IDUser,
                         Descricao
                     );
 

@@ -104,6 +104,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
             var listOrdemServicoItem = _repositoryOrdemServicoItem.Where(obj => obj.IDOrdemServico == IDOrdemServico);
+            var empresa = _empresaRepository.GetByID(ordemServicoEN.IDEmpresa);
             LocalServicoEN localServivoEN = _localServicoRepository.GetByID(ordemServicoEN.IDLocal);
 
             OrdemServicoTemplate osTemplate = new OrdemServicoTemplate()
@@ -113,7 +114,9 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
                 OrdemServicoData = ordemServicoEN.DataServico.ToString("dd/MM/yyyy"),
                 OrdemServicoStatus = ordemServicoEN.Status.ToDescriptionEmum(),
-                ClienteRazaoSocial = _empresaRepository.GetByID(ordemServicoEN.IDEmpresa).RazaoSocial,
+                ClienteRazaoSocial = empresa.RazaoSocial,
+                ClienteRazaoEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}",
+                ClienteRazaoTelefoneCompleto = $"Fone: {empresa.Telefone}",
                 ResponsavelNome = _responsavelRepository.GetByID(ordemServicoEN.IDResp).NomeResponsavel,
                 LocalNome = localServivoEN.Nome,
                 LocalCEP = Sistema.Utils.Helper.FormatarCEP(localServivoEN.CEP),
@@ -208,7 +211,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             empresa = _empresaRepository.GetByID(vendedor.IDEmpresa);
             pvTemplate.VendedorEmpresa = empresa.RazaoSocial;
             pvTemplate.VendedorEmpresaEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}";
-            pvTemplate.VendedorEmpresaTelefoneCompleto = $"Fone: {empresa.Telefone} | WhatsApp: {empresa.Celular}";
+            pvTemplate.VendedorEmpresaTelefoneCompleto = $"Fone: {empresa.Telefone}";
 
             var HTMLItens = "<table>";
             HTMLItens += $"     <tr>";

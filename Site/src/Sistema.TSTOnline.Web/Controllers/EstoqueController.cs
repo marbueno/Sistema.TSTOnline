@@ -4,6 +4,7 @@ using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Entities.Estoque;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Web.Models.Estoque;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
@@ -23,6 +24,10 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
+        private readonly UsuarioService _usuarioService;
+
+        private int idUser => _usuarioService.GetUserId();
+
         #endregion Variables
 
         #region Constructor
@@ -30,7 +35,8 @@ namespace Sistema.TSTOnline.Web.Controllers
         public EstoqueController(
                 IRepository<MovimentoEstoqueEN> movimentoEstoqueRepository, MovimentoEstoqueBU movimentoEstoqueBU,
                 IRepository<EstoqueEN> estoqueRepository, EstoqueBU estoqueBU,
-                IRepository<ProdutoEN> produtoRepository
+                IRepository<ProdutoEN> produtoRepository,
+                UsuarioService usuarioService
             )
         {
             _movimentoEstoqueRepository = movimentoEstoqueRepository;
@@ -39,6 +45,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _estoqueRepository = estoqueRepository;
 
             _produtoRepository = produtoRepository;
+
+            _usuarioService = usuarioService;
         }
 
         #endregion Constructor
@@ -47,8 +55,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("movimentoEstoque")]
-        public IActionResult MovimentoEstoque()
+        public IActionResult MovimentoEstoque(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -82,7 +91,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listMovimentoEstoque")]
         public JsonResult ListMovimentoEstoque()
         {
-            var listMovimentoEstoque = _movimentoEstoqueRepository.All();
+            var listMovimentoEstoque = _movimentoEstoqueRepository.Where(obj => obj.IDUser == idUser).ToList();
             var movimentoEstoqueVM = listMovimentoEstoque.Select(
                 c => new MovimentoEstoqueVM
                 {
@@ -107,6 +116,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         {
             _movimentoEstoqueBU.Save
                 (
+                    idUser,
                     OrigemMovimentoEstoqueEnum.MovimentacaoEstoque,
                     0,
                     movimentoEstoqueVM.IDProduto,
@@ -124,8 +134,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("estoque")]
-        public IActionResult Estoque()
+        public IActionResult Estoque(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -133,7 +144,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listEstoques")]
         public JsonResult ListEstoques()
         {
-            var listEstoques = _estoqueRepository.All();
+            var listEstoques = _estoqueRepository.Where(obj => obj.IDUser == idUser).ToList();
             var estoqueVM = listEstoques.Select(
                 c => new EstoqueVM
                 {

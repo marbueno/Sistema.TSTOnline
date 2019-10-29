@@ -1,7 +1,11 @@
 ﻿@model Sistema.TSTOnline.Web.Models.Cadastros.VendedorVM
+@using Sistema.TSTOnline.Domain.Services.Usuario
 @using Sistema.TSTOnline.Domain.Utils
 
+@inject UsuarioService _usuarioService
+
 @{
+    int idUser = _usuarioService.GetUserId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Vendedor";
     var IDEmpresa = 0;
@@ -173,7 +177,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/cadastros/vendedor'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/cadastros/vendedor?idUser=@idUser'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

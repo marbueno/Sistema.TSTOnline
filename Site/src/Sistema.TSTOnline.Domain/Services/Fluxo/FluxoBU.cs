@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sistema.Pagamentos.Interface;
-using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 
 namespace Sistema.TSTOnline.Domain.Services.Fluxo
@@ -19,7 +18,6 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
         private readonly IRepository<PedidoVendaEN> _repositoryPedidoVenda;
         private readonly IRepository<PedidoVendaItemEN> _repositoryPedidoVendaItem;
         private readonly IRepository<ContasReceberEN> _repositoryContasReceber;
-        private readonly IRepository<ProdutoEN> _repositoryProduto;
         private readonly IRepository<EmpresaEN> _repositoryEmpresa;
         private readonly MovimentoEstoqueBU _movimentoEstoqueBU;
         private readonly ContasReceberBU _contasReceberBU;
@@ -32,7 +30,6 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                 IRepository<PedidoVendaEN> repositoryPedidoVenda, 
                 IRepository<PedidoVendaItemEN> repositoryPedidoVendaItem, 
                 IRepository<ContasReceberEN> repositoryContasReceber,
-                IRepository<ProdutoEN> repositoryProduto,
                 IRepository<EmpresaEN> repositoryEmpresa,
                 MovimentoEstoqueBU movimentoEstoqueBU,
                 ContasReceberBU contasReceberBU,
@@ -44,7 +41,6 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
             _repositoryPedidoVenda = repositoryPedidoVenda;
             _repositoryPedidoVendaItem = repositoryPedidoVendaItem;
             _repositoryContasReceber = repositoryContasReceber;
-            _repositoryProduto = repositoryProduto;
             _repositoryEmpresa = repositoryEmpresa;
             _movimentoEstoqueBU = movimentoEstoqueBU;
             _contasReceberBU = contasReceberBU;
@@ -81,6 +77,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                     {
                         _movimentoEstoqueBU.Save
                             (
+                                pedidoVendaEN.IDUser,
                                 OrigemMovimentoEstoqueEnum.PedidoVenda,
                                 itemPedido.IDPedido,
                                 itemPedido.IDProduto,
@@ -100,6 +97,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                         //Criação Movimentação e Atualiza Estoque
                         _movimentoEstoqueBU.Save
                             (
+                                pedidoVendaEN.IDUser,
                                 OrigemMovimentoEstoqueEnum.PedidoVenda,
                                 IDPedidoVenda,
                                 itemPedido.IDProduto,
@@ -137,6 +135,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                         _contasReceberBU.Save
                             (
                                 0,
+                                pedidoVendaEN.IDUser,
                                 pedidoVendaEN.IDEmpresa,
                                 $"PED{pedidoVendaEN.IDPedido.ToString("00000")}_{iQtdeParcelas.ToString()}",
                                 seq,
@@ -200,6 +199,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                     _fluxoCaixaBU.Save
                         (
                             0,
+                            contasReceberEN.IDUser,
                             DateTime.Now,
                             TipoLancamentoFluxoCaixaEnum.Entrada,
                             OrigemFluxoCaixaEnum.ContasReceber,
@@ -239,28 +239,12 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
             try
             {
                 List<Item> listItens = new List<Item>();
-                //if (listPedidoVendaItem != null && listPedidoVendaItem.Count > 0)
-                //{
-                //    foreach (var itemPedido in listPedidoVendaItem)
-                //    {
-                //        var produtoEN = _repositoryProduto.GetByID(itemPedido.IDProduto);
-                //        listItens.Add(new Item()
-                //        {
-                //            Descricao = produtoEN.Nome,
-                //            Qtde = itemPedido.Qtde,
-                //            Valor = int.Parse(itemPedido.Valor.ToString("#0.00").Replace(",", "").Replace(".",""))
-                //        });
-                //    }
-                //}
-                //else
-                //{
-                    listItens.Add(new Item()
-                    {
-                        Descricao = $"Título: [{contasReceberEN.NumeroTitulo}]",
-                        Qtde = 1,
-                        Valor = int.Parse(contasReceberEN.Valor.ToString("#0.00").Replace(",", "").Replace(".", ""))
-                    });
-                //}
+                listItens.Add(new Item()
+                {
+                    Descricao = $"Título: [{contasReceberEN.NumeroTitulo}]",
+                    Qtde = 1,
+                    Valor = int.Parse(contasReceberEN.Valor.ToString("#0.00").Replace(",", "").Replace(".", ""))
+                });
 
                 var empresaEN = _repositoryEmpresa.GetByID(contasReceberEN.IDEmpresa);
                 var emailCopia = EmailCopia;

@@ -27,6 +27,8 @@ namespace Sistema.TSTOnline.Web
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +45,7 @@ namespace Sistema.TSTOnline.Web
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseCors(builder => builder
                 .AllowAnyHeader()

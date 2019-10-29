@@ -19,10 +19,11 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(OrigemMovimentoEstoqueEnum Origem, int Chave, int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde, string Observacao)
+        public void Save(int IDUser, OrigemMovimentoEstoqueEnum Origem, int Chave, int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde, string Observacao)
         {
             MovimentoEstoqueEN movimentoEstoqueEN = new MovimentoEstoqueEN
                 (
+                    IDUser,
                     Origem,
                     Chave,
                     IDProduto,
@@ -34,7 +35,7 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
 
             _repositoryMovimentoEstoque.Save(movimentoEstoqueEN);
 
-            _estoqueBU.AtualizarEstoque(IDProduto, Tipo, Qtde);
+            _estoqueBU.AtualizarEstoque(IDUser, IDProduto, Tipo, Qtde);
 
             _unitOfWork.Commit();
         }

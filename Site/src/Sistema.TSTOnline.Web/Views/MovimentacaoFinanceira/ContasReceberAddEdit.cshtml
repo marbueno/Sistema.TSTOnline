@@ -1,7 +1,11 @@
 ﻿@model Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira.ContasReceberVM
-@using Sistema.TSTOnline.Domain.Utils;
+@using Sistema.TSTOnline.Domain.Services.Usuario
+@using Sistema.TSTOnline.Domain.Utils
+
+@inject UsuarioService _usuarioService
 
 @{
+    int idUser = _usuarioService.GetUserId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Novo Título";
 
@@ -26,12 +30,6 @@
             disabled = true;
         }
     }
-    //else
-    //{
-    //    Model.Origem = OrigemContasReceberEnum.ContasReceber;
-    //    Model.Seq = 1;
-    //    Model.Chave = 0;
-    //}
 }
 
 <form id="frmContasReceber" asp-action="ContasReceberCreateOrUpdate" asp-controller="MovimentacaoFinanceira"

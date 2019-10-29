@@ -1,6 +1,10 @@
 ﻿@model Sistema.TSTOnline.Web.Models.OrdemServico.TipoServicoVM
+@using Sistema.TSTOnline.Domain.Services.Usuario
+
+@inject UsuarioService _usuarioService
 
 @{
+    int idUser = _usuarioService.GetUserId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Tipo Serviço";
 
@@ -44,7 +48,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/ordemservico/tiposervico'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/ordemservico/tiposervico?idUser=@idUser'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

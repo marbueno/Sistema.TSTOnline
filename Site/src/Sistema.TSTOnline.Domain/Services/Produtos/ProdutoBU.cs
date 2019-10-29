@@ -20,7 +20,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDProduto, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        public int Save(int IDProduto, int IDUser, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
             int idProduto = 0;
 
@@ -34,6 +34,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
                 {
                     produtoEN.UpdateProperties
                         (
+                            IDUser,
                             SKU,
                             Nome,
                             Descricao,
@@ -49,6 +50,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
                 {
                     produtoEN = new ProdutoEN
                         (
+                            IDUser,
                             SKU,
                             Nome,
                             Descricao,
@@ -65,7 +67,7 @@ namespace Sistema.TSTOnline.Domain.Services.Produtos
 
                 idProduto = produtoEN.IDProduto;
 
-                _estoqueBU.AtualizarEstoque(idProduto, TipoMovimentoEstoqueEnum.Entrada, 0, true);
+                _estoqueBU.AtualizarEstoque(IDUser, idProduto, TipoMovimentoEstoqueEnum.Entrada, 0, true);
 
                 _unitOfWork.CommitTransaction();
             }

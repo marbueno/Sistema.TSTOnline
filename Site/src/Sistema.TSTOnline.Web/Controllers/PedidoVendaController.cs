@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Sistema.TSTOnline.Domain.Entities.Produtos;
 using Sistema.TSTOnline.Domain;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Domain.Services.Template;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -37,6 +38,10 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly TemplateBU _templateBU;
 
+        private readonly UsuarioService _usuarioService;
+
+        private int idUser => _usuarioService.GetUserId();
+
         #endregion Variables
 
         #region Constructor
@@ -49,7 +54,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<ProdutoEN> produtoRepository,
                 FluxoBU fluxoBU,
                 IConfiguration configuration,
-                TemplateBU templateBU
+                TemplateBU templateBU,
+                UsuarioService usuarioService
             )
         {
             _pedidoVendaRepository = pedidoVendaRepository;
@@ -68,6 +74,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             _configuration = configuration;
 
             _templateBU = templateBU;
+
+            _usuarioService = usuarioService;
         }
 
         #endregion Constructor
@@ -76,8 +84,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("pedidoVenda")]
-        public IActionResult PedidoVenda()
+        public IActionResult PedidoVenda(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -121,7 +130,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listPedidosVenda")]
         public JsonResult ListPedidoVendas()
         {
-            var listPedidoVendas = _pedidoVendaRepository.All();
+            var listPedidoVendas = _pedidoVendaRepository.Where(obj => obj.IDUser == idUser).ToList();
             var pedidoVendaVM = listPedidoVendas.Select(
                 c => new PedidoVendaVM
                 {
@@ -164,6 +173,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 _pedidoVendaBU.Save
                 (
                     pedidoVendaVM.IDPedido,
+                    idUser,
                     pedidoVendaVM.DataVenda,
                     status,
                     pedidoVendaVM.IDUsuario,

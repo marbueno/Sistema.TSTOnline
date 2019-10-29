@@ -7,6 +7,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Produtos
     {
         [Key]
         public int IDProduto { get; set; }
+        public int IDUser { get; set; }
         public string SKU { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
@@ -17,18 +18,19 @@ namespace Sistema.TSTOnline.Domain.Entities.Produtos
 
         private ProdutoEN() { }
 
-        public ProdutoEN(string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        public ProdutoEN(int IDUser, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
-            ValidateAndSetProperties(SKU, Nome, Descricao, IDFornecedor, IDCategoria, IDSubCategoria, Preco);
+            ValidateAndSetProperties(IDUser, SKU, Nome, Descricao, IDFornecedor, IDCategoria, IDSubCategoria, Preco);
         }
 
-        public void UpdateProperties(string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        public void UpdateProperties(int IDUser, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
-            ValidateAndSetProperties(SKU, Nome, Descricao, IDFornecedor, IDCategoria, IDSubCategoria, Preco);
+            ValidateAndSetProperties(IDUser, SKU, Nome, Descricao, IDFornecedor, IDCategoria, IDSubCategoria, Preco);
         }
 
-        private void ValidateAndSetProperties(string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
+        private void ValidateAndSetProperties(int IDUser, string SKU, string Nome, string Descricao, int IDFornecedor, int IDCategoria, int IDSubCategoria, decimal Preco)
         {
+            DomainException.When(IDUser == 0, "Usuário não informado.");
             //DomainException.When(string.IsNullOrEmpty(SKU), "SKU não informado.");
             DomainException.When(string.IsNullOrEmpty(Nome), "Nome não informado.");
             DomainException.When(string.IsNullOrEmpty(Descricao), "Descrição não informada.");
@@ -36,6 +38,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Produtos
             DomainException.When(IDCategoria == 0, "Categoria não informada.");
             DomainException.When(Preco == 0, "Preço não informado.");
 
+            this.IDUser = IDUser;
             this.SKU = SKU;
             this.Nome = Nome;
             this.Descricao = Descricao;

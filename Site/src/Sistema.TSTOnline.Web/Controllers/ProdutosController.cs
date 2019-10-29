@@ -7,7 +7,7 @@ using Sistema.TSTOnline.Domain.Services.Produtos;
 using Sistema.TSTOnline.Web.Models.Produtos;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Services.Estoque;
-using Sistema.TSTOnline.Domain.Utils;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 using System.Collections.Generic;
 
 namespace Sistema.TSTOnline.Web.Controllers
@@ -29,7 +29,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<FornecedorEN> _fornecedorRepository;
 
-        private readonly EstoqueBU _estoqueBU;
+        private readonly UsuarioService _usuarioService;
+
+        private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
 
@@ -40,7 +42,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<SubCategoriaEN> subCategoriaRepository, SubCategoriaBU subCategoriaBU,
                 IRepository<ProdutoEN> produtoRepository, ProdutoBU produtoBU,
                 IRepository<FornecedorEN> fornecedorRepository,
-                EstoqueBU estoqueBU
+                UsuarioService usuarioService
             )
         {
             _categoriaRepository = categoriaRepository;
@@ -54,7 +56,7 @@ namespace Sistema.TSTOnline.Web.Controllers
 
             _fornecedorRepository = fornecedorRepository;
 
-            _estoqueBU = estoqueBU;
+            _usuarioService = usuarioService;
         }
 
         #endregion Constructor
@@ -63,8 +65,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("categoria")]
-        public IActionResult Categoria()
+        public IActionResult Categoria(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -92,7 +95,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listCategorias")]
         public JsonResult ListCategorias()
         {
-            var listCategoria = _categoriaRepository.All();
+            var listCategoria = _categoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
             var categoriaVM = listCategoria.Select(
                 c => new CategoriaVM
                 {
@@ -110,6 +113,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _categoriaBU.Save
                 (
                     categoriaVM.IDCategoria,
+                    idUser,
                     categoriaVM.Descricao
                );
 
@@ -131,8 +135,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("subCategoria")]
-        public IActionResult SubCategoria()
+        public IActionResult SubCategoria(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -161,7 +166,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listSubCategorias")]
         public JsonResult ListSubCategorias()
         {
-            var listSubCategoria = _subCategoriaRepository.All();
+            var listSubCategoria = _subCategoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
             var subCategoriaVM = listSubCategoria.Select(
                 c => new SubCategoriaVM
                 {
@@ -181,6 +186,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _subCategoriaBU.Save
                 (
                     subCategoriaVM.IDSubCategoria,
+                    idUser,
                     subCategoriaVM.IDCategoria,
                     subCategoriaVM.Descricao
                );
@@ -203,8 +209,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("produto")]
-        public IActionResult Produto()
+        public IActionResult Produto(int? idUser)
         {
+            _usuarioService.SetUserId(idUser ?? 0);
             return View();
         }
 
@@ -241,7 +248,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listProdutos")]
         public JsonResult ListProdutos()
         {
-            var listProdutos = _produtoRepository.All();
+            var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
 
             List<ProdutoVM> listProdutoVM = new List<ProdutoVM>();
 
@@ -295,6 +302,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _produtoBU.Save
                 (
                     produtoVM.IDProduto,
+                    idUser,
                     produtoVM.SKU,
                     produtoVM.Nome,
                     produtoVM.Descricao,

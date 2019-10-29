@@ -1,16 +1,19 @@
 ﻿@model Sistema.TSTOnline.Web.Models.Estoque.MovimentoEstoqueVM
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Services.Usuario
 @using Sistema.TSTOnline.Domain.Utils
 
 @inject IRepository<ProdutoEN> _produtoRepository
+@inject UsuarioService _usuarioService
 
 @{
+    int idUser = _usuarioService.GetUserId();
     var labelButton = "Cadastrar Movimentação";
     ViewData["Title"] = "NOVA MOVIMENTAÇÃO";
 
     var listTipos = Enum.GetValues(typeof(TipoMovimentoEstoqueEnum)).Cast<TipoMovimentoEstoqueEnum>().ToList();
-    var listProdutos = _produtoRepository.All();
+    var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
 }
 
 <form id="frmMovimentoEstqoue" asp-action="MovimentoEstoqueCreateOrUpdate" asp-controller="Estoque"
@@ -44,9 +47,9 @@
                             <option selected disabled>Tipo de Movimentação</option>
 
                             @foreach (var itemTipo in listTipos)
-                            {
-                                <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
-                            }
+                                                                                                                {
+                            <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+}
                         </select>
                     </div>
 
@@ -67,7 +70,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/estoque/movimentoestoque'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/estoque/movimentoestoque?idUser=@idUser'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

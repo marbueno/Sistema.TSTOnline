@@ -17,6 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Sistema.Documentos.Interface;
 using Sistema.Documentos.Service;
 using Sistema.TSTOnline.Domain.Services.Template;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Sistema.TSTOnline.Domain.Services.Usuario;
 
 namespace Sistema.TSTOnline.DI
 {
@@ -24,12 +26,18 @@ namespace Sistema.TSTOnline.DI
     {
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
+            #region Application
+
             var connectionString = configuration.GetConnectionString("dbConnection").ToString();
 
             services.AddDbContext<DataBaseContext>(opt => opt.UseMySql(connectionString));
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient(typeof(UsuarioService));
+
+            #endregion Application
 
             #region Componentes
 

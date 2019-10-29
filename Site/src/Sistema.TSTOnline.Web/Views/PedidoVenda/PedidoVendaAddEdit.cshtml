@@ -1,9 +1,11 @@
 ﻿@model Sistema.TSTOnline.Web.Models.PedidoVenda.PedidoVendaVM
 @using Sistema.TSTOnline.Domain.Interfaces
 @using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Services.Usuario
 @using Sistema.TSTOnline.Domain.Utils
 
 @inject IRepository<ProdutoEN> _produtoRepository
+@inject UsuarioService _usuarioService
 
 @{
     var newRegister = Model == null;
@@ -19,9 +21,10 @@
         labelButton = "Atualizar Pedido Venda";
     }
     
+    int idUser = _usuarioService.GetUserId();
     var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
     var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
-    var listProdutos = _produtoRepository.All();
+    var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
     var IDVendedor = 0;
     var IDEmpresa = 0;
     if (Model != null)
@@ -113,8 +116,8 @@
                     </div>
 
                     @*<div class="col-sm-3 col-lg-2">
-                        @Html.TextBoxFor(m => m.ResponsavelEmpresaNIT, new { id = "ResponsavelEmpresaNIT", @class = "form-control", @maxlength = "150", @placeholder = "NIT do Responsável", @readonly = "readonly" })
-                    </div>*@
+                            @Html.TextBoxFor(m => m.ResponsavelEmpresaNIT, new { id = "ResponsavelEmpresaNIT", @class = "form-control", @maxlength = "150", @placeholder = "NIT do Responsável", @readonly = "readonly" })
+                        </div>*@
 
                     <div class="col-sm-3 col-lg-5">
                         @Html.TextBoxFor(m => m.ResponsavelEmpresaEmail, new { id = "ResponsavelEmpresaEmail", @class = "form-control", @maxlength = "150", @placeholder = "Email do Responsável", @readonly = "readonly" })
@@ -262,7 +265,7 @@
                             <button class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/pedidovenda/pedidovenda'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/pedidovenda/pedidovenda?idUser=@idUser'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

@@ -9,6 +9,7 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
     {
         [Key]
         public int IDFluxoCaixa { get; set; }
+        public int IDUser { get; set; }
         public DateTime DataLancamento { get; set; }
         public TipoLancamentoFluxoCaixaEnum TipoLancamento { get; set; }
         public OrigemFluxoCaixaEnum Origem { get; set; }
@@ -18,21 +19,23 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
 
         public FluxoCaixaEN() { }
 
-        public FluxoCaixaEN(DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
+        public FluxoCaixaEN(int IDUser, DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
         {
-            ValidateAndSetProperties(DataLancamento, TipoLancamento, Origem, Chave, Valor, Observacao);
+            ValidateAndSetProperties(IDUser, DataLancamento, TipoLancamento, Origem, Chave, Valor, Observacao);
         }
 
-        public void UpdateProperties(DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
+        public void UpdateProperties(int IDUser, DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
         {
-            ValidateAndSetProperties(DataLancamento, TipoLancamento, Origem, Chave, Valor, Observacao);
+            ValidateAndSetProperties(IDUser, DataLancamento, TipoLancamento, Origem, Chave, Valor, Observacao);
         }
 
-        private void ValidateAndSetProperties(DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
+        private void ValidateAndSetProperties(int IDUser, DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
         {
+            DomainException.When(IDUser == 0, "Usuário não informado.");
             DomainException.When(DataLancamento == DateTime.MinValue, "Data de Lançamento Inválida.");
             DomainException.When(Valor == 0, "Valor não informado.");
 
+            this.IDUser = IDUser;
             this.DataLancamento = DataLancamento;
             this.TipoLancamento = TipoLancamento;
             this.Origem = Origem;
