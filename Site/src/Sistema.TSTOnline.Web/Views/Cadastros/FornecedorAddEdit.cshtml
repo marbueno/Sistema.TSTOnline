@@ -5,7 +5,7 @@
 @inject UsuarioService _usuarioService
 
 @{
-    int idUser = _usuarioService.GetUserId();
+    int idUser = _usuarioService.GetCompanyId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Fornecedor";
 

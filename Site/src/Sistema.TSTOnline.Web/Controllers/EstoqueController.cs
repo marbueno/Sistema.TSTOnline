@@ -26,6 +26,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly UsuarioService _usuarioService;
 
+        private int idCompany => _usuarioService.GetCompanyId();
+
         private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
@@ -55,9 +57,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("movimentoEstoque")]
-        public IActionResult MovimentoEstoque(int? idUser)
+        public IActionResult MovimentoEstoque(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -91,7 +93,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listMovimentoEstoque")]
         public JsonResult ListMovimentoEstoque()
         {
-            var listMovimentoEstoque = _movimentoEstoqueRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listMovimentoEstoque = _movimentoEstoqueRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var movimentoEstoqueVM = listMovimentoEstoque.Select(
                 c => new MovimentoEstoqueVM
                 {
@@ -116,6 +118,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         {
             _movimentoEstoqueBU.Save
                 (
+                    idCompany,
                     idUser,
                     OrigemMovimentoEstoqueEnum.MovimentacaoEstoque,
                     0,
@@ -134,9 +137,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("estoque")]
-        public IActionResult Estoque(int? idUser)
+        public IActionResult Estoque(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -144,7 +147,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listEstoques")]
         public JsonResult ListEstoques()
         {
-            var listEstoques = _estoqueRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listEstoques = _estoqueRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var estoqueVM = listEstoques.Select(
                 c => new EstoqueVM
                 {

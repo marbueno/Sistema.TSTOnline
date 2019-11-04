@@ -14,7 +14,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             _unitOfWork = unitOfWork;
         }
 
-        public void Save(int IDTipoServico, int IDUser, string Descricao)
+        public void Save(int IDTipoServico, int IDCompany, int IDUser, string Descricao)
         {
             TipoServicoEN ServicoEN = _repositoryServico.GetByID(IDTipoServico);
 
@@ -22,6 +22,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             {
                 ServicoEN.UpdateProperties
                     (
+                        IDCompany,
                         IDUser,
                         Descricao
                     );
@@ -32,6 +33,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
             {
                 ServicoEN = new TipoServicoEN
                     (
+                        IDCompany,
                         IDUser,
                         Descricao
                     );

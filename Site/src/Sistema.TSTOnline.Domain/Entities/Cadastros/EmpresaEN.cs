@@ -9,6 +9,8 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         [Key]
         public int IDEmpresa { get; set; }
         public int IDUser { get; set; }
+        public int IDCompany { get; set; }
+        public string StatusEmpresa { get; set; }
         public string NrMatricula { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }

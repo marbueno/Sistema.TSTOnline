@@ -8,12 +8,12 @@
 @inject UsuarioService _usuarioService
 
 @{
-    int idUser = _usuarioService.GetUserId();
+    int idCompany = _usuarioService.GetCompanyId();
     var labelButton = "Cadastrar Movimentação";
     ViewData["Title"] = "NOVA MOVIMENTAÇÃO";
 
     var listTipos = Enum.GetValues(typeof(TipoMovimentoEstoqueEnum)).Cast<TipoMovimentoEstoqueEnum>().ToList();
-    var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
+    var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
 }
 
 <form id="frmMovimentoEstqoue" asp-action="MovimentoEstoqueCreateOrUpdate" asp-controller="Estoque"
@@ -70,7 +70,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/estoque/movimentoestoque?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/estoque/movimentoestoque?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

@@ -33,19 +33,34 @@
 	13. Adicionar Parametro "fluxocaixa_view" na tabela "permission_params"
 	14. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 	
-	insert into permission_params values (0, 1, 'vendedor_view');
-	insert into permission_params values (0, 1, 'fornecedor_view');
-	insert into permission_params values (0, 1, 'categoria_view');
-	insert into permission_params values (0, 1, 'subcategoria_view');
-	insert into permission_params values (0, 1, 'produto_view');
-	insert into permission_params values (0, 1, 'locaisservico_view');
-	insert into permission_params values (0, 1, 'tiposervico_view');
-	insert into permission_params values (0, 1, 'ordemservico_view');
-	insert into permission_params values (0, 1, 'estoque_view');
-	insert into permission_params values (0, 1, 'movimentoestoque_view');
-	insert into permission_params values (0, 1, 'pedidovenda_view');
-	insert into permission_params values (0, 1, 'contasreceber_view');
-	insert into permission_params values (0, 1, 'fluxocaixa_view');	
+	insert into permission_params values (0, 80, 'vendedor_view');
+	insert into permission_params values (0, 80, 'fornecedor_view');
+	insert into permission_params values (0, 80, 'categoria_view');
+	insert into permission_params values (0, 80, 'subcategoria_view');
+	insert into permission_params values (0, 80, 'produto_view');
+	insert into permission_params values (0, 80, 'locaisservico_view');
+	insert into permission_params values (0, 80, 'tiposervico_view');
+	insert into permission_params values (0, 80, 'ordemservico_view');
+	insert into permission_params values (0, 80, 'estoque_view');
+	insert into permission_params values (0, 80, 'movimentoestoque_view');
+	insert into permission_params values (0, 80, 'pedidovenda_view');
+	insert into permission_params values (0, 80, 'contasreceber_view');
+	insert into permission_params values (0, 80, 'fluxocaixa_view');	
+	
+	
+	insert into permission_params values (0, 11, 'vendedor_view');
+	insert into permission_params values (0, 11, 'fornecedor_view');
+	insert into permission_params values (0, 11, 'categoria_view');
+	insert into permission_params values (0, 11, 'subcategoria_view');
+	insert into permission_params values (0, 11, 'produto_view');
+	insert into permission_params values (0, 11, 'locaisservico_view');
+	insert into permission_params values (0, 11, 'tiposervico_view');
+	insert into permission_params values (0, 11, 'ordemservico_view');
+	insert into permission_params values (0, 11, 'estoque_view');
+	insert into permission_params values (0, 11, 'movimentoestoque_view');
+	insert into permission_params values (0, 11, 'pedidovenda_view');
+	insert into permission_params values (0, 11, 'contasreceber_view');
+	insert into permission_params values (0, 11, 'fluxocaixa_view');	
 
 **** PÁGINAS ALTERADAS NO PHP
 

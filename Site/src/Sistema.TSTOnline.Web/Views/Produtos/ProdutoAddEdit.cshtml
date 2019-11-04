@@ -24,10 +24,10 @@
         labelButton = "Atualizar Produto";
     }
     
-    int idUser = _usuarioService.GetUserId();
-    var listFornecedores = _fornecedorRepository.Where(obj => obj.IDUser == idUser).ToList();
-    var listCategorias = _categoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
-    var listSubCategorias = _subCategoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
+    int idCompany = _usuarioService.GetCompanyId();
+    var listFornecedores = _fornecedorRepository.Where(obj => obj.IDCompany == idCompany).ToList();
+    var listCategorias = _categoriaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
+    var listSubCategorias = _subCategoriaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
 }
 
 <form id="frmProduto">
@@ -153,7 +153,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/produtos/produto?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/produtos/produto?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

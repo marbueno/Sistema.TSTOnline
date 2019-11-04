@@ -20,8 +20,8 @@
         labelButton = "Atualizar Sub-Categoria";
     }
     
-    int idUser = _usuarioService.GetUserId();
-    var listCategorias = _categoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
+    int idCompany = _usuarioService.GetCompanyId();
+    var listCategorias = _categoriaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
 }
 
 <form id="frmSubCategoria" asp-action="SubCategoriaCreateOrUpdate" asp-controller="Produtos"
@@ -81,7 +81,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/produtos/subcategoria?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/produtos/subcategoria?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

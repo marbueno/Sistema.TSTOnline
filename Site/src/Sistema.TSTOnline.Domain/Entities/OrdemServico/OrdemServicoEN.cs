@@ -8,6 +8,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
     {
         [Key]
         public int IDOrdemServico { get; set; }
+        public int IDCompany { get; set; }
         public int IDUser { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime DataServico { get; set; }
@@ -19,24 +20,26 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
         public string Telefone { get; set; }
         public string WhatsApp { get; set; }
 
-        public OrdemServicoEN(int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public OrdemServicoEN(int IDCompany, int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(IDUser, DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(IDCompany, IDUser, DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        public void UpdateProperties(int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public void UpdateProperties(int IDCompany, int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
-            ValidateAndSetProperties(IDUser, DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
+            ValidateAndSetProperties(IDCompany, IDUser, DataServico, Status, IDEmpresa, IDResp, IDLocal, NomeContato, Telefone, WhatsApp);
         }
 
-        private void ValidateAndSetProperties(int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        private void ValidateAndSetProperties(int IDCompany, int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
+            DomainException.When(IDCompany == 0, "Compania não informada.");
             DomainException.When(IDUser == 0, "Usuário não informado.");
             DomainException.When(DataServico == DateTime.MinValue, "Data do Serviço Inválida.");
             DomainException.When(Status == 0, "Status não informado.");
             DomainException.When(IDResp == 0, "Responsável pelo serviço não informado.");
             DomainException.When(IDLocal == 0, "Local do serviço não informado.");
 
+            this.IDCompany = IDCompany;
             this.IDUser = IDUser;
             this.DataServico = DataServico;
             this.Status = Status;

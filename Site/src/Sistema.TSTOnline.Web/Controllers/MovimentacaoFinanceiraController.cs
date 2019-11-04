@@ -37,6 +37,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly UsuarioService _usuarioService;
 
+        private int idCompany => _usuarioService.GetCompanyId();
+
         private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
@@ -77,9 +79,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("contasReceber")]
-        public IActionResult ContasReceber(int? idUser)
+        public IActionResult ContasReceber(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -118,7 +120,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listContasReceber")]
         public JsonResult ListContasReceber()
         {
-            var listContasReceber = _contasReceberRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listContasReceber = _contasReceberRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var contasReceberVM = listContasReceber.Select(
                 c => new ContasReceberVM
                 {
@@ -153,6 +155,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _contasReceberBU.Save
                 (
                     contasReceberVM.IDContasReceber,
+                    idCompany,
                     idUser,
                     contasReceberVM.IDEmpresa,
                     contasReceberVM.NumeroTitulo,
@@ -193,9 +196,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("fluxoCaixa")]
-        public IActionResult FluxoCaixa(int? idUser)
+        public IActionResult FluxoCaixa(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -228,7 +231,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listFluxoCaixa")]
         public JsonResult ListFluxoCaixa()
         {
-            var listFluxoCaixa = _fluxoCaixaRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listFluxoCaixa = _fluxoCaixaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var listFluxoCaixaVM = new List<FluxoCaixaVM>();
 
             foreach (var itemCaixa in listFluxoCaixa)
@@ -277,6 +280,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _fluxoCaixaBU.Save
                 (
                     fluxoCaixaVM.IDFluxoCaixa,
+                    idCompany,
                     idUser,
                     fluxoCaixaVM.DataLancamento,
                     fluxoCaixaVM.TipoLancamento,

@@ -18,7 +18,7 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
             _unitOfWork = unitOfWork;
         }
 
-        public void AtualizarEstoque(int IDUser, int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde, bool doCommit = false)
+        public void AtualizarEstoque(int IDCompany, int IDUser, int IDProduto, TipoMovimentoEstoqueEnum Tipo, int Qtde, bool doCommit = false)
         {
             EstoqueEN estoqueEN = _repositoryEstoque.GetByID(IDProduto);
 
@@ -40,6 +40,7 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
                 {
                     estoqueEN.UpdateProperties
                     (
+                        IDCompany, 
                         IDUser,
                         IDProduto,
                         _qtde
@@ -52,6 +53,7 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
             {
                 estoqueEN = new EstoqueEN
                     (
+                        IDCompany,
                         IDUser,
                         IDProduto,
                         Qtde

@@ -43,6 +43,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly UsuarioService _usuarioService;
 
+        private int idCompany => _usuarioService.GetCompanyId();
+
         private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
@@ -90,9 +92,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("localServico")]
-        public IActionResult LocalServico(int? idUser)
+        public IActionResult LocalServico(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -130,7 +132,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listLocaisServicos")]
         public JsonResult ListLocaisServicos()
         {
-            var listLocalServico = _localServicoRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listLocalServico = _localServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var localServicoVM = listLocalServico.Select(
                 c => new LocalServicoVM
                 {
@@ -158,6 +160,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _localServicoBU.Save
                 (
                     localServicoVM.IDLocal,
+                    idCompany,
                     idUser,
                     localServicoVM.Nome,
                     localServicoVM.CEP,
@@ -190,9 +193,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("tipoServico")]
-        public IActionResult TipoServico(int? idUser)
+        public IActionResult TipoServico(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -220,7 +223,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listTiposServicos")]
         public JsonResult ListTipoServicos()
         {
-            var listTipoServico = _tipoServicoRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listTipoServico = _tipoServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var tipoServicoVM = listTipoServico.Select(
                 c => new TipoServicoVM
                 {
@@ -238,6 +241,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _tipoServicoBU.Save
                 (
                     tipoServicoVM.IDTipoServico,
+                    idCompany,
                     idUser,
                     tipoServicoVM.Descricao
                );
@@ -260,9 +264,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("ordemServico")]
-        public IActionResult OrdemServico(int? idUser)
+        public IActionResult OrdemServico(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -301,7 +305,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listOrdemServicos")]
         public JsonResult ListOrdemServicos()
         {
-            var listOrdemServico = _ordemServicoRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listOrdemServico = _ordemServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var ordemServicoVM = listOrdemServico.Select(
                 c => new OrdemServicoVM
                 {
@@ -342,6 +346,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 var idOrdemServico = _ordemServicoBU.Save
                     (
                         ordemServicoVM.IDOrdemServico,
+                        idCompany,
                         idUser,
                         ordemServicoVM.DataServico,
                         status,

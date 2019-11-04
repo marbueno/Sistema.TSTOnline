@@ -6,6 +6,7 @@ namespace Sistema.TSTOnline.Domain.Entities.OrdemServico
     {
         [Key]
         public int IDOrdemServicoItem { get; set; }
+        public int IDCompany { get; set; }
         public int IDOrdemServico { get; set; }
         public int Item { get; set; }
         public int IDTipoServico { get; set; }

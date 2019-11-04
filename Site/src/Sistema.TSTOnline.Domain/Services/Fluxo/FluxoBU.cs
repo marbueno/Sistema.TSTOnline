@@ -77,6 +77,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                     {
                         _movimentoEstoqueBU.Save
                             (
+                                pedidoVendaEN.IDCompany,
                                 pedidoVendaEN.IDUser,
                                 OrigemMovimentoEstoqueEnum.PedidoVenda,
                                 itemPedido.IDPedido,
@@ -97,6 +98,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                         //Criação Movimentação e Atualiza Estoque
                         _movimentoEstoqueBU.Save
                             (
+                                pedidoVendaEN.IDCompany,
                                 pedidoVendaEN.IDUser,
                                 OrigemMovimentoEstoqueEnum.PedidoVenda,
                                 IDPedidoVenda,
@@ -135,6 +137,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                         _contasReceberBU.Save
                             (
                                 0,
+                                pedidoVendaEN.IDCompany,
                                 pedidoVendaEN.IDUser,
                                 pedidoVendaEN.IDEmpresa,
                                 $"PED{pedidoVendaEN.IDPedido.ToString("00000")}_{iQtdeParcelas.ToString()}",
@@ -199,6 +202,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                     _fluxoCaixaBU.Save
                         (
                             0,
+                            contasReceberEN.IDCompany,
                             contasReceberEN.IDUser,
                             DateTime.Now,
                             TipoLancamentoFluxoCaixaEnum.Entrada,

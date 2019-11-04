@@ -17,7 +17,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDFluxoCaixa, int IDUser, DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
+        public int Save(int IDFluxoCaixa, int IDCompany, int IDUser, DateTime DataLancamento, TipoLancamentoFluxoCaixaEnum TipoLancamento, OrigemFluxoCaixaEnum Origem, int Chave, decimal Valor, string Observacao)
         {
             FluxoCaixaEN fluxoCaixaEN = null;
 
@@ -34,6 +34,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             {
                 fluxoCaixaEN.UpdateProperties
                     (
+                        IDCompany,
                         IDUser,
                         DataLancamento,
                         TipoLancamento,
@@ -49,6 +50,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             {
                 fluxoCaixaEN = new FluxoCaixaEN
                     (
+                        IDCompany,
                         IDUser,
                         DataLancamento,
                         TipoLancamento,

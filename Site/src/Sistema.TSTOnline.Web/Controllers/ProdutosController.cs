@@ -31,6 +31,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly UsuarioService _usuarioService;
 
+        private int idCompany => _usuarioService.GetCompanyId();
+
         private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
@@ -65,9 +67,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("categoria")]
-        public IActionResult Categoria(int? idUser)
+        public IActionResult Categoria(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -95,7 +97,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listCategorias")]
         public JsonResult ListCategorias()
         {
-            var listCategoria = _categoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listCategoria = _categoriaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var categoriaVM = listCategoria.Select(
                 c => new CategoriaVM
                 {
@@ -113,6 +115,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _categoriaBU.Save
                 (
                     categoriaVM.IDCategoria,
+                    idCompany,
                     idUser,
                     categoriaVM.Descricao
                );
@@ -135,9 +138,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("subCategoria")]
-        public IActionResult SubCategoria(int? idUser)
+        public IActionResult SubCategoria(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -166,7 +169,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listSubCategorias")]
         public JsonResult ListSubCategorias()
         {
-            var listSubCategoria = _subCategoriaRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listSubCategoria = _subCategoriaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var subCategoriaVM = listSubCategoria.Select(
                 c => new SubCategoriaVM
                 {
@@ -186,6 +189,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _subCategoriaBU.Save
                 (
                     subCategoriaVM.IDSubCategoria,
+                    idCompany,
                     idUser,
                     subCategoriaVM.IDCategoria,
                     subCategoriaVM.Descricao
@@ -209,9 +213,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("produto")]
-        public IActionResult Produto(int? idUser)
+        public IActionResult Produto(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -248,7 +252,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listProdutos")]
         public JsonResult ListProdutos()
         {
-            var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
 
             List<ProdutoVM> listProdutoVM = new List<ProdutoVM>();
 
@@ -302,6 +306,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _produtoBU.Save
                 (
                     produtoVM.IDProduto,
+                    idCompany,
                     idUser,
                     produtoVM.SKU,
                     produtoVM.Nome,

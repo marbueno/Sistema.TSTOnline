@@ -17,7 +17,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDContasReceber, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave)
+        public int Save(int IDContasReceber, int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave)
         {
             ContasReceberEN contasReceberEN = null;
 
@@ -33,7 +33,8 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             if (contasReceberEN != null)
             {
                 contasReceberEN.UpdateProperties
-                    (   
+                    (
+                        IDCompany,
                         IDUser,
                         IDEmpresa,
                         NumeroTitulo,
@@ -53,6 +54,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             {
                 contasReceberEN = new ContasReceberEN
                     (
+                        IDCompany,
                         IDUser,
                         IDEmpresa,
                         NumeroTitulo,

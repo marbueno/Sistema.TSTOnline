@@ -21,8 +21,8 @@
         labelButton = "Atualizar Ordem Serviço";
     }
     
-    int idUser = _usuarioService.GetUserId();
-    var listTiposServicos = _tipoServicoRepository.Where(obj => obj.IDUser == idUser).ToList();
+    int idCompany = _usuarioService.GetCompanyId();
+    var listTiposServicos = _tipoServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDResp = 0;
     var IDLocal = 0;
     var IDEmpresa = 0;
@@ -188,7 +188,7 @@
                             <button class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/ordemservico/ordemServico?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

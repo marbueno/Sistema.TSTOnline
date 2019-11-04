@@ -40,6 +40,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly UsuarioService _usuarioService;
 
+        private int idCompany => _usuarioService.GetCompanyId();
+
         private int idUser => _usuarioService.GetUserId();
 
         #endregion Variables
@@ -84,9 +86,9 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         [HttpGet]
         [Route("pedidoVenda")]
-        public IActionResult PedidoVenda(int? idUser)
+        public IActionResult PedidoVenda(int? idCompany, int? idUser)
         {
-            _usuarioService.SetUserId(idUser ?? 0);
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
             return View();
         }
 
@@ -130,7 +132,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listPedidosVenda")]
         public JsonResult ListPedidoVendas()
         {
-            var listPedidoVendas = _pedidoVendaRepository.Where(obj => obj.IDUser == idUser).ToList();
+            var listPedidoVendas = _pedidoVendaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
             var pedidoVendaVM = listPedidoVendas.Select(
                 c => new PedidoVendaVM
                 {
@@ -173,6 +175,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 _pedidoVendaBU.Save
                 (
                     pedidoVendaVM.IDPedido,
+                    idCompany,
                     idUser,
                     pedidoVendaVM.DataVenda,
                     status,

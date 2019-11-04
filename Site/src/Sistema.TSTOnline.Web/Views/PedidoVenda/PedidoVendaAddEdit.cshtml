@@ -21,10 +21,10 @@
         labelButton = "Atualizar Pedido Venda";
     }
     
-    int idUser = _usuarioService.GetUserId();
+    int idCompany = _usuarioService.GetCompanyId();
     var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
     var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
-    var listProdutos = _produtoRepository.Where(obj => obj.IDUser == idUser).ToList();
+    var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDVendedor = 0;
     var IDEmpresa = 0;
     if (Model != null)
@@ -265,7 +265,7 @@
                             <button class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/pedidovenda/pedidovenda?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/pedidovenda/pedidovenda?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>

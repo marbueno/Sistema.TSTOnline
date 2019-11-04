@@ -1,17 +1,15 @@
-select * from users where email like '%admin%' or email like '%nubia%'
+select * from users where email like '%jomar%' or email like '%nubia%'
 
 select * from permission_groups;
 select * from permission_params where name like '%categoria_view%';
 
 select * from permission_params where name like '%loca%';
 
-truncate table tbcadvendedor;
-truncate table tbcadfornecedor;
 select * from tbcadvendedor;
 select * from tbcadfornecedor;
 select * from tbCadServico;
 select * From tbresponsavel;
-select * From tbCadEmpresas;
+select * From tbCadEmpresas where iduser = 5;
 
 select * from tbos;
 select * from tbositem;
@@ -25,6 +23,34 @@ select * from tbMovimentoEstoque;
 select * from tbContasReceber;
 select * from tbFluxoCaixa;
 
+update tbcadvendedor set idcompany=1;
+update tbcadfornecedor set idcompany=1;
+update tbproduto set idcompany=1;
+update tbprodutocategoria set idcompany=1;
+update tbprodutosubcategoria set idcompany=1;
+update tbpedidovenda set idcompany=1;
+update tbos set idcompany=1;
+update tbcadtiposervico set idcompany=1;
+update tbcadlocalservico set idcompany=1;
+update tbestoque set idcompany=1;
+update tbmovimentoestoque set idcompany=1;
+update tbcontasreceber set idcompany=1;
+update tbfluxocaixa set idcompany=1;
+
+ALTER TABLE `segurancast`.`tbcadvendedor` ADD COLUMN `idcompany` INT NULL AFTER `idvendedor`;
+ALTER TABLE `segurancast`.`tbcadfornecedor` ADD COLUMN `idcompany` INT NULL AFTER `idfornecedor`;
+ALTER TABLE `segurancast`.`tbproduto` ADD COLUMN `idcompany` INT NULL AFTER `idproduto`;
+ALTER TABLE `segurancast`.`tbprodutocategoria` ADD COLUMN `idcompany` INT NULL AFTER `idcategoria`;
+ALTER TABLE `segurancast`.`tbprodutosubcategoria` ADD COLUMN `idcompany` INT NULL AFTER `idsubcategoria`;
+ALTER TABLE `segurancast`.`tbpedidovenda` ADD COLUMN `idcompany` INT NULL AFTER `idpedido`;
+ALTER TABLE `segurancast`.`tbos` ADD COLUMN `idcompany` INT NULL AFTER `idordemservico`;
+ALTER TABLE `segurancast`.`tbcadtiposervico` ADD COLUMN `idcompany` INT NULL AFTER `idtiposervico`;
+ALTER TABLE `segurancast`.`tbcadlocalservico` ADD COLUMN `idcompany` INT NULL AFTER `idlocal`;
+ALTER TABLE `segurancast`.`tbestoque` ADD COLUMN `idcompany` INT NULL AFTER `idproduto`;
+ALTER TABLE `segurancast`.`tbmovimentoestoque` ADD COLUMN `idcompany` INT NULL AFTER `idmovimento`;
+ALTER TABLE `segurancast`.`tbcontasreceber` ADD COLUMN `idcompany` INT NULL AFTER `idcontasreceber`;
+ALTER TABLE `segurancast`.`tbfluxocaixa` ADD COLUMN `idcompany` INT NULL AFTER `idfluxocaixa`;
+
 update tbContasReceber set status = 1 where idcontasreceber = 3
 /* 
 	truncate table tbos;
@@ -35,7 +61,8 @@ update tbContasReceber set status = 1 where idcontasreceber = 3
     truncate table tbpedidovendaitem;
     truncate table tbMovimentoEstoque;
     truncate table tbContasReceber;
-    truncate table tbcadfornecedor;
+	truncate table tbcadvendedor;
+	truncate table tbcadfornecedor;
  */
  
  update tbcadvendedor set iduser=1;

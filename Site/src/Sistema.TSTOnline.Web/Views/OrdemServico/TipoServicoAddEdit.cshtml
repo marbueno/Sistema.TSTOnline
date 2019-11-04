@@ -4,7 +4,7 @@
 @inject UsuarioService _usuarioService
 
 @{
-    int idUser = _usuarioService.GetUserId();
+    int idCompany = _usuarioService.GetCompanyId();
     var newRegister = Model == null;
     var labelButton = "Cadastrar Tipo Serviço";
 
@@ -48,7 +48,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save fa-lg"></i> @labelButton
                             </button>
-                            <button type="button" onclick="javascript:window.location='/ordemservico/tiposervico?idUser=@idUser'" class="btn btn-danger">
+                            <button type="button" onclick="javascript:window.location='/ordemservico/tiposervico?idCompany=@idCompany'" class="btn btn-danger">
                                 <i class="fas fa-undo fa-lg"></i> Voltar
                             </button>
                         </div>
