@@ -204,7 +204,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                             0,
                             contasReceberEN.IDCompany,
                             contasReceberEN.IDUser,
-                            DateTime.Now,
+                            DateTime.Now.ToLocalTime(),
                             TipoLancamentoFluxoCaixaEnum.Entrada,
                             OrigemFluxoCaixaEnum.ContasReceber,
                             contasReceberEN.IDContasReceber,

@@ -62,7 +62,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         Telefone,
                         WhatsApp
                     );
-                ordemServicoEN.DataCadastro = DateTime.Now;
+                ordemServicoEN.DataCadastro = DateTime.Now.ToLocalTime();
 
                 _repositoryOrdemServico.Save(ordemServicoEN);
             }

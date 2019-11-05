@@ -67,7 +67,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
                         linkFatura,
                         ContasReceberStatusEnum.EmAberto
                     );
-                contasReceberEN.DataCadastro = DateTime.Now;
+                contasReceberEN.DataCadastro = DateTime.Now.ToLocalTime();
 
                 _repositoryContasReceber.Save(contasReceberEN);
             }

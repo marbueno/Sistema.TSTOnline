@@ -110,8 +110,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             OrdemServicoTemplate osTemplate = new OrdemServicoTemplate()
             {
                 OrdemServicoNumero = ordemServicoEN.IDOrdemServico.ToString("000000"),
-                DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
-                HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 OrdemServicoData = ordemServicoEN.DataServico.ToString("dd/MM/yyyy"),
                 OrdemServicoStatus = ordemServicoEN.Status.ToDescriptionEmum(),
                 ClienteRazaoSocial = empresa.RazaoSocial,
@@ -129,7 +129,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 ContatoTelefone = ordemServicoEN.Telefone,
                 ContatoWhatsApp = ordemServicoEN.WhatsApp,
 
-                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
             };
 
             var HTMLItens = "<table>";
@@ -179,8 +179,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             PedidoVendaTemplate pvTemplate = new PedidoVendaTemplate()
             {
                 PedidoVendaNumero = pedidoVendaEN.IDPedido.ToString("000000"),
-                DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
-                HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 PedidoVendaData = pedidoVendaEN.DataVenda.ToString("dd/MM/yyyy"),
                 PedidoVendaStatus = pedidoVendaEN.Status.ToDescriptionEmum(),
                 PedidoVendaObservacao = pedidoVendaEN.Observacao,
@@ -205,7 +205,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 PedidoFormaPagamento = pedidoVendaEN.TipoPagamento.ToDescriptionEmum(),
                 PedidoQtdeParcelas = pedidoVendaEN.QtdeParcelas.ToDescriptionEmum(),
                 PedidoValorParcela = Sistema.Utils.Helper.FormatReal(valorParcela, true),
-                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
             };
 
             empresa = _empresaRepository.GetByID(vendedor.IDEmpresa);
@@ -312,8 +312,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             FluxoCaixaTemplate fcTemplate = new FluxoCaixaTemplate()
             {
                 FluxoCaixaCodigo = fluxoCaixaEN.IDFluxoCaixa.ToString("000000"),
-                DataInclusao = DateTime.Now.ToString("dd/MM/yyyy"),
-                HorarioInclusao = DateTime.Now.ToString("HH:mm:sss"),
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 FluxoCaixaDataLancamento = fluxoCaixaEN.DataLancamento.ToString("dd/MM/yyyy"),
                 FluxoCaixaTipoLancamento = fluxoCaixaEN.TipoLancamento.ToDescriptionEmum(),
                 FluxoCaixaOrigem = fluxoCaixaEN.Origem.ToDescriptionEmum(),
@@ -333,7 +333,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 ClienteContato = clienteContato,
                 ClienteTelefone = clienteTelefone,
                 ClienteCelular = clienteCelular,
-                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now),
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
             };
 
             string caminhoBaseArquivo = CaminhoTemplate;

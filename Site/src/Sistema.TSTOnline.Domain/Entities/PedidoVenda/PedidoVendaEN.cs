@@ -23,7 +23,7 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
 
         public PedidoVendaEN()
         {
-            DataVenda = DateTime.Now;
+            DataVenda = DateTime.Now.ToLocalTime();
         }
 
         public PedidoVendaEN(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao)

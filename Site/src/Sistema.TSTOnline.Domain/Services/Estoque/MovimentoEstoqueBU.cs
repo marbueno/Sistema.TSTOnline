@@ -32,7 +32,7 @@ namespace Sistema.TSTOnline.Domain.Services.Estoque
                     Qtde,
                     Observacao
                 );
-            movimentoEstoqueEN.DataMovimento = DateTime.Now;
+            movimentoEstoqueEN.DataMovimento = DateTime.Now.ToLocalTime();
 
             _repositoryMovimentoEstoque.Save(movimentoEstoqueEN);
 

@@ -71,7 +71,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             QtdeParcelas,
                             Observacao
                         );
-                    pedidoVendaEN.DataCadastro = DateTime.Now;
+                    pedidoVendaEN.DataCadastro = DateTime.Now.ToLocalTime();
 
                     _repositoryPedidoVenda.Save(pedidoVendaEN);
                 }
