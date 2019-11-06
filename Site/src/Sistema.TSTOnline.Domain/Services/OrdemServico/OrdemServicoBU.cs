@@ -12,20 +12,13 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
         private readonly IRepository<OrdemServicoEN> _repositoryOrdemServico;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrdemServicoBU
-            (
-                IRepository<OrdemServicoEN> repositoryOrdemServico, 
-                IDocumento documentoService, 
-                IRepository<ResponsavelEN> responsavelRepository,
-                IRepository<EmpresaEN> empresaRepository,
-                IUnitOfWork unitOfWork
-            )
+        public OrdemServicoBU(IRepository<OrdemServicoEN> repositoryOrdemServico, IUnitOfWork unitOfWork)
         {
             _repositoryOrdemServico = repositoryOrdemServico;
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDOrdemServico, int IDCompany, int IDUser, DateTime DataServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
+        public int Save(int IDOrdemServico, int IDCompany, int IDUser, DateTime DataServico, string HorarioServico, OrdemServicoStatusEnum Status, int IDEmpresa, int IDResp, int IDLocal, string NomeContato, string Telefone, string WhatsApp)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
 
@@ -36,6 +29,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         IDCompany,
                         IDUser,
                         DataServico,
+                        HorarioServico,
                         Status,
                         IDEmpresa,
                         IDResp,
@@ -54,6 +48,7 @@ namespace Sistema.TSTOnline.Domain.Services.OrdemServico
                         IDCompany,
                         IDUser,
                         DataServico,
+                        HorarioServico,
                         Status,
                         IDEmpresa,
                         IDResp,

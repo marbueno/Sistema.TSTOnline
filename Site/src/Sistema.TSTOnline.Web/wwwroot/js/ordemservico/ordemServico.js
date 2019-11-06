@@ -45,7 +45,6 @@ var columns = [
         mRender: function (data, type, row) {
 
             return "<a class='btn btn-primary btn-sm' href='#' onclick='imprimirOS(" + row.idOrdemServico + ")' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";
-            //return "<a class='btn btn-primary btn-sm' href='/ordemservico/imprimir/" + row.idOrdemServico + "' target='_blank' style='text-align:center;width:100%' title='Clique para Imprimir a O.S.'>Imprimir O.S.</a>";
         }
     }
 ];
@@ -87,13 +86,14 @@ $(document).ready(function () {
 
 
 $("#frmOrdemServico").submit(function (event) {
-    debugger;
+
     event.preventDefault();
     var json = $(this).serializeObject();
 
     var ordemServico = {
         "idOrdemServico": json.IDOrdemServico === "" ? 0 : parseInt(json.IDOrdemServico),
         "dataServico": json.DataServico,
+        "horarioServico": json.HorarioServico,
         "idResp": json.idResp,
         "idLocal": json.idLocal,
         "idEmpresa": json.idEmpresa,

@@ -16,6 +16,9 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "dataServico")]
         public DateTime DataServico { get; set; }
 
+        [JsonProperty(PropertyName = "horarioServico")]
+        public string HorarioServico { get; set; }
+
         [JsonProperty(PropertyName = "status")]
         public OrdemServicoStatusEnum Status { get; set; }
 

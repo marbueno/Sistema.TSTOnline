@@ -130,7 +130,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 OrdemServicoNumero = ordemServicoEN.IDOrdemServico.ToString("000000"),
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
-                OrdemServicoData = ordemServicoEN.DataServico.ToString("dd/MM/yyyy"),
+                OrdemServicoData = $"{ordemServicoEN.DataServico.ToString("dd/MM/yyyy")} {ordemServicoEN.HorarioServico}",
                 OrdemServicoStatus = ordemServicoEN.Status.ToDescriptionEnum(),
                 ClienteRazaoSocial = empresa.RazaoSocial,
                 ClienteRazaoEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}",
