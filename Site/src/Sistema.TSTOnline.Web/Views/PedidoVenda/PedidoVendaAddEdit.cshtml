@@ -141,15 +141,15 @@
                             {
                                 @if (newRegister)
                                 {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                                 else if (Model.TipoPagamento == itemTipo)
                                 {
-                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                                 else
                                 {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                             }
                         </select>
@@ -164,15 +164,15 @@
                             {
                                 @if (newRegister)
                                 {
-                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
                                 }
                                 else if (Model.QtdeParcelas == itemQtde)
                                 {
-                                    <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                    <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
                                 }
                                 else
                                 {
-                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
                                 }
                             }
                         </select>

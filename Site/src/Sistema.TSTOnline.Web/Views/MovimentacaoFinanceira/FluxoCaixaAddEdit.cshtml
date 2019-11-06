@@ -57,15 +57,15 @@
                             {
                                 @if (newRegister)
                                 {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                                 else if (Model.TipoLancamento == itemTipo)
                                 {
-                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                                 else
                                 {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEmum()</option>
+                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
                                 }
                             }
                         </select>

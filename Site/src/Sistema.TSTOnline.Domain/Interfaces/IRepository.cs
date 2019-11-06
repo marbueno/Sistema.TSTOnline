@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Sistema.TSTOnline.Domain.Interfaces
@@ -13,5 +14,6 @@ namespace Sistema.TSTOnline.Domain.Interfaces
         void Delete(int id);
         IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> expression);
         IEnumerable<TEntity> All();
+        IQueryable<TEntity> FromSql(string sql/*, params object[] parameters*/);
     }
 }

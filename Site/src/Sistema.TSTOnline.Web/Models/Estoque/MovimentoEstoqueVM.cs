@@ -16,7 +16,7 @@ namespace Sistema.TSTOnline.Web.Models.Estoque
         public OrigemMovimentoEstoqueEnum Origem { get; set; }
 
         [JsonProperty(PropertyName = "origemDescricao")]
-        public string OrigemDescricao { get { return Origem.ToDescriptionEmum(); } }
+        public string OrigemDescricao { get { return Origem.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "chave")]
         public int Chave { get; set; }
@@ -34,7 +34,7 @@ namespace Sistema.TSTOnline.Web.Models.Estoque
         public TipoMovimentoEstoqueEnum Tipo { get; set; }
 
         [JsonProperty(PropertyName = "tipoDescricao")]
-        public string TipoDescricao { get { return Tipo.ToDescriptionEmum(); } }
+        public string TipoDescricao { get { return Tipo.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "qtde")]
         public int Qtde { get; set; }

@@ -71,8 +71,8 @@ function imprimirOS(id) {
         window.open('/ordemservico/imprimir/' + id, '_blank');
     }
     catch (ex) {
-        console.log(error);
-        showMessage("error", error);
+        console.log(ex);
+        showMessage("error", ex);
     }
 }
 

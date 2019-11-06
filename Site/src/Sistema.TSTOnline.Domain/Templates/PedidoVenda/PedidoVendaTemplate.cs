@@ -1,4 +1,4 @@
-﻿namespace Sistema.TSTOnline.Domain.Templates.OrdemServico
+﻿namespace Sistema.TSTOnline.Domain.Templates.PedidoVenda
 {
     public class PedidoVendaTemplate
     {

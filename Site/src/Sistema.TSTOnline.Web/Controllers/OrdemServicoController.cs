@@ -306,25 +306,48 @@ namespace Sistema.TSTOnline.Web.Controllers
         public JsonResult ListOrdemServicos()
         {
             var listOrdemServico = _ordemServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
-            var ordemServicoVM = listOrdemServico.Select(
-                c => new OrdemServicoVM
-                {
-                    IDOrdemServico = c.IDOrdemServico,
-                    DataCadastro = c.DataCadastro,
-                    DataServico = c.DataServico,
-                    Status = c.Status,
-                    IDEmpresa = c.IDEmpresa,
-                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
-                    IDResp = c.IDResp,
-                    ResponsavelNome = _responsavelRepository.GetByID(c.IDResp).NomeResponsavel,
-                    IDLocal = c.IDLocal,
-                    NomeContato = c.NomeContato,
-                    Telefone = c.Telefone,
-                    WhatsApp = c.WhatsApp,
-                    LocalDescricao = _localServicoRepository.GetByID(c.IDLocal).Nome,
-                });
 
-            return Json(ordemServicoVM.ToList());
+            List<OrdemServicoVM> listOrdemServicoVM = new List<OrdemServicoVM>();
+
+            foreach (var itemOS in listOrdemServico)
+            {
+                var empresa = _empresaRepository.GetByID(itemOS.IDEmpresa);
+                var responsavel = _responsavelRepository.GetByID(itemOS.IDResp);
+                var localServico = _localServicoRepository.GetByID(itemOS.IDLocal);
+
+                OrdemServicoVM ordemServicoVM = new OrdemServicoVM()
+                {
+                    IDOrdemServico = itemOS.IDOrdemServico,
+                    DataCadastro = itemOS.DataCadastro,
+                    DataServico = itemOS.DataServico,
+                    Status = itemOS.Status,
+                    IDEmpresa = itemOS.IDEmpresa,
+                    IDResp = itemOS.IDResp,
+                    IDLocal = itemOS.IDLocal,
+                    NomeContato = itemOS.NomeContato,
+                    Telefone = itemOS.Telefone,
+                    WhatsApp = itemOS.WhatsApp,
+                };
+
+                if (empresa != null)
+                {
+                    ordemServicoVM.RazaoSocial = empresa.RazaoSocial;
+                }
+
+                if (responsavel != null)
+                {
+                    ordemServicoVM.ResponsavelNome = responsavel.NomeResponsavel;
+                }
+
+                if (localServico != null)
+                {
+                    ordemServicoVM.LocalDescricao = localServico.Nome;
+                }
+
+                listOrdemServicoVM.Add(ordemServicoVM);
+            }
+
+            return Json(listOrdemServicoVM.ToList());
         }
 
         [HttpPost]

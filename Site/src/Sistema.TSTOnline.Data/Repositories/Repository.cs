@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +57,36 @@ namespace Sistema.TSTOnline.Data
                 return query.ToList();
 
             return new List<TEntity>();
+        }
+
+        private string ApplyList(string sql, ListParameter parameter)
+        {
+            if (parameter.Value == null)
+            {
+                if (sql.Contains(parameter.ParameterName))
+                    throw new ArgumentException($"O parâmetro {parameter.ParameterName} está presente na query sql, porém recebeu um valor nulo");
+            }
+            else
+            {
+                if (!(parameter.Value is IEnumerable<int> list))
+                    throw new ArgumentException($"[SqlListParameter] O parâmetro '{parameter.ParameterName}' deve ser compatível com IEnumerable<int>");
+
+                var joinedListItems = string.Join(",", list);
+
+                sql = sql.Replace(parameter.ParameterName, joinedListItems);
+            }
+
+            return sql;
+        }
+
+        public IQueryable<TEntity> FromSql(string sql/*, params object[] parameters*/)
+        {
+            //var listParameters = parameters.Where(n => n.GetType() == typeof(ListParameter)).ToArray();
+            //sql = listParameters.Aggregate(sql, (dbSql, parameter) => ApplyList(dbSql, parameter as ListParameter));
+            //parameters = parameters.Where(n => n.GetType() != typeof(ListParameter)).ToArray();
+
+            //return _dbContext.Set<TEntity>().FromSql(sql, parameters);
+            return _dbContext.Set<TEntity>().FromSql(sql);
         }
     }
 }

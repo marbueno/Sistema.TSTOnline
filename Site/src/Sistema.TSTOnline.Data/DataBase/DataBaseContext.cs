@@ -5,7 +5,7 @@ using Sistema.TSTOnline.Domain.Entities.PedidoVenda;
 using Sistema.TSTOnline.Domain.Entities.OrdemServico;
 using Sistema.TSTOnline.Domain.Entities.Estoque;
 using Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira;
-
+using Sistema.TSTOnline.Domain.Entities.Relatorios;
 
 namespace Sistema.TSTOnline.Data
 {
@@ -61,5 +61,11 @@ namespace Sistema.TSTOnline.Data
         public DbSet<FluxoCaixaEN> tbfluxocaixa { get; set; }
 
         #endregion Movimentação Financeira
+
+        #region Relatórios
+
+        public DbSet<VendasPorVendedorEN> VendasPorVendedor { get; set; }
+
+        #endregion Relatórios
     }
 }

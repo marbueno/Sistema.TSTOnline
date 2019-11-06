@@ -37,7 +37,7 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         public OrigemContasReceberEnum Origem { get; set; }
 
         [JsonProperty(PropertyName = "origemDescricao")]
-        public string OrigemDescricao { get { return Origem.ToDescriptionEmum(); } }
+        public string OrigemDescricao { get { return Origem.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "chave")]
         public int Chave { get; set; }
@@ -49,6 +49,6 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         public ContasReceberStatusEnum Status { get; set; }
 
         [JsonProperty(PropertyName = "statusDescricao")]
-        public string StatusDescricao { get { return Status.ToDescriptionEmum(); } }
+        public string StatusDescricao { get { return Status.ToDescriptionEnum(); } }
     }
 }

@@ -20,7 +20,7 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         public PedidoVendaStatusEnum Status { get; set; }
 
         [JsonProperty(PropertyName = "statusDescricao")]
-        public string StatusDescricao { get { return Status.ToDescriptionEmum(); } }
+        public string StatusDescricao { get { return Status.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "idUsuario")]
         public int IDUsuario { get; set; }

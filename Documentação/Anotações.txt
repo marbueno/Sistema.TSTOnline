@@ -46,21 +46,7 @@
 	insert into permission_params values (0, 80, 'pedidovenda_view');
 	insert into permission_params values (0, 80, 'contasreceber_view');
 	insert into permission_params values (0, 80, 'fluxocaixa_view');	
-	
-	
-	insert into permission_params values (0, 11, 'vendedor_view');
-	insert into permission_params values (0, 11, 'fornecedor_view');
-	insert into permission_params values (0, 11, 'categoria_view');
-	insert into permission_params values (0, 11, 'subcategoria_view');
-	insert into permission_params values (0, 11, 'produto_view');
-	insert into permission_params values (0, 11, 'locaisservico_view');
-	insert into permission_params values (0, 11, 'tiposervico_view');
-	insert into permission_params values (0, 11, 'ordemservico_view');
-	insert into permission_params values (0, 11, 'estoque_view');
-	insert into permission_params values (0, 11, 'movimentoestoque_view');
-	insert into permission_params values (0, 11, 'pedidovenda_view');
-	insert into permission_params values (0, 11, 'contasreceber_view');
-	insert into permission_params values (0, 11, 'fluxocaixa_view');	
+
 
 **** PÁGINAS ALTERADAS NO PHP
 

@@ -16,13 +16,13 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
         public TipoLancamentoFluxoCaixaEnum TipoLancamento { get; set; }
 
         [JsonProperty(PropertyName = "tipoLancamentoDescricao")]
-        public string TipoLancamentoDescricao { get { return TipoLancamento.ToDescriptionEmum(); } }
+        public string TipoLancamentoDescricao { get { return TipoLancamento.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "origem")]
         public OrigemFluxoCaixaEnum Origem { get; set; }
 
         [JsonProperty(PropertyName = "origemDescricao")]
-        public string OrigemDescricao { get { return Origem.ToDescriptionEmum(); } }
+        public string OrigemDescricao { get { return Origem.ToDescriptionEnum(); } }
 
         [JsonProperty(PropertyName = "chave")]
         public int Chave { get; set; }

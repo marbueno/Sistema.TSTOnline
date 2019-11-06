@@ -1,0 +1,89 @@
+﻿@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Services.Usuario
+@using Sistema.TSTOnline.Domain.Utils
+
+@inject IRepository<ProdutoEN> _produtoRepository
+@inject UsuarioService _usuarioService
+
+@{
+    ViewData["Title"] = "RELATÓRIO DE VENDAS POR VENDEDOR";
+}
+
+<form id="frmRelVendasPorVendedor">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">FILTROS</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        <input class="form-control" id="VendedorNome" maxlength="150" name="VendedorNome" placeholder="Nome" readonly="readonly" required type="text" value="">
+                        <input type="hidden" name="idVendedor" id="idVendedor" value="0">
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-6 col-lg-6">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataInicial field is required." id="dataInicial" name="dataInicial" required title="Data Inicial" type="date" value="">
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataFinal field is required." id="dataFinal" name="dataFinal" required title="Data Final" type="date" value="">
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> Imprimir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
+
+@section Scripts{
+    <script src="~/js/cadastros/vendedorPesquisa.js?v=@Helper.GetVersion()"></script>
+
+    <script>
+        
+        $("#frmRelVendasPorVendedor").submit(function (event) {
+
+            event.preventDefault();
+
+            debugger;
+
+            var json = $(this).serializeObject();
+
+            var idVendedor = json.idVendedor;
+            var dataInicial = json.dataInicial;
+            var dataFinal = json.dataFinal;
+
+            try {
+                window.open('/relatorios/vendasPorVendedorImprimir/' + idVendedor + '/' + dataInicial + '/' + dataFinal, '_blank');
+            }
+            catch (ex) {
+                console.log(ex);
+                showMessage("error", ex);
+            }
+        })
+    </script>
+}

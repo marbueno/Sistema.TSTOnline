@@ -71,8 +71,8 @@ function imprimirPedido(id) {
         window.open('/pedidovenda/imprimir/' + id, '_blank');
     }
     catch (ex) {
-        console.log(error);
-        showMessage("error", error);
+        console.log(ex);
+        showMessage("error", ex);
     }
 }
 

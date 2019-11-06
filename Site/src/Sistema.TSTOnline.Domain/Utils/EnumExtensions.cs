@@ -5,7 +5,7 @@ namespace Sistema.TSTOnline.Domain.Utils
 {
     public static class EnumExtensions
     {
-        public static string ToDescriptionEmum(this Enum enumObj)
+        public static string ToDescriptionEnum(this Enum enumObj)
         {
             var fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
 
