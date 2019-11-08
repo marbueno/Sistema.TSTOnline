@@ -27,6 +27,7 @@
         public string VendedorTelefone { get; set; }
         public string VendedorWhatsApp { get; set; }
         public string VendedorEmpresa { get; set; }
+        public string VendedorEmpresaCnpj { get; set; }
         public string VendedorEmpresaEnderecoCompleto { get; set; }
         public string VendedorEmpresaTelefoneCompleto { get; set; }
         public string PedidoFormaPagamento { get; set; }

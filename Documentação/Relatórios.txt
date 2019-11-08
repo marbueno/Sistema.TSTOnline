@@ -1,0 +1,67 @@
+Relatorio 
+
+Regra geral selecione o periodo 
+
+e Selecione o item abaixo ( ai o Marcelo ajusta) 
+
+Sempre ele seleciona tudo ou especifica sua seleção do relatorio 
+
+*Vendas detalhadas
+Por periodo 
+Vendas em aberto
+data da criação
+data do fechamento (pagamento)
+Vendas Cancelas
+
+
+*Vendas Por cliente
+Cliente
+
+
+*Vendas Por vendedor
+Todos
+ou
+Especifico (nome)
+
+
+*Vendas Por Produto
+Produtos Vendidos 
+Produto
+Produto + Cliente
+Produtos Cancelados
+
+*Entrada de Mercadoria
+Compras por produto 
+
+*Estoque
+Movimentação
+Produto Vendido
+Produto vendas em aberto
+Estoque Minimo
+Ajustes Estoque
+
+*Serviços
+OS
+OS por Cliente
+OS por Tecnico
+OS aberta
+OS Finalizada
+OS Tipo de Serviço
+
+*Financeiro
+Contas a Receber 
+Cliente
+Titulo
+Vencimento
+Status 
+
+*Fluxo de caixa
+Data lançamento
+Cliente
+Pedido de venda
+Parcela
+Valor
+
+
+
+

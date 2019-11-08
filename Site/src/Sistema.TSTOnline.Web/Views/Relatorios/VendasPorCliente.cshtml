@@ -1,10 +1,10 @@
 ﻿@using Sistema.TSTOnline.Domain.Utils
 
 @{
-    ViewData["Title"] = "RELATÓRIO DE VENDAS POR VENDEDOR";
+    ViewData["Title"] = "RELATÓRIO DE VENDAS POR CLIENTE";
 }
 
-<form id="frmRelVendasPorVendedor">
+<form id="frmRelVendasPorCliente">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -17,12 +17,12 @@
 
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
-                        <input class="form-control" id="VendedorNome" maxlength="150" name="VendedorNome" placeholder="Nome" readonly="readonly" required type="text" value="">
-                        <input type="hidden" name="idVendedor" id="idVendedor" value="0">
+                        <input class="form-control" id="RazaoSocial" maxlength="150" name="RazaoSocial" placeholder="Nome" readonly="readonly" required type="text" value="">
+                        <input type="hidden" name="idEmpresa" id="idEmpresa" value="0">
                     </div>
                 </div>
 
@@ -52,14 +52,14 @@
     </div>
 </form>
 
-@await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
 
 @section Scripts{
-    <script src="~/js/cadastros/vendedorPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
 
     <script>
-        
-        $("#frmRelVendasPorVendedor").submit(function (event) {
+
+        $("#frmRelVendasPorCliente").submit(function (event) {
 
             event.preventDefault();
 
@@ -67,12 +67,12 @@
 
             var json = $(this).serializeObject();
 
-            var idVendedor = json.idVendedor;
+            var idEmpresa = json.idEmpresa;
             var dataInicial = json.dataInicial;
             var dataFinal = json.dataFinal;
 
             try {
-                window.open('/relatorios/vendasPorVendedorImprimir/' + idVendedor + '/' + dataInicial + '/' + dataFinal, '_blank');
+                window.open('/relatorios/vendasPorClienteImprimir/' + idEmpresa + '/' + dataInicial + '/' + dataFinal, '_blank');
             }
             catch (ex) {
                 console.log(ex);

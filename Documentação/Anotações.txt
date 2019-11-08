@@ -31,7 +31,10 @@
 	11. Adicionar Parametro "pedidovenda_view" na tabela "permission_params"
 	12. Adicionar Parametro "contasreceber_view" na tabela "permission_params"
 	13. Adicionar Parametro "fluxocaixa_view" na tabela "permission_params"
-	14. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
+	
+	14. Adicionar Parametro "rltvendasporvendedor_view" na tabela "permission_params"
+	
+	15. Conceder Permissão dos novos parametros criados para o grupo de usuário - tabela "permission_groups" (No caso "DESENVOLVEDOR")
 	
 	insert into permission_params values (0, 80, 'vendedor_view');
 	insert into permission_params values (0, 80, 'fornecedor_view');

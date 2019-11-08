@@ -70,5 +70,38 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         #endregion Vendas Por Vendedor
+
+        #region Vendas Por Cliente
+
+        [HttpGet]
+        [Route("vendasPorCliente")]
+        public IActionResult VendasPorCliente(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("vendasPorClienteImprimir/{idEmpresa}/{dataInicial}/{dataFinal}")]
+        public IActionResult VendasPorClienteImprimir(int idEmpresa, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.VendasPorClienteImprimir(caminhoTemplate, idEmpresa, dataInicial, dataFinal);
+            var nomeArquivo = $"VendasPorCliente.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Vendas Por Cliente
     }
 }
