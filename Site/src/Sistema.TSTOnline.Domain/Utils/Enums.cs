@@ -22,6 +22,9 @@ namespace Sistema.TSTOnline.Domain.Utils
 
     public enum PedidoVendaStatusEnum : int
     {
+        [Description("TODOS")]
+        Todos = 0,
+
         [Description("ABERTO")]
         Aberto = 1,
 

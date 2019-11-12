@@ -67,7 +67,7 @@
 				@bottom-left {
 					content: element(footer);
 				}
-				margin-top: 140px;
+				margin-top: 120px;
 				margin-left : 0px;
 				margin-right : 0px;
 			}
@@ -79,23 +79,20 @@
 		<div style="width: 750px; margin: 0 auto; background: #ffffff">
 
 			<header>
-				<div style="width: 25%; height: 130px; margin-left: 20px; margin-top: 20px; display: inline-block;">
+				<div style="width: 25%; height: 110px; margin-left: 20px; margin-top: 20px; display: inline-block;">
 					<img src="https://sistema.tstonline.com.br/assets/images/logo.png" style="margin-left: 20px; height: 70px;" />
-					<h3>&nbsp;</h3>
 				</div>
 
-				<div style="width: 71%; height: 120px; text-align:right; display: inline-block; margin-top:20px;">
+				<div style="width: 71%; height: 110px; text-align:right; display: inline-block; margin-top:20px;">
 					<h3 style="font-weight: normal; margin: 0">Ordem de Serviço</h3>
 					<h3 style="margin: 0">${OrdemServicoNumero}</h3>
-					<h4 style="font-weight: normal; margin: 0">${ClienteRazaoSocial}</h4>
-					<h4 style="font-weight: normal; margin: 0">${ClienteRazaoEnderecoCompleto}</h4>
-					<h4 style="font-weight: normal; margin: 0">${ClienteRazaoTelefoneCompleto}</h4>
+					<h4 style="font-weight: normal; margin: 0">CNPJ: ${CompanyCnpj} | ${CompanyRazaoSocial}</h4>
 					<p>
 						O.S. emitida em ${DataInclusao} às ${HorarioInclusao}
 					</p>
 				</div>
 
-				<div style="width: 94%; position: absolute; top:130px; z-index: -1; margin-left:20px;">
+				<div style="width: 94%; position: absolute; top:110px; z-index: -1; margin-left:20px;">
 					<hr style="border: dashed 1px #6a6d73;" />
 				</div>
 			</header>
@@ -266,23 +263,22 @@
 				<tr>
 					<td style="font-size: 10px;">
 
-						<div style="width: 25%; height: 105px; display: inline-block;">
+						<div style="width: 25%; height: 95px; display: inline-block;">
 							<img src="https://sistema.tstonline.com.br/assets/images/logo.png" style="margin-left: 20px; height: 70px;" />
 							<h3>&nbsp;</h3>
 						</div>
 
-						<div style="width: 74%; height: 90px; text-align:right; display: inline-block; margin-top:5px;">
+						<div style="width: 74%; height: 50px; text-align:right; display: inline-block; margin-top:5px;">
 							<h3 style="font-weight: normal; margin: 0">Ordem de Serviço</h3>
 							<h3 style="margin: 0">${OrdemServicoNumero}</h3>
-							<h4 style="font-weight: normal; margin: 0">${ClienteRazaoSocial}</h4>
-							<h4 style="font-weight: normal; margin: 0">${ClienteRazaoEnderecoCompleto}</h4>
-							<h4 style="font-weight: normal; margin: 0">${ClienteRazaoTelefoneCompleto}</h4>
+							<h4 style="font-weight: normal; margin: 0">CNPJ: ${CompanyCnpj} | ${CompanyRazaoSocial}</h4>
 							<p>
 								O.S. emitida em ${DataInclusao} às ${HorarioInclusao}
 							</p>
+							<h4 style="font-weight: normal; margin: 0">&nbsp;</h4>
 						</div>
 
-						<div style="width: 100%; position: absolute; top:100px; z-index: -1;">
+						<div style="width: 100%; position: absolute; top:90px; z-index: -1;">
 							<hr style="border: dashed 1px #6a6d73;" />
 						</div>
 										

@@ -4,6 +4,7 @@ using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Domain.Services.Template;
 using Microsoft.Extensions.Configuration;
 using System;
+using Sistema.TSTOnline.Domain.Utils;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -89,6 +90,39 @@ namespace Sistema.TSTOnline.Web.Controllers
 
             var documento = _templateBU.VendasPorClienteImprimir(caminhoTemplate, idEmpresa, dataInicial, dataFinal);
             var nomeArquivo = $"VendasPorCliente.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Vendas Por Cliente
+
+        #region Vendas Detalhadas
+
+        [HttpGet]
+        [Route("vendasDetalhadas")]
+        public IActionResult VendasDetalhadas(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("vendasDetalhadasImprimir/{idEmpresa}/{idVendedor}/{idStatus}/{dataInicial}/{dataFinal}")]
+        public IActionResult VendasDetalhadasImprimir(int idEmpresa, int idVendedor, PedidoVendaStatusEnum idStatus, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.VendasDetalhadasImprimir(caminhoTemplate, idEmpresa, idVendedor, idStatus, dataInicial, dataFinal);
+            var nomeArquivo = $"VendasDetalhadas.pdf";
 
             var contentDispositionHeader = new System.Net.Mime.ContentDisposition
             {

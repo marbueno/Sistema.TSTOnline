@@ -6,7 +6,7 @@ e Selecione o item abaixo ( ai o Marcelo ajusta)
 
 Sempre ele seleciona tudo ou especifica sua seleção do relatorio 
 
-*Vendas detalhadas
+*Vendas detalhadas - OK
 Por periodo 
 Vendas em aberto
 data da criação
@@ -14,11 +14,11 @@ data do fechamento (pagamento)
 Vendas Cancelas
 
 
-*Vendas Por cliente
+*Vendas Por cliente - OK
 Cliente
 
 
-*Vendas Por vendedor
+*Vendas Por vendedor - OK
 Todos
 ou
 Especifico (nome)
@@ -61,7 +61,4 @@ Cliente
 Pedido de venda
 Parcela
 Valor
-
-
-
 

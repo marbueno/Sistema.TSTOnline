@@ -17,6 +17,7 @@ namespace Sistema.TSTOnline.Data
 
         #region Cadastros
 
+        public DbSet<CompanyEN> companies { get; set; }
         public DbSet<EmpresaEN> tbcadempresas { get; set; }
         public DbSet<VendedorEN> tbcadvendedor { get; set; }
         public DbSet<ResponsavelEN> tbresponsavel { get; set; }
@@ -65,8 +66,8 @@ namespace Sistema.TSTOnline.Data
         #region Relatórios
 
         public DbSet<VendasPorVendedorEN> VendasPorVendedor { get; set; }
-
         public DbSet<VendasPorClienteEN> VendasPorCliente { get; set; }
+        public DbSet<VendasDetalhadasEN> VendasDetalhadas { get; set; }
 
         #endregion Relatórios
     }

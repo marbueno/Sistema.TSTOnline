@@ -31,6 +31,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<VendedorEN> _vendedorRepository;
 
+        private readonly IRepository<CompanyEN> _companyRepository;
+
         private readonly IRepository<EmpresaEN> _empresaRepository;
 
         private readonly IRepository<LocalServicoEN> _localServicoRepository;
@@ -47,11 +49,15 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<VendasPorClienteEN> _repositoryVendasPorCliente;
 
+        private readonly IRepository<VendasDetalhadasEN> _repositoryVendasDetalhadas;
+
         private readonly IDocumento _documentoService;
 
         private readonly UsuarioService _usuarioService;
 
         private int idCompany => _usuarioService.GetCompanyId();
+
+        private CompanyEN _company => _companyRepository.GetByID(idCompany);
 
         #endregion Variables
 
@@ -69,6 +75,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<VendedorEN> vendedorRepository,
 
+                IRepository<CompanyEN> companyRepository,
+
                 IRepository<EmpresaEN> empresaRepository,
 
                 IRepository<LocalServicoEN> localServicoRepository,
@@ -85,6 +93,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<VendasPorClienteEN> repositoryVendasPorCliente,
 
+                IRepository<VendasDetalhadasEN> repositoryVendasDetalhadas,
+
                 IDocumento documentoService,
 
                 UsuarioService usuarioService
@@ -99,6 +109,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             _responsavelRepository = responsavelRepository;
 
             _vendedorRepository = vendedorRepository;
+
+            _companyRepository = companyRepository;
 
             _empresaRepository = empresaRepository;
 
@@ -115,6 +127,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             _repositoryVendasPorVendedor = repositoryVendasPorVendedor;
 
             _repositoryVendasPorCliente = repositoryVendasPorCliente;
+
+            _repositoryVendasDetalhadas = repositoryVendasDetalhadas;
 
             _documentoService = documentoService;
 
@@ -138,9 +152,10 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 OrdemServicoData = $"{ordemServicoEN.DataServico.ToString("dd/MM/yyyy")} {ordemServicoEN.HorarioServico}",
                 OrdemServicoStatus = ordemServicoEN.Status.ToDescriptionEnum(),
-                ClienteRazaoSocial = empresa.RazaoSocial,
-                ClienteRazaoEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}",
-                ClienteRazaoTelefoneCompleto = $"Fone: {empresa.Telefone}",
+                CompanyCnpj = _company.Cnpj,
+                CompanyRazaoSocial = _company.RazaoSocial,
+                //ClienteRazaoEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}",
+                //ClienteRazaoTelefoneCompleto = $"Fone: {empresa.Telefone}",
                 ResponsavelNome = _responsavelRepository.GetByID(ordemServicoEN.IDResp).NomeResponsavel,
                 LocalNome = localServivoEN.Nome,
                 LocalCEP = Sistema.Utils.Helper.FormatarCEP(localServivoEN.CEP),
@@ -233,8 +248,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             };
 
             empresa = _empresaRepository.GetByID(vendedor.IDEmpresa);
-            pvTemplate.VendedorEmpresa = empresa.RazaoSocial;
-            pvTemplate.VendedorEmpresaCnpj = empresa.NrMatricula;
+            pvTemplate.VendedorEmpresa = _company.RazaoSocial;
+            pvTemplate.VendedorEmpresaCnpj = _company.Cnpj;
             pvTemplate.VendedorEmpresaEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}";
             pvTemplate.VendedorEmpresaTelefoneCompleto = $"Fone: {empresa.Telefone}";
 
@@ -587,6 +602,144 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioVendasPorCliente.html";
 
             var documentoBase64 = _documentoService.GerarDocumento<VendasPorClienteTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string VendasDetalhadasImprimir(string CaminhoTemplate, int IDEmpresa, int IDVendedor, PedidoVendaStatusEnum IDStatus, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                ped.idpedido        as Id,
+                                ped.idpedido        as IDPedido,
+                                ped.datacadastro    as DataCadastro,
+                                ped.datavenda       as DataVenda,
+                                flc.datalancamento  as DataPagamento,
+                                ped.status          as Status,
+                                emp.razaosocial     as RazaoSocial,
+                                ven.nome            as NomeVendedor
+                              from tbpedidovenda ped
+                             inner join tbcadempresas emp on ped.idempresa = emp.idempresa
+                             inner join tbcadvendedor ven on ped.idvendedor = ven.idvendedor
+                              left join tbcontasreceber ctr on ped.idpedido = ctr.chave
+                                                           and ctr.origem = 2
+                              left join tbfluxocaixa flc on ctr.idcontasreceber = flc.chave
+                                                           and flc.origem = 2
+                             where ped.idcompany = {idCompany}
+                               and ped.datavenda between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDEmpresa != 0)
+            {
+                SQL += $" and ped.idempresa = {IDEmpresa.ToString()}";
+            }
+
+            if (IDVendedor != 0)
+            {
+                SQL += $" and ped.idvendedor = {IDVendedor.ToString()}";
+            }
+
+            if (IDStatus != PedidoVendaStatusEnum.Todos)
+            {
+                SQL += $" and ped.status = {(int)IDStatus}";
+            }
+
+            var listPedidosVenda = _repositoryVendasDetalhadas.FromSql(SQL).OrderByDescending(e => e.IDPedido).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Nro Ped</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Dt Criação</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Dt Venda</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Dt Pagto</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 32%; text-align:left;\"><span>Cliente</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Vendedor</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:left;\"><span>Status</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:right;\"><span>Vlr Pedido</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+
+            decimal valorTotalGeral = 0;
+
+            foreach (var itemPedido in listPedidosVenda)
+            {
+                var listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == itemPedido.IDPedido);
+                decimal valorTotalPedido = listPedidoVendaItem.Sum(obj => obj.ValorTotal);
+                valorTotalGeral += valorTotalPedido;
+
+                string dataPagamento = string.Empty;
+
+                if (itemPedido.DataPagamento != null)
+                    dataPagamento = ((DateTime)itemPedido.DataPagamento).ToString("dd/MM/yyyy");
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemPedido.IDPedido.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemPedido.DataCadastro.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemPedido.DataVenda.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{dataPagamento}</td>";
+                HTML += $"               <td style=\"width: 32%; text-align:left;\">{itemPedido.RazaoSocial}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemPedido.NomeVendedor}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:left;\">{itemPedido.Status.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:right;\">{Sistema.Utils.Helper.FormatReal(valorTotalPedido, true)}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"text-align:right;\"><strong>Total Geral: {Sistema.Utils.Helper.FormatReal(valorTotalGeral, true)}</strong></td>";
+            HTML += $"</tr>";
+
+            VendasDetalhadasTemplate pvRelatorio = new VendasDetalhadasTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                StatusFiltro = IDStatus.ToDescriptionEnum(),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if (IDEmpresa == 0)
+            {
+                pvRelatorio.ClienteFiltro = "TODOS";
+            }
+            else
+            {
+                EmpresaEN empresa = _empresaRepository.GetByID(IDEmpresa);
+                pvRelatorio.ClienteFiltro = empresa.RazaoSocial;
+            }
+
+            if (IDVendedor == 0)
+            {
+                pvRelatorio.VendedorFiltro = "TODOS";
+            }
+            else
+            {
+                VendedorEN vendedor = _vendedorRepository.GetByID(IDVendedor);
+                pvRelatorio.VendedorFiltro = vendedor.Nome;
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioVendasDetalhadas.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<VendasDetalhadasTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
 
             return documentoBase64;
         }
