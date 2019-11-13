@@ -2,10 +2,10 @@
 
 @{
     var listStatusPedido = Enum.GetValues(typeof(PedidoVendaStatusEnum)).Cast<PedidoVendaStatusEnum>().ToList();
-    ViewData["Title"] = "RELATÓRIO DE VENDAS DETALHADAS";
+    ViewData["Title"] = "RELATÓRIO DE VENDAS POR PRODUTO";
 }
 
-<form id="frmRelVendasDetalhadas">
+<form id="frmRelVendasPorProduto">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -83,7 +83,7 @@
 
     <script>
 
-        $("#frmRelVendasDetalhadas").submit(function (event) {
+        $("#frmRelVendasPorProduto").submit(function (event) {
 
             event.preventDefault();
 
@@ -98,7 +98,7 @@
             var dataFinal = json.dataFinal;
 
             try {
-                window.open('/relatorios/vendasDetalhadasImprimir/' + idEmpresa + '/' + idVendedor + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
+                window.open('/relatorios/vendasPorProdutoImprimir/' + idEmpresa + '/' + idVendedor + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
             }
             catch (ex) {
                 console.log(ex);

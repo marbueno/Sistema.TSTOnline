@@ -68,6 +68,7 @@ namespace Sistema.TSTOnline.Data
         public DbSet<VendasPorVendedorEN> VendasPorVendedor { get; set; }
         public DbSet<VendasPorClienteEN> VendasPorCliente { get; set; }
         public DbSet<VendasDetalhadasEN> VendasDetalhadas { get; set; }
+        public DbSet<VendasPorProdutoEN> VendasPorProduto { get; set; }
 
         #endregion Relatórios
     }
