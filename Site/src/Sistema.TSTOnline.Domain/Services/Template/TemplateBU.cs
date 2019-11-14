@@ -53,6 +53,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<VendasPorProdutoEN> _repositoryVendasPorProduto;
 
+        private readonly IRepository<MovimentacaoEstoqueEN> _repositoryMovimentacaoEstoque;
+
         private readonly IDocumento _documentoService;
 
         private readonly UsuarioService _usuarioService;
@@ -99,6 +101,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<VendasPorProdutoEN> repositoryVendasPorProduto,
 
+                IRepository<MovimentacaoEstoqueEN> repositoryMovimentacaoEstoque,
+
                 IDocumento documentoService,
 
                 UsuarioService usuarioService
@@ -135,6 +139,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             _repositoryVendasDetalhadas = repositoryVendasDetalhadas;
 
             _repositoryVendasPorProduto = repositoryVendasPorProduto;
+
+            _repositoryMovimentacaoEstoque = repositoryMovimentacaoEstoque;
 
             _documentoService = documentoService;
 
@@ -870,6 +876,151 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioVendasPorProduto.html";
 
             var documentoBase64 = _documentoService.GerarDocumento<VendasPorProdutoTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string MovimentacaoEstoqueImprimir(string CaminhoTemplate, OrigemMovimentoEstoqueEnum IDOrigem, TipoMovimentoEstoqueEnum IDTipo, int IDProduto, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                mve.idmovimento         as Id,
+                                ped.idpedido            as IDPedido,
+                                mve.datamovimento       as DataMovimento,
+                                mve.origem              as Origem,
+                                mve.tipo                as Tipo,
+                                prd.nome                as Produto,
+                                mve.qtde                as Qtde,
+                                mve.observacao          as Observacao
+                              from tbmovimentoestoque mve
+                             inner join tbproduto prd on mve.idproduto = prd.idproduto
+                              left join tbpedidovenda ped on mve.chave = ped.idpedido
+                                                         and mve.origem = 2
+                             where mve.idcompany = {idCompany}
+                               and mve.datamovimento between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if ((int)IDOrigem != 0)
+            {
+                SQL += $" and mve.origem = {(int)IDOrigem}";
+            }
+
+            if ((int)IDTipo != 0)
+            {
+                SQL += $" and mve.tipo = {(int)IDTipo}";
+            }
+
+            if (IDProduto != 0)
+            {
+                SQL += $" and mve.idproduto = {IDProduto}";
+            }
+
+            var listMovimentacaoEstoque = _repositoryMovimentacaoEstoque.FromSql(SQL).OrderBy(e => e.Id).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Mov</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Data Mov</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 26%; text-align:left;\"><span>Produto</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Origem</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Pedido</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Tipo</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 21%; text-align:left;\"><span>Observação</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 05%; text-align:center;\"><span>Qtde</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+
+            decimal qtdeGeral = 0;
+
+            foreach (var itemMov in listMovimentacaoEstoque)
+            {
+                if (itemMov.Tipo == TipoMovimentoEstoqueEnum.Entrada)
+                    qtdeGeral += itemMov.Qtde;
+                else
+                    qtdeGeral -= itemMov.Qtde;
+
+                string numeroPedido = string.Empty;
+
+                if (itemMov.Origem == OrigemMovimentoEstoqueEnum.PedidoVenda)
+                    numeroPedido = ((int)itemMov.IDPedido).ToString("000000");
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemMov.Id.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemMov.DataMovimento.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 26%; text-align:left;\">{itemMov.Produto}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemMov.Origem.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{numeroPedido}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemMov.Tipo.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 21%; text-align:left;\">{itemMov.Observacao}</td>";
+                HTML += $"               <td style=\"width: 05%; text-align:center;\">{itemMov.Qtde}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"text-align:right;\"><strong>Qtde Total: {qtdeGeral}</strong></td>";
+            HTML += $"</tr>";
+
+            MovimentacaoEstoqueTemplate pvRelatorio = new MovimentacaoEstoqueTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                OrigemFiltro = IDOrigem.ToDescriptionEnum(),
+                TipoFiltro = IDTipo.ToDescriptionEnum(),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if ((int)IDOrigem == 0)
+            {
+                pvRelatorio.OrigemFiltro = "TODAS";
+            }
+            else
+            {
+                pvRelatorio.OrigemFiltro = IDOrigem.ToDescriptionEnum();
+            }
+
+            if ((int)IDTipo == 0)
+            {
+                pvRelatorio.TipoFiltro = "TODOS";
+            }
+            else
+            {
+                pvRelatorio.TipoFiltro = IDTipo.ToDescriptionEnum();
+            }
+
+            if (IDProduto == 0)
+            {
+                pvRelatorio.ProdutoFiltro = "TODOS";
+            }
+            else
+            {
+                ProdutoEN produto = _produtoRepository.GetByID(IDProduto);
+                pvRelatorio.ProdutoFiltro = produto.Nome;
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioMovimentacaoEstoque.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<MovimentacaoEstoqueTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
 
             return documentoBase64;
         }

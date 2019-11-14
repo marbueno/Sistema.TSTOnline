@@ -1,0 +1,125 @@
+﻿@using Sistema.TSTOnline.Domain.Utils
+@using Sistema.TSTOnline.Domain.Interfaces
+@using Sistema.TSTOnline.Domain.Entities.Produtos
+@using Sistema.TSTOnline.Domain.Services.Usuario
+
+@inject IRepository<ProdutoEN> _produtoRepository
+@inject UsuarioService _usuarioService
+
+@{
+    int idCompany = _usuarioService.GetCompanyId();
+    var listOrigem = Enum.GetValues(typeof(OrigemMovimentoEstoqueEnum)).Cast<OrigemMovimentoEstoqueEnum>().ToList();
+    var listTipo = Enum.GetValues(typeof(TipoMovimentoEstoqueEnum)).Cast<TipoMovimentoEstoqueEnum>().ToList();
+    var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
+    ViewData["Title"] = "RELATÓRIO DE MOVIMENTAÇÂO DO ESTOQUE";
+}
+
+<form id="frmRelMovimentacaoEstoque">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">FILTROS</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-4 col-lg-4">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataInicial field is required." id="dataInicial" name="dataInicial" required title="Data Inicial" type="date" value="">
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataFinal field is required." id="dataFinal" name="dataFinal" required title="Data Final" type="date" value="">
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-4 col-lg-4">
+                        <select name="idOrigem" class="form-control" required="">
+
+                            <option selected value="0">TODOS AS ORIGENS</option>
+
+                            @foreach (var itemOrigem in listOrigem)
+                            {
+                                <option value="@((int)itemOrigem)">@itemOrigem.ToDescriptionEnum()</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        <select name="idTipo" class="form-control" required="">
+
+                            <option selected value="0">TODOS OS TIPOS</option>
+
+                            @foreach (var itemTipo in listTipo)
+                            {
+                                <option value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-sm-12 col-lg-12">
+                        <select id="slcProduto" name="idProduto" class="form-control">
+
+                            <option selected value="0">TODOS OS PRODUTOS</option>
+
+                            @foreach (var itemProduto in listProdutos)
+                            {
+                                <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                            }
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> Imprimir
+                            </button>
+                            <button class="btn btn-danger" onClick="backToHome()"><i class="fa fa-undo fa-lg"></i> Voltar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+
+    <script>
+
+        $("#frmRelMovimentacaoEstoque").submit(function (event) {
+
+            event.preventDefault();
+
+            debugger;
+
+            var json = $(this).serializeObject();
+
+            var idOrigem = json.idOrigem;
+            var idTipo = json.idTipo;
+            var idProduto = json.idProduto;
+            var dataInicial = json.dataInicial;
+            var dataFinal = json.dataFinal;
+
+            try {
+                window.open('/relatorios/movimentacaoEstoqueImprimir/' + idOrigem + '/' + idTipo + '/' + idProduto + '/' + dataInicial + '/' + dataFinal, '_blank');
+            }
+            catch (ex) {
+                console.log(ex);
+                showMessage("error", ex);
+            }
+        })
+    </script>
+}

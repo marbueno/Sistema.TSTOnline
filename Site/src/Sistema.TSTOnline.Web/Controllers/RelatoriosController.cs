@@ -170,5 +170,38 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         #endregion Vendas Por Produto
+
+        #region Movimentação de Estoque
+
+        [HttpGet]
+        [Route("movimentacaoEstoque")]
+        public IActionResult MovimentacaoEstoque(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("movimentacaoEstoqueImprimir/{idOrigem}/{idTipo}/{idProduto}/{dataInicial}/{dataFinal}")]
+        public IActionResult MovimentacaoEstoqueImprimir(OrigemMovimentoEstoqueEnum idOrigem, TipoMovimentoEstoqueEnum idTipo, int idProduto, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.MovimentacaoEstoqueImprimir(caminhoTemplate, idOrigem, idTipo, idProduto, dataInicial, dataFinal);
+            var nomeArquivo = $"MovimentacaoEstoque.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Movimentação de Estoque
     }
 }

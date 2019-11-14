@@ -24,16 +24,16 @@ ou
 Especifico (nome)
 
 
-*Vendas Por Produto
+*Vendas Por Produto - OK
 Produtos Vendidos 
 Produto
 Produto + Cliente
 Produtos Cancelados
 
-*Entrada de Mercadoria
+*Entrada de Mercadoria - OK
 Compras por produto 
 
-*Estoque
+*Estoque - OK
 Movimentação
 Produto Vendido
 Produto vendas em aberto

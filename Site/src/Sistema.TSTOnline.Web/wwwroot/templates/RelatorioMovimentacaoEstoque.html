@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+
+		<title>Relatório - Movimentação de Estoque</title>
+
+		<style type="text/css">
+
+			body {
+				font-family: Arial, Helvetica, Sans-serif !important;
+				font-size: 8px;
+			}
+
+			table{
+				width: 100%;
+				color: #888888;
+				font-size: 9px;
+				margin:0;
+				padding:0;
+				border:0;
+			}
+
+			.center{
+				text-align: center;
+			}
+
+			.header{
+				color: #E00500;
+				font-size: 9px;
+				padding-top: 10px;
+			}
+			
+			header {
+				position: running(header);
+				font-family: Arial, Helvetica, Sans-serif !important;
+				font-size: 12px;
+				color: #888888;
+			}
+
+			footer {
+				font-family: Arial, Helvetica, Sans-serif !important;
+				font-size: 9px;
+				height: 30px;
+				background: #E00500;
+				color: #ffffff;
+
+				margin-bottom: -10px;
+
+				padding-left: 30px;
+				padding-top: 10px;
+
+				position: running(footer);
+			}
+
+			.custom-footer-page-number:after {
+				content: counter(page) " DE " counter(pages);
+			}
+
+			@page {
+
+				@top-left {
+					height: 100px;
+					content: element(header);
+				}
+
+				@bottom-left {
+					content: element(footer);
+				}
+				margin-top: 160px;
+				margin-left : 0px;
+				margin-right : 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div style="width: 750px; margin: 0 auto; background: #ffffff">
+
+			<header>
+				<div style="width: 25%; height: 140px; margin-left: 20px; margin-top: 20px; display: inline-block;">
+					<img src="https://sistema.tstonline.com.br/assets/images/logo.png" style="margin-left: 20px; height: 70px;" />
+					<h3>&nbsp;</h3>
+					<h3>&nbsp;</h3>
+				</div>
+
+				<div style="width: 71%; height: 140px; text-align:right; display: inline-block; margin-top:20px;">
+					<h2 style="font-weight: normal; margin: 0"><strong>Movimentação de Estoque</strong></h2>
+					<h4 style="font-weight: normal; margin: 0">Período: ${DataInicial} até ${DataFinal}</h4>
+					<h4 style="font-weight: normal; margin: 0">Origem: ${OrigemFiltro}</h4>
+					<h4 style="font-weight: normal; margin: 0">Tipo: ${TipoFiltro}</h4>
+					<h4 style="font-weight: normal; margin: 0">Produto: ${ProdutoFiltro}</h4>
+					<p>
+						Relatório emitido em ${DataInclusao} às ${HorarioInclusao}
+					</p>
+				</div>
+
+				<div style="width: 94%; position: absolute; top:150px; z-index: -1; margin-left:20px;">
+					<hr style="border: dashed 1px #6a6d73;" />
+				</div>
+			</header>
+
+			<table cellpadding="0" cellspacing="0" style="font-size: 12px;">
+
+				${ConteudoRelatorio}
+
+				<tr>
+					<td>
+						<br />
+					</td>
+				</tr>
+				
+				<footer>
+					<div style="width:80%; display: inline-block;">Relatório emitido em ${DataInclusaoPorExtenso} </div> <div style="width:15%; text-align:right; display: inline-block;"><span class="custom-footer-page-number">PÁGINA: </span></div>
+				</footer>
+
+			</table>
+
+		</div>
+
+	</body>
+
+</html>
