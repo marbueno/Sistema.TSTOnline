@@ -55,6 +55,16 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<MovimentacaoEstoqueEN> _repositoryMovimentacaoEstoque;
 
+        private readonly IRepository<OrdemServicoPorTecnicoEN> _repositoryOrdemServicoPorTecnico;
+
+        private readonly IRepository<OrdemServicoPorClienteEN> _repositoryOrdemServicoPorCliente;
+
+        private readonly IRepository<OrdemServicoDetalhadaEN> _repositoryOrdemServicoDetalhada;
+
+        private readonly IRepository<OrdemServicoPorTipoEN> _repositoryOrdemServicoPorTipo;
+
+        private readonly IRepository<MovimentacaoFinanceiraContasReceberEN> _repositoryMovimentacaoFinanceiraContasReceber;
+
         private readonly IDocumento _documentoService;
 
         private readonly UsuarioService _usuarioService;
@@ -103,6 +113,16 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<MovimentacaoEstoqueEN> repositoryMovimentacaoEstoque,
 
+                IRepository<OrdemServicoPorTecnicoEN> repositoryOrdemServicoPorTecnico,
+
+                IRepository<OrdemServicoPorClienteEN> repositoryOrdemServicoPorCliente,
+
+                IRepository<OrdemServicoDetalhadaEN> repositoryOrdemServicoDetalhada,
+
+                IRepository<OrdemServicoPorTipoEN> repositoryOrdemServicoPorTipo,
+
+                IRepository<MovimentacaoFinanceiraContasReceberEN> repositoryMovimentacaoFinanceiraContasReceber,
+
                 IDocumento documentoService,
 
                 UsuarioService usuarioService
@@ -141,6 +161,16 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             _repositoryVendasPorProduto = repositoryVendasPorProduto;
 
             _repositoryMovimentacaoEstoque = repositoryMovimentacaoEstoque;
+
+            _repositoryOrdemServicoPorTecnico = repositoryOrdemServicoPorTecnico;
+
+            _repositoryOrdemServicoPorCliente = repositoryOrdemServicoPorCliente;
+
+            _repositoryOrdemServicoDetalhada = repositoryOrdemServicoDetalhada;
+
+            _repositoryOrdemServicoPorTipo = repositoryOrdemServicoPorTipo;
+
+            _repositoryMovimentacaoFinanceiraContasReceber = repositoryMovimentacaoFinanceiraContasReceber;
 
             _documentoService = documentoService;
 
@@ -1021,6 +1051,603 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioMovimentacaoEstoque.html";
 
             var documentoBase64 = _documentoService.GerarDocumento<MovimentacaoEstoqueTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string OrdemServicoPorTecnicoImprimir(string CaminhoTemplate, int IDResp, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                osr.idordemservico  as Id,
+                                osr.idordemservico  as IDOrdemServico,
+                                osr.datacadastro    as DataCadastro,
+                                osr.dataservico     as DataServico,
+                                osr.horarioservico  as HorarioServico,
+                                osr.status          as Status,
+                                res.idresp          as IDResp,
+                                res.nomeresponsavel as NomeResponsavel,
+                                res.email           as EmailResponsavel
+                              from tbos osr
+                             inner join tbresponsavel res on osr.idresp = res.idresp
+                             where osr.idcompany = {idCompany}
+                               and osr.dataservico between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDResp != 0)
+            {
+                SQL += $" and osr.idresp = {IDResp.ToString()}";
+            }
+
+            var listOrdemServico = _repositoryOrdemServicoPorTecnico.FromSql(SQL).OrderBy(e => e.NomeResponsavel).ThenBy(e => e.IDOrdemServico).ToList();
+
+            string HTML = "";
+            int idResp = 0;
+
+            foreach (var itemOS in listOrdemServico)
+            {
+                if (idResp != itemOS.IDResp)
+                {
+                    if (idResp != 0)
+                    {
+                        HTML += $"<tr>";
+                        HTML += $"   <td>";
+                        HTML += $"       <hr style=\"border: dashed 1px #6a6d73;\">";
+                        HTML += $"   </td>";
+                        HTML += $"</tr>";
+                    }
+
+                    HTML += $"<tr>";
+                    HTML += $"   <td>";
+                    HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                    HTML += $"           <tr style=\"background-color: #E00500;color:#ffffff;\">";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><strong>Técnico</strong></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\">{itemOS.NomeResponsavel}</td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><strong>E-mail</strong></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\">{itemOS.EmailResponsavel}</td>";
+                    HTML += $"          </tr>";
+                    HTML += $"       </table>";
+                    HTML += $"   </td>";
+                    HTML += $"</tr>";
+
+                    HTML += $"<tr>";
+                    HTML += $"   <td>";
+                    HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                    HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Número O.S.</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Data do Serviço</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Horário Serviço</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Status</span></td>";
+                    HTML += $"          </tr>";
+                    HTML += $"       </table>";
+                    HTML += $"   </td>";
+                    HTML += $"</tr>";
+                }
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.IDOrdemServico.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.DataServico.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.HorarioServico}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.Status.ToDescriptionEnum()}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+
+                idResp = itemOS.IDResp;
+            }
+
+            OrdemServicoPorTipoTemplate pvRelatorio = new OrdemServicoPorTipoTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioOrdemServicoPorTecnico.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<OrdemServicoPorTipoTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string OrdemServicoPorClienteImprimir(string CaminhoTemplate, int IDEmpresa, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                osr.idordemservico  as Id,
+                                osr.idordemservico  as IDOrdemServico,
+                                osr.datacadastro    as DataCadastro,
+                                osr.dataservico     as DataServico,
+                                osr.horarioservico  as HorarioServico,
+                                osr.status          as Status,
+                                emp.idempresa       as IDEmpresa,
+                                emp.razaosocial     as RazaoSocial,
+                                emp.nomerespempresa as ResponsavelEmpresaNome,
+                                res.nomeresponsavel as NomeResponsavel
+                              from tbos osr
+                             inner join tbcadempresas emp on osr.idempresa = emp.idempresa
+                             inner join tbresponsavel res on osr.idresp = res.idresp
+                             where osr.idcompany = {idCompany}
+                               and osr.dataservico between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDEmpresa != 0)
+            {
+                SQL += $" and osr.idempresa = {IDEmpresa.ToString()}";
+            }
+
+            var listOrdemServico = _repositoryOrdemServicoPorCliente.FromSql(SQL).OrderBy(e => e.RazaoSocial).ThenBy(e => e.IDOrdemServico).ToList();
+
+            string HTML = "";
+            int idEmpresa = 0;
+
+            foreach (var itemOS in listOrdemServico)
+            {
+                if (idEmpresa != itemOS.IDEmpresa)
+                {
+                    if (idEmpresa != 0)
+                    {
+                        HTML += $"<tr>";
+                        HTML += $"   <td>";
+                        HTML += $"       <hr style=\"border: dashed 1px #6a6d73;\">";
+                        HTML += $"   </td>";
+                        HTML += $"</tr>";
+                    }
+
+                    HTML += $"<tr>";
+                    HTML += $"   <td>";
+                    HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                    HTML += $"           <tr style=\"background-color: #E00500;color:#ffffff;\">";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><strong>Cliente</strong></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\">{itemOS.RazaoSocial}</td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><strong>Responsável</strong></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\">{itemOS.ResponsavelEmpresaNome}</td>";
+                    HTML += $"          </tr>";
+                    HTML += $"       </table>";
+                    HTML += $"   </td>";
+                    HTML += $"</tr>";
+
+                    HTML += $"<tr>";
+                    HTML += $"   <td>";
+                    HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                    HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Número O.S.</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Data do Serviço</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Horário Serviço</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Técnico</span></td>";
+                    HTML += $"               <td style=\"font-weight: bold; width: 20%; text-align:left;\"><span>Status</span></td>";
+                    HTML += $"          </tr>";
+                    HTML += $"       </table>";
+                    HTML += $"   </td>";
+                    HTML += $"</tr>";
+                }
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.IDOrdemServico.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.DataServico.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.HorarioServico.ToString()}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.NomeResponsavel}</td>";
+                HTML += $"               <td style=\"width: 20%; text-align:left;\">{itemOS.Status.ToDescriptionEnum()}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+
+                idEmpresa = itemOS.IDEmpresa;
+            }
+
+            OrdemServicoPorClienteTemplate pvRelatorio = new OrdemServicoPorClienteTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioOrdemServicoPorCliente.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<OrdemServicoPorClienteTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string OrdemServicoDetalhadaImprimir(string CaminhoTemplate, int IDEmpresa, int IDResp, OrdemServicoStatusEnum IDStatus, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                osr.idordemservico  as Id,
+                                osr.idordemservico  as IDOrdemServico,
+                                osr.datacadastro    as DataCadastro,
+                                osr.dataservico     as DataServico,
+                                osr.horarioservico  as HorarioServico,
+                                osr.status          as Status,
+                                emp.razaosocial     as RazaoSocial,
+                                res.nomeresponsavel as NomeResponsavel
+                              from tbos osr
+                             inner join tbcadempresas emp on osr.idempresa = emp.idempresa
+                             inner join tbresponsavel res on osr.idresp = res.idresp
+                             where osr.idcompany = {idCompany}
+                               and osr.dataservico between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDEmpresa != 0)
+            {
+                SQL += $" and osr.idempresa = {IDEmpresa.ToString()}";
+            }
+
+            if (IDResp != 0)
+            {
+                SQL += $" and osr.idresp = {IDResp.ToString()}";
+            }
+
+            if (IDStatus != OrdemServicoStatusEnum.Todos)
+            {
+                SQL += $" and osr.status = {(int)IDStatus}";
+            }
+
+            var listOrdemServico = _repositoryOrdemServicoDetalhada.FromSql(SQL).OrderByDescending(e => e.IDOrdemServico).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Nro O.S.</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Dt Criação</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Dt Serviço</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 7%; text-align:left;\"><span>Hr Serviço</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 32%; text-align:left;\"><span>Cliente</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\"><span>Técnico</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:left;\"><span>Status</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+            
+            foreach (var itemOS in listOrdemServico)
+            {
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemOS.IDOrdemServico.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemOS.DataCadastro.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemOS.DataServico.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 7%; text-align:left;\">{itemOS.HorarioServico}</td>";
+                HTML += $"               <td style=\"width: 32%; text-align:left;\">{itemOS.RazaoSocial}</td>";
+                HTML += $"               <td style=\"width: 30%; text-align:left;\">{itemOS.NomeResponsavel}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:left;\">{itemOS.Status.ToDescriptionEnum()}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+                        
+            OrdemServicoDetalhadaTemplate pvRelatorio = new OrdemServicoDetalhadaTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                StatusFiltro = IDStatus.ToDescriptionEnum(),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if (IDEmpresa == 0)
+            {
+                pvRelatorio.ClienteFiltro = "TODOS";
+            }
+            else
+            {
+                EmpresaEN empresa = _empresaRepository.GetByID(IDEmpresa);
+                pvRelatorio.ClienteFiltro = empresa.RazaoSocial;
+            }
+
+            if (IDResp == 0)
+            {
+                pvRelatorio.ResponsavelFiltro = "TODOS";
+            }
+            else
+            {
+                ResponsavelEN responsavel = _responsavelRepository.GetByID(IDResp);
+                pvRelatorio.ResponsavelFiltro = responsavel.NomeResponsavel;
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioOrdemServicoDetalhada.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<OrdemServicoDetalhadaTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string OrdemServicoPorTipoImprimir(string CaminhoTemplate, int IDEmpresa, int IDResp, OrdemServicoStatusEnum IDStatus, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                osi.idordemservicoitem  as Id,
+                                osi.idordemservico      as IDOrdemServico,
+                                osi.item                as Item,
+                                tps.descricao           as TipoServico,
+                                osi.observacao          as Observacao,
+                                osi.concluido           as Concluido
+
+                              from tbositem osi
+                             inner join tbos osr on osi.idordemservico = osr.idordemservico
+                             inner join tbcadtiposervico tps on osi.idtiposervico = tps.idtiposervico
+                             where osr.idcompany = {idCompany}
+                               and osr.dataservico between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDEmpresa != 0)
+            {
+                SQL += $" and osr.idempresa = {IDEmpresa.ToString()}";
+            }
+
+            if (IDResp != 0)
+            {
+                SQL += $" and osr.idresp = {IDResp.ToString()}";
+            }
+
+            if (IDStatus != OrdemServicoStatusEnum.Todos)
+            {
+                SQL += $" and osr.status = {(int)IDStatus}";
+            }
+
+            var listItensOS = _repositoryOrdemServicoPorTipo.FromSql(SQL).OrderByDescending(e => e.IDOrdemServico).ThenBy(e => e.Item).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:left;\"><span>Nro O.S.</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:left;\"><span>Item</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 30%; text-align:left;\"><span>Tipo Serviço</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 43%; text-align:left;\"><span>Observação</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Concluído?</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+
+            foreach (var itemOS in listItensOS)
+            {
+                string concluidoStr = "NÃO";
+
+                if (itemOS.Concluido)
+                    concluidoStr = "SIM";
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 10%; text-align:left;\">{itemOS.IDOrdemServico.ToString("000000")}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:left;\">{itemOS.Item.ToString("000")}</td>";
+                HTML += $"               <td style=\"width: 30%; text-align:left;\">{itemOS.TipoServico}</td>";
+                HTML += $"               <td style=\"width: 43%; text-align:left;\">{itemOS.Observacao}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{concluidoStr}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+
+            OrdemServicoPorTipoTemplate pvRelatorio = new OrdemServicoPorTipoTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                StatusFiltro = IDStatus.ToDescriptionEnum(),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if (IDEmpresa == 0)
+            {
+                pvRelatorio.ClienteFiltro = "TODOS";
+            }
+            else
+            {
+                EmpresaEN empresa = _empresaRepository.GetByID(IDEmpresa);
+                pvRelatorio.ClienteFiltro = empresa.RazaoSocial;
+            }
+
+            if (IDResp == 0)
+            {
+                pvRelatorio.ResponsavelFiltro = "TODOS";
+            }
+            else
+            {
+                ResponsavelEN responsavel = _responsavelRepository.GetByID(IDResp);
+                pvRelatorio.ResponsavelFiltro = responsavel.NomeResponsavel;
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioOrdemServicoPorTipo.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<OrdemServicoPorTipoTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string MovimentacaoFinanceiraContasReceberImprimir(string CaminhoTemplate, int IDEmpresa, OrigemContasReceberEnum IDOrigem, ContasReceberStatusEnum IDStatus, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                ctr.idcontasreceber     as Id,
+                                ctr.idcontasreceber     as IDContasReceber,
+                                ped.idpedido            as IDPedido,
+                                ctr.datacadastro        as DataCadastro,
+                                ctr.datavencimento      as DataVencimento,
+                                ctr.numerotitulo        as NumeroTitulo,
+                                ctr.seq                 as Parcela,
+                                ctr.origem              as Origem,
+                                ctr.status              as Status,
+                                ctr.valor               as ValorTitulo,
+                                ctr.valorpago           as ValorPago,
+                                emp.razaosocial         as RazaoSocial
+                              from tbcontasreceber ctr
+                             inner join tbcadempresas emp on ctr.idempresa = emp.idempresa
+                              left join tbpedidovenda ped on ctr.chave = ped.idpedido
+                                                         and ctr.origem = 2
+                             where ctr.idcompany = {idCompany}
+                               and ctr.datavencimento between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDEmpresa != 0)
+            {
+                SQL += $" and ctr.idempresa = {IDEmpresa.ToString()}";
+            }
+
+            if (IDOrigem != 0)
+            {
+                SQL += $" and ctr.origem = {(int)IDOrigem}";
+            }
+
+            if (IDStatus != ContasReceberStatusEnum.Todos)
+            {
+                SQL += $" and ctr.status = {(int)IDStatus}";
+            }
+
+            var listContasReceber = _repositoryMovimentacaoFinanceiraContasReceber.FromSql(SQL).OrderByDescending(e => e.IDContasReceber).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 9%; text-align:left;\"><span>Nro Título</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Dt Criação</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Dt Vencto</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 04%; text-align:center;\"><span>Parc</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 25%; text-align:left;\"><span>Cliente</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 13%; text-align:left;\"><span>Origem</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Ped</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 08%; text-align:left;\"><span>Status</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:right;\"><span>Vlr Título</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:right;\"><span>Vlr Pago</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+
+            decimal valorTotalTitulos = 0;
+            decimal valorTotalPagos = 0;
+
+            foreach (var itemCR in listContasReceber)
+            {
+                valorTotalTitulos += itemCR.ValorTitulo;
+                valorTotalPagos += itemCR.ValorPago;
+
+                string numeroPedido = string.Empty;
+
+                if (itemCR.Origem == OrigemContasReceberEnum.PedidoVenda)
+                    numeroPedido = ((int)itemCR.IDPedido).ToString("000000");
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 9%; text-align:left;\">{itemCR.NumeroTitulo}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemCR.DataCadastro.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemCR.DataVencimento.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 04%; text-align:center;\">{itemCR.Parcela.ToString("000")}</td>";
+                HTML += $"               <td style=\"width: 25%; text-align:left;\">{itemCR.RazaoSocial}</td>";
+                HTML += $"               <td style=\"width: 13%; text-align:left;\">{itemCR.Origem.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{numeroPedido}</td>";
+                HTML += $"               <td style=\"width: 08%; text-align:left;\">{itemCR.Status.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:right;\">{Sistema.Utils.Helper.FormatReal(itemCR.ValorTitulo, true)}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:right;\">{Sistema.Utils.Helper.FormatReal(itemCR.ValorPago, true)}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr>";
+            HTML += $"               <td style=\"width: 9%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 07%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 07%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 04%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 25%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 13%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 07%; text-align:left;\">&nbsp;</td>";
+            HTML += $"               <td style=\"width: 08%; text-align:left;\"><strong>Totais:</strong></td>";
+            HTML += $"               <td style=\"width: 10%; text-align:right;\"><strong>{Sistema.Utils.Helper.FormatReal(valorTotalTitulos, true)}</strong></td>";
+            HTML += $"               <td style=\"width: 10%; text-align:right;\"><strong>{Sistema.Utils.Helper.FormatReal(valorTotalPagos, true)}</strong></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            //HTML += $"    <td style=\"text-align:right;\"><strong>Totais: {Sistema.Utils.Helper.FormatReal(valorTotalTitulos, true)}</strong></td>";
+            //HTML += $"    <td style=\"text-align:right;\"><strong>Total Pagos: {Sistema.Utils.Helper.FormatReal(valorTotalPagos, true)}</strong></td>";
+            HTML += $"</tr>";
+
+            MovimentacaoFinanceiraContasReceberTemplate pvRelatorio = new MovimentacaoFinanceiraContasReceberTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                StatusFiltro = IDStatus.ToDescriptionEnum(),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if (IDEmpresa == 0)
+            {
+                pvRelatorio.ClienteFiltro = "TODOS";
+            }
+            else
+            {
+                EmpresaEN empresa = _empresaRepository.GetByID(IDEmpresa);
+                pvRelatorio.ClienteFiltro = empresa.RazaoSocial;
+            }
+
+            if (IDOrigem == 0)
+            {
+                pvRelatorio.OrigemFiltro = "TODOS";
+            }
+            else
+            {
+                pvRelatorio.OrigemFiltro = IDOrigem.ToDescriptionEnum();
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioMovimentacaoFinanceiraContasReceber.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<MovimentacaoFinanceiraContasReceberTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
 
             return documentoBase64;
         }

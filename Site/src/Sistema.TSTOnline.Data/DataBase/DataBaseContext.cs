@@ -70,6 +70,11 @@ namespace Sistema.TSTOnline.Data
         public DbSet<VendasDetalhadasEN> VendasDetalhadas { get; set; }
         public DbSet<VendasPorProdutoEN> VendasPorProduto { get; set; }
         public DbSet<MovimentacaoEstoqueEN> MovimentacaoEstoque { get; set; }
+        public DbSet<OrdemServicoPorTecnicoEN> OrdemServicoPorTecnico { get; set; }
+        public DbSet<OrdemServicoPorClienteEN> OrdemServicoPorCliente { get; set; }
+        public DbSet<OrdemServicoDetalhadaEN> OrdemServicoDetalhada { get; set; }
+        public DbSet<OrdemServicoPorTipoEN> OrdemServicoPorTipo { get; set; }
+        public DbSet<MovimentacaoFinanceiraContasReceberEN> MovimentacaoFinanceiraContasReceber { get; set; }
 
         #endregion Relatórios
     }

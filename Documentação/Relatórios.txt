@@ -30,8 +30,10 @@ Produto
 Produto + Cliente
 Produtos Cancelados
 
+
 *Entrada de Mercadoria - OK
 Compras por produto 
+
 
 *Estoque - OK
 Movimentação
@@ -40,7 +42,7 @@ Produto vendas em aberto
 Estoque Minimo
 Ajustes Estoque
 
-*Serviços
+*Serviços - OK
 OS
 OS por Cliente
 OS por Tecnico
@@ -48,7 +50,7 @@ OS aberta
 OS Finalizada
 OS Tipo de Serviço
 
-*Financeiro
+*Financeiro - OK
 Contas a Receber 
 Cliente
 Titulo

@@ -203,5 +203,170 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         #endregion Movimentação de Estoque
+
+        #region Ordem Serviço Por Técnico
+
+        [HttpGet]
+        [Route("ordemServicoPorTecnico")]
+        public IActionResult OrdemServicoPorTecnico(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ordemServicoPorTecnicoImprimir/{idResp}/{dataInicial}/{dataFinal}")]
+        public IActionResult OrdemServicoPorTecnicoImprimir(int idResp, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.OrdemServicoPorTecnicoImprimir(caminhoTemplate, idResp, dataInicial, dataFinal);
+            var nomeArquivo = $"OrdemServicoPorTecnico.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Ordem Serviço Por Técnico
+
+        #region Ordem Serviço Por Cliente
+
+        [HttpGet]
+        [Route("ordemServicoPorCliente")]
+        public IActionResult OrdemServicoPorCliente(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ordemServicoPorClienteImprimir/{idEmpresa}/{dataInicial}/{dataFinal}")]
+        public IActionResult OrdemServicoPorClienteImprimir(int idEmpresa, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.OrdemServicoPorClienteImprimir(caminhoTemplate, idEmpresa, dataInicial, dataFinal);
+            var nomeArquivo = $"OrdemServicoPorCliente.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Ordem Serviço Por Cliente
+
+        #region Ordem de Serviço Detalhada
+
+        [HttpGet]
+        [Route("ordemServicoDetalhada")]
+        public IActionResult OrdemServicoDetalhada(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ordemServicoDetalhadaImprimir/{idEmpresa}/{idResp}/{idStatus}/{dataInicial}/{dataFinal}")]
+        public IActionResult OrdemServicoImprimir(int idEmpresa, int idResp, OrdemServicoStatusEnum idStatus, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.OrdemServicoDetalhadaImprimir(caminhoTemplate, idEmpresa, idResp, idStatus, dataInicial, dataFinal);
+            var nomeArquivo = $"OrdemServicoDetalhada.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Ordem de Serviço Detalhada
+
+        #region Ordem Serviço Por Tipo
+
+        [HttpGet]
+        [Route("ordemServicoPorTipo")]
+        public IActionResult OrdemServicoPorTipo(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("ordemServicoPorTipoImprimir/{idEmpresa}/{idResp}/{idStatus}/{dataInicial}/{dataFinal}")]
+        public IActionResult OrdemServicoPorTipoImprimir(int idEmpresa, int idResp, OrdemServicoStatusEnum idStatus, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.OrdemServicoPorTipoImprimir(caminhoTemplate, idEmpresa, idResp, idStatus, dataInicial, dataFinal);
+            var nomeArquivo = $"OrdemServicoPorTipo.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Ordem Serviço Por Tipo
+
+        #region Movimentação Financeira - Contas a Receber
+
+        [HttpGet]
+        [Route("movimentacaoFinanceiraContasReceber")]
+        public IActionResult MovimentacaoFinanceiraContasReceber(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("movimentacaoFinanceiraContasReceberImprimir/{idEmpresa}/{idOrigem}/{idStatus}/{dataInicial}/{dataFinal}")]
+        public IActionResult MovimentacaoFinanceiraContasReceberImprimir(int idEmpresa, OrigemContasReceberEnum idOrigem, ContasReceberStatusEnum idStatus, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.MovimentacaoFinanceiraContasReceberImprimir(caminhoTemplate, idEmpresa, idOrigem, idStatus, dataInicial, dataFinal);
+            var nomeArquivo = $"MovimentacaoFinanceiraContasReceber.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Movimentação Financeira - Contas a Receber
     }
 }

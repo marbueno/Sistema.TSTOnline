@@ -4,6 +4,9 @@ namespace Sistema.TSTOnline.Domain.Utils
 {
     public enum OrdemServicoStatusEnum : int
     {
+        [Description("TODOS OS STATUS")]
+        Todos = 0,
+
         [Description("INICIADO")]
         Iniciado = 1,
 
@@ -22,7 +25,7 @@ namespace Sistema.TSTOnline.Domain.Utils
 
     public enum PedidoVendaStatusEnum : int
     {
-        [Description("TODOS")]
+        [Description("TODOS OS STATUS")]
         Todos = 0,
 
         [Description("ABERTO")]
@@ -67,6 +70,9 @@ namespace Sistema.TSTOnline.Domain.Utils
 
     public enum ContasReceberStatusEnum : int
     {
+        [Description("TODOS OS STATUS")]
+        Todos = 0,
+
         [Description("EM ABERTO")]
         EmAberto = 1,
 

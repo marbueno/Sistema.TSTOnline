@@ -29,9 +29,9 @@
                     <div class="col-sm-4 col-lg-4">
                         <select name="idStatus" class="form-control" required="">
 
-                            @foreach (var itemTipo in listStatusPedido)
+                            @foreach (var itemStatus in listStatusPedido)
                             {
-                                <option value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                <option value="@((int)itemStatus)">@itemStatus.ToDescriptionEnum()</option>
                             }
                         </select>
                     </div>

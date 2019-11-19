@@ -1,11 +1,11 @@
 ﻿@using Sistema.TSTOnline.Domain.Utils
 
 @{
-    var listStatusPedido = Enum.GetValues(typeof(PedidoVendaStatusEnum)).Cast<PedidoVendaStatusEnum>().ToList();
-    ViewData["Title"] = "RELATÓRIO DE VENDAS DETALHADAS";
+    var listStatusOS = Enum.GetValues(typeof(OrdemServicoStatusEnum)).Cast<OrdemServicoStatusEnum>().ToList();
+    ViewData["Title"] = "RELATÓRIO DE ORDENS DE SERVIÇOS DETALHADAS";
 }
 
-<form id="frmRelVendasDetalhadas">
+<form id="frmRelOrdemServicoDetalhada">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -29,7 +29,7 @@
                     <div class="col-sm-4 col-lg-4">
                         <select name="idStatus" class="form-control" required="">
 
-                            @foreach (var itemStatus in listStatusPedido)
+                            @foreach (var itemStatus in listStatusOS)
                             {
                                 <option value="@((int)itemStatus)">@itemStatus.ToDescriptionEnum()</option>
                             }
@@ -39,6 +39,7 @@
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
+
                     <div class="col-sm-1 col-lg-1">
                         <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
                     </div>
@@ -47,17 +48,20 @@
                         <input class="form-control" id="RazaoSocial" maxlength="150" name="RazaoSocial" placeholder="Cliente" readonly="readonly" required type="text" value="">
                         <input type="hidden" name="idEmpresa" id="idEmpresa" value="0">
                     </div>
+
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
+
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalResponsavel"><i class="fa fa-search fa-lg"></i></button>
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
-                        <input class="form-control" id="VendedorNome" maxlength="150" name="VendedorNome" placeholder="Vendedor" readonly="readonly" required type="text" value="">
-                        <input type="hidden" name="idVendedor" id="idVendedor" value="0">
+                        <input class="form-control" id="ResponsavelNome" maxlength="150" name="ResponsavelNome" placeholder="Técnico" readonly="readonly" required type="text" value="">
+                        <input type="hidden" name="idResp" id="IDResp" value="0">
                     </div>
+
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
@@ -76,15 +80,15 @@
 </form>
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
-@await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarResponsavelPartial.cshtml")
 
 @section Scripts{
     <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
-    <script src="~/js/cadastros/vendedorPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/cadastros/responsavelPesquisa.js?v=@Helper.GetVersion()"></script>
 
     <script>
 
-        $("#frmRelVendasDetalhadas").submit(function (event) {
+        $("#frmRelOrdemServicoDetalhada").submit(function (event) {
 
             event.preventDefault();
 
@@ -93,13 +97,13 @@
             var json = $(this).serializeObject();
 
             var idEmpresa = json.idEmpresa;
-            var idVendedor = json.idVendedor;
+            var idResp = json.idResp;
             var idStatus = json.idStatus;
             var dataInicial = json.dataInicial;
             var dataFinal = json.dataFinal;
 
             try {
-                window.open('/relatorios/vendasDetalhadasImprimir/' + idEmpresa + '/' + idVendedor + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
+                window.open('/relatorios/ordemServicoDetalhadaImprimir/' + idEmpresa + '/' + idResp + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
             }
             catch (ex) {
                 console.log(ex);

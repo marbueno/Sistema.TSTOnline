@@ -1,11 +1,12 @@
 ﻿@using Sistema.TSTOnline.Domain.Utils
 
 @{
-    var listStatusPedido = Enum.GetValues(typeof(PedidoVendaStatusEnum)).Cast<PedidoVendaStatusEnum>().ToList();
-    ViewData["Title"] = "RELATÓRIO DE VENDAS DETALHADAS";
+    var listOrigemCR = Enum.GetValues(typeof(OrigemContasReceberEnum)).Cast<OrigemContasReceberEnum>().ToList();
+    var listStatusCR = Enum.GetValues(typeof(ContasReceberStatusEnum)).Cast<ContasReceberStatusEnum>().ToList();
+    ViewData["Title"] = "RELATÓRIO DE CONTAS A RECEBER";
 }
 
-<form id="frmRelVendasDetalhadas">
+<form id="frmRelContasReceber">
     <div class="container">
         <div class="card">
             <div class="card-body">
@@ -26,10 +27,26 @@
                         <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataFinal field is required." id="dataFinal" name="dataFinal" required title="Data Final" type="date" value="">
                     </div>
 
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-4 col-lg-4">
+                        <select name="idOrigem" class="form-control" required="">
+
+                            <option selected value="0">TODOS AS ORIGENS</option>
+
+                            @foreach (var itemStatus in listOrigemCR)
+                            {
+                                <option value="@((int)itemStatus)">@itemStatus.ToDescriptionEnum()</option>
+                            }
+                        </select>
+                    </div>
+
                     <div class="col-sm-4 col-lg-4">
                         <select name="idStatus" class="form-control" required="">
 
-                            @foreach (var itemStatus in listStatusPedido)
+                            @foreach (var itemStatus in listStatusCR)
                             {
                                 <option value="@((int)itemStatus)">@itemStatus.ToDescriptionEnum()</option>
                             }
@@ -39,6 +56,7 @@
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
+
                     <div class="col-sm-1 col-lg-1">
                         <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
                     </div>
@@ -47,17 +65,7 @@
                         <input class="form-control" id="RazaoSocial" maxlength="150" name="RazaoSocial" placeholder="Cliente" readonly="readonly" required type="text" value="">
                         <input type="hidden" name="idEmpresa" id="idEmpresa" value="0">
                     </div>
-                </div>
 
-                <div class="row" style="margin-top: 1%;">
-                    <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
-                    </div>
-
-                    <div class="col-sm-11 col-lg-11">
-                        <input class="form-control" id="VendedorNome" maxlength="150" name="VendedorNome" placeholder="Vendedor" readonly="readonly" required type="text" value="">
-                        <input type="hidden" name="idVendedor" id="idVendedor" value="0">
-                    </div>
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
@@ -76,15 +84,13 @@
 </form>
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
-@await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
 
 @section Scripts{
     <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
-    <script src="~/js/cadastros/vendedorPesquisa.js?v=@Helper.GetVersion()"></script>
 
     <script>
 
-        $("#frmRelVendasDetalhadas").submit(function (event) {
+        $("#frmRelContasReceber").submit(function (event) {
 
             event.preventDefault();
 
@@ -93,13 +99,13 @@
             var json = $(this).serializeObject();
 
             var idEmpresa = json.idEmpresa;
-            var idVendedor = json.idVendedor;
+            var idOrigem = json.idOrigem;
             var idStatus = json.idStatus;
             var dataInicial = json.dataInicial;
             var dataFinal = json.dataFinal;
 
             try {
-                window.open('/relatorios/vendasDetalhadasImprimir/' + idEmpresa + '/' + idVendedor + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
+                window.open('/relatorios/movimentacaoFinanceiraContasReceberImprimir/' + idEmpresa + '/' + idOrigem + '/' + idStatus + '/' + dataInicial + '/' + dataFinal, '_blank');
             }
             catch (ex) {
                 console.log(ex);
