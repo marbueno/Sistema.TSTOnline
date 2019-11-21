@@ -368,5 +368,38 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         #endregion Movimentação Financeira - Contas a Receber
+
+        #region Movimentação Financeira - Fluxo de Caixa
+
+        [HttpGet]
+        [Route("movimentacaoFinanceiraFluxoCaixa")]
+        public IActionResult MovimentacaoFinanceiraFluxoCaixa(int? idCompany, int? idUser)
+        {
+            _usuarioService.SetUserId(idCompany ?? 0, idUser ?? 0);
+            return View();
+        }
+
+        [HttpGet]
+        [Route("movimentacaoFinanceiraFluxoCaixaImprimir/{idTipoLancamento}/{idOrigem}/{dataInicial}/{dataFinal}")]
+        public IActionResult MovimentacaoFinanceiraFluxoCaixaImprimir(TipoLancamentoFluxoCaixaEnum idTipoLancamento, OrigemFluxoCaixaEnum idOrigem, DateTime dataInicial, DateTime dataFinal)
+        {
+            var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
+
+            var documento = _templateBU.MovimentacaoFinanceiraFluxoCaixaImprimir(caminhoTemplate, idTipoLancamento, idOrigem, dataInicial, dataFinal);
+            var nomeArquivo = $"MovimentacaoFinanceiraFluxoCaixa.pdf";
+
+            var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+            {
+                Inline = true,
+                FileName = nomeArquivo
+            };
+
+            Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+
+            byte[] byteArray = Convert.FromBase64String(documento);
+            return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        }
+
+        #endregion Movimentação Financeira - Fluxo de Caixa
     }
 }

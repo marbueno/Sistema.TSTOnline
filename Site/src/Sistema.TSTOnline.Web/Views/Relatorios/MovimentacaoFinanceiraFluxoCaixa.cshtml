@@ -1,0 +1,102 @@
+﻿@using Sistema.TSTOnline.Domain.Utils
+
+@{
+    var listTipoLancamento = Enum.GetValues(typeof(TipoLancamentoFluxoCaixaEnum)).Cast<TipoLancamentoFluxoCaixaEnum>().ToList();
+    var listOrigem = Enum.GetValues(typeof(OrigemFluxoCaixaEnum)).Cast<OrigemFluxoCaixaEnum>().ToList();
+    ViewData["Title"] = "RELATÓRIO DO FLUXO DE CAIXA";
+}
+
+<form id="frmRelFluxoCaixa">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-12">
+                        <h5><span class="badge badge-secondary w-100 text-left">FILTROS</span></h5>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-6 col-lg-6">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataInicial field is required." id="dataInicial" name="dataInicial" required title="Data Inicial" type="date" value="">
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <input class="form-control" data-toggle="tooltip" data-val="true" data-val-required="The DataFinal field is required." id="dataFinal" name="dataFinal" required title="Data Final" type="date" value="">
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-6 col-lg-6">
+                        <select name="idTipoLancamento" class="form-control" required="">
+
+                            <option selected value="0">TODOS OS TIPOS DE LANÇAMENTOS</option>
+
+                            @foreach (var itemTipo in listTipoLancamento)
+                            {
+                                <option value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-6">
+                        <select name="idOrigem" class="form-control" required="">
+
+                            <option selected value="0">TODOS AS ORIGENS</option>
+
+                            @foreach (var itemOrigem in listOrigem)
+                            {
+                                <option value="@((int)itemOrigem)">@itemOrigem.ToDescriptionEnum()</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col">
+                        <div class="btn-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save fa-lg"></i> Imprimir
+                            </button>
+                            <button class="btn btn-danger" onClick="backToHome()"><i class="fa fa-undo fa-lg"></i> Voltar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+
+    <script>
+
+        $("#frmRelFluxoCaixa").submit(function (event) {
+
+            event.preventDefault();
+
+            debugger;
+
+            var json = $(this).serializeObject();
+
+            var idTipoLancamento = json.idTipoLancamento;
+            var idOrigem = json.idOrigem;
+            var dataInicial = json.dataInicial;
+            var dataFinal = json.dataFinal;
+
+            try {
+                window.open('/relatorios/movimentacaoFinanceiraFluxoCaixaImprimir/' + idTipoLancamento + '/' + idOrigem + '/' + dataInicial + '/' + dataFinal, '_blank');
+            }
+            catch (ex) {
+                console.log(ex);
+                showMessage("error", ex);
+            }
+        })
+    </script>
+}

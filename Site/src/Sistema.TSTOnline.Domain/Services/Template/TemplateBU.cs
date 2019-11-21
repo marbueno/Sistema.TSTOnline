@@ -65,6 +65,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<MovimentacaoFinanceiraContasReceberEN> _repositoryMovimentacaoFinanceiraContasReceber;
 
+        private readonly IRepository<MovimentacaoFinanceiraFluxoCaixaEN> _repositoryMovimentacaoFinanceiraFluxoCaixa;
+
         private readonly IDocumento _documentoService;
 
         private readonly UsuarioService _usuarioService;
@@ -123,6 +125,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<MovimentacaoFinanceiraContasReceberEN> repositoryMovimentacaoFinanceiraContasReceber,
 
+                IRepository<MovimentacaoFinanceiraFluxoCaixaEN> repositoryMovimentacaoFinanceiraFluxoCaixa,
+
                 IDocumento documentoService,
 
                 UsuarioService usuarioService
@@ -171,6 +175,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             _repositoryOrdemServicoPorTipo = repositoryOrdemServicoPorTipo;
 
             _repositoryMovimentacaoFinanceiraContasReceber = repositoryMovimentacaoFinanceiraContasReceber;
+
+            _repositoryMovimentacaoFinanceiraFluxoCaixa = repositoryMovimentacaoFinanceiraFluxoCaixa;
 
             _documentoService = documentoService;
 
@@ -1648,6 +1654,164 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioMovimentacaoFinanceiraContasReceber.html";
 
             var documentoBase64 = _documentoService.GerarDocumento<MovimentacaoFinanceiraContasReceberTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
+
+            return documentoBase64;
+        }
+
+        public string MovimentacaoFinanceiraFluxoCaixaImprimir(string CaminhoTemplate, TipoLancamentoFluxoCaixaEnum IDTipoLancamento, OrigemFluxoCaixaEnum IDOrigem, DateTime DataInicial, DateTime DataFinal)
+        {
+            string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
+            string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
+
+            string SQL = $@"select
+                                flc.idfluxocaixa        as Id,
+                                flc.idfluxocaixa        as IDFluxoCaixa,
+                                ped.idpedido            as IDPedido,
+                                flc.datalancamento      as DataLancamento,
+                                ctr.numerotitulo        as NumeroTitulo,
+                                ctr.seq                 as Parcela,
+                                emp.razaosocial         as RazaoSocial,
+                                flc.tipolancamento      as TipoLancamento,
+                                flc.origem              as Origem,
+                                flc.observacao          as Observacao,
+                                flc.valor               as Valor
+                              from tbfluxocaixa flc
+                              left join tbcontasreceber ctr on flc.chave = ctr.idcontasreceber
+                                                           and ctr.origem = 2
+                              left join tbcadempresas emp   on ctr.idempresa = emp.idempresa
+                              left join tbpedidovenda ped   on ctr.chave = ped.idpedido
+                                                           and ctr.origem = 2
+                             where flc.idcompany = {idCompany}
+                               and flc.datalancamento between '{dataInicialFiltro}' and '{dataFinalFiltro}'";
+
+            if (IDTipoLancamento != 0)
+            {
+                SQL += $" and flc.tipolancamento = {(int)IDTipoLancamento}";
+            }
+
+            if (IDOrigem != 0)
+            {
+                SQL += $" and flc.origem = {(int)IDOrigem}";
+            }
+
+            var listFluxoCaixa = _repositoryMovimentacaoFinanceiraFluxoCaixa.FromSql(SQL).OrderBy(e => e.IDFluxoCaixa).ToList();
+
+            string HTML = "";
+
+            HTML += $"<tr>";
+            HTML += $"   <td>";
+            HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+            HTML += $"           <tr style=\"background-color: #888888;color:#ffffff;\">";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Fluxo</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 09%; text-align:left;\"><span>Dt Lancto</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 08%; text-align:left;\"><span>Tipo Lancto</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 13%; text-align:left;\"><span>Origem</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Título</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 05%; text-align:center;\"><span>Parc</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 15%; text-align:left;\"><span>Cliente</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 07%; text-align:left;\"><span>Nro Ped</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 15%; text-align:left;\"><span>Cliente</span></td>";
+            HTML += $"               <td style=\"font-weight: bold; width: 10%; text-align:right;\"><span>Valor</span></td>";
+            HTML += $"          </tr>";
+            HTML += $"       </table>";
+            HTML += $"   </td>";
+            HTML += $"</tr>";
+
+            decimal valorTotal = 0;
+            string color = "";
+            string colorFooter = "";
+
+            foreach (var itemFC in listFluxoCaixa)
+            {
+                if (itemFC.TipoLancamento == TipoLancamentoFluxoCaixaEnum.Entrada)
+                {
+                    valorTotal += itemFC.Valor;
+                    color = "blue";
+                }
+                else
+                {
+                    valorTotal -= itemFC.Valor;
+                    color = "#E00500";
+                }
+
+                string numeroTitulo = string.Empty;
+                string numeroParcela = string.Empty;
+                string razaoSocial = string.Empty;
+                string numeroPedido = string.Empty;
+
+                if (itemFC.Origem == OrigemFluxoCaixaEnum.ContasReceber)
+                {
+                    numeroTitulo = itemFC.NumeroTitulo;
+                    numeroParcela = ((int)itemFC.Parcela).ToString("000");
+                    razaoSocial = itemFC.RazaoSocial;
+                    numeroPedido = ((int)itemFC.IDPedido).ToString("000000");
+                }
+
+                HTML += $"<tr>";
+                HTML += $"   <td>";
+                HTML += $"       <table cellpadding=\"0\" cellspacing=\"0\">";
+                HTML += $"           <tr>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{itemFC.IDFluxoCaixa.ToString("00000")}</td>";
+                HTML += $"               <td style=\"width: 09%; text-align:left;\">{itemFC.DataLancamento.ToString("dd/MM/yyyy")}</td>";
+                HTML += $"               <td style=\"width: 08%; text-align:left;\">{itemFC.TipoLancamento.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 13%; text-align:left;\">{itemFC.Origem.ToDescriptionEnum()}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{numeroTitulo}</td>";
+                HTML += $"               <td style=\"width: 05%; text-align:center;\">{numeroParcela}</td>";
+                HTML += $"               <td style=\"width: 15%; text-align:left;\">{razaoSocial}</td>";
+                HTML += $"               <td style=\"width: 07%; text-align:left;\">{numeroPedido}</td>";
+                HTML += $"               <td style=\"width: 15%; text-align:left;\">{itemFC.Observacao}</td>";
+                HTML += $"               <td style=\"width: 10%; text-align:right; color:{color}\">{Sistema.Utils.Helper.FormatReal(itemFC.Valor, true)}</td>";
+                HTML += $"          </tr>";
+                HTML += $"       </table>";
+                HTML += $"   </td>";
+                HTML += $"</tr>";
+            }
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            if (valorTotal >= 0)
+                colorFooter = "blue";
+            else
+                colorFooter = "#E00500";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"text-align:right; color:{colorFooter}\"><strong>Total: {Sistema.Utils.Helper.FormatReal(valorTotal, true)}</strong></td>";
+            HTML += $"</tr>";
+
+            MovimentacaoFinanceiraFluxoCaixaTemplate pvRelatorio = new MovimentacaoFinanceiraFluxoCaixaTemplate()
+            {
+                DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
+                HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
+                DataInicial = DataInicial.ToString("dd/MM/yyyy"),
+                DataFinal = DataFinal.ToString("dd/MM/yyyy"),
+                ConteudoRelatorio = HTML,
+                DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+            };
+
+            if (IDTipoLancamento == 0)
+            {
+                pvRelatorio.TipoLancamentoFiltro = "TODOS";
+            }
+            else
+            {
+                pvRelatorio.TipoLancamentoFiltro = IDTipoLancamento.ToDescriptionEnum();
+            }
+
+            if (IDOrigem == 0)
+            {
+                pvRelatorio.OrigemFiltro = "TODOS";
+            }
+            else
+            {
+                pvRelatorio.OrigemFiltro = IDOrigem.ToDescriptionEnum();
+            }
+
+            string caminhoBaseArquivo = CaminhoTemplate;
+            string caminhoArquivoHTML = $"{CaminhoTemplate}RelatorioMovimentacaoFinanceiraFluxoCaixa.html";
+
+            var documentoBase64 = _documentoService.GerarDocumento<MovimentacaoFinanceiraFluxoCaixaTemplate>(caminhoArquivoHTML, caminhoBaseArquivo, pvRelatorio);
 
             return documentoBase64;
         }

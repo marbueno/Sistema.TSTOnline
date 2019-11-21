@@ -57,7 +57,7 @@ Titulo
 Vencimento
 Status 
 
-*Fluxo de caixa
+*Fluxo de caixa - OK
 Data lançamento
 Cliente
 Pedido de venda

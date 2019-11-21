@@ -75,6 +75,7 @@ namespace Sistema.TSTOnline.Data
         public DbSet<OrdemServicoDetalhadaEN> OrdemServicoDetalhada { get; set; }
         public DbSet<OrdemServicoPorTipoEN> OrdemServicoPorTipo { get; set; }
         public DbSet<MovimentacaoFinanceiraContasReceberEN> MovimentacaoFinanceiraContasReceber { get; set; }
+        public DbSet<MovimentacaoFinanceiraFluxoCaixaEN> MovimentacaoFinanceiraFluxoCaixa { get; set; }
 
         #endregion Relatórios
     }
