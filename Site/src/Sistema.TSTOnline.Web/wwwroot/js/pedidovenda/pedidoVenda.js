@@ -23,8 +23,8 @@ var columns = [
 
             var editButton = "<a class='btn btn-primary btn-sm' href='#' onclick='editRegister(" + row.idPedido + ")' title='Editar'>Editar</a>";
 
-            if (row.status !== 1)
-                editButton = "";
+            //if (row.status !== 1 && row.status !== 3)
+            //    editButton = "";
 
             return editButton;
         }

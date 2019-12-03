@@ -20,17 +20,22 @@
         ViewData["Title"] = "EDITAR PEDIDO VENDA";
         labelButton = "Atualizar Pedido Venda";
     }
-    
+
     int idCompany = _usuarioService.GetCompanyId();
     var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
     var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
     var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDVendedor = 0;
     var IDEmpresa = 0;
+    var disabled = false;
     if (Model != null)
     {
         IDVendedor = Model.IDVendedor;
         IDEmpresa = Model.IDEmpresa;
+        if (Model.Status != PedidoVendaStatusEnum.Aberto)
+        {
+            disabled = true;
+        }
     }
 
 }
@@ -49,11 +54,12 @@
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-2 col-lg-2">
                         @Html.HiddenFor(m => m.IDPedido, new { id = "idPedido" })
+                        @Html.HiddenFor(m => m.Status, new { id = "statusPedido" })
                         @Html.TextBoxFor(m => m.IDPedido, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
-                        @Html.TextBoxFor(m => m.DataVenda, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @title = "Data Efetiva da Venda", @data_toggle = "tooltip", @required = "true" })
+                        @Html.TextBoxFor(m => m.DataVenda, "{0:yyyy-MM-dd}", @disabled ? (object)new { @class = "form-control", @readonly = "readonly" } : new { @type = "date", @class = "form-control", @title = "Data Efetiva da Venda", @data_toggle = "tooltip" })
                     </div>
 
                 </div>
@@ -67,11 +73,18 @@
                 <div class="row" style="margin-top: 1%;">
 
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                        @if (disabled)
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor" disabled><i class="fa fa-search fa-lg"></i></button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalVendedor"><i class="fa fa-search fa-lg"></i></button>
+                        }
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
-                        @Html.TextBoxFor(m => m.VendedorNome, new { id = "VendedorNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly", @required = "true" })
+                        @Html.TextBoxFor(m => m.VendedorNome, new { id = "VendedorNome", @class = "form-control", @maxlength = "150", @placeholder = "Nome", @readonly = "readonly" })
                         <input type="hidden" name="idVendedor" id="idVendedor" value="@IDVendedor">
                     </div>
                 </div>
@@ -85,7 +98,14 @@
                 <div class="row" style="margin-top: 1%;">
 
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                        @if (disabled)
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa" disabled><i class="fa fa-search fa-lg"></i></button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                        }
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
@@ -115,10 +135,6 @@
                         @Html.TextBoxFor(m => m.ResponsavelEmpresaTelefone, new { id = "ResponsavelEmpresaTelefone", @class = "form-control", @maxlength = "150", @placeholder = "Telefone do Responsável", @readonly = "readonly" })
                     </div>
 
-                    @*<div class="col-sm-3 col-lg-2">
-                            @Html.TextBoxFor(m => m.ResponsavelEmpresaNIT, new { id = "ResponsavelEmpresaNIT", @class = "form-control", @maxlength = "150", @placeholder = "NIT do Responsável", @readonly = "readonly" })
-                        </div>*@
-
                     <div class="col-sm-3 col-lg-5">
                         @Html.TextBoxFor(m => m.ResponsavelEmpresaEmail, new { id = "ResponsavelEmpresaEmail", @class = "form-control", @maxlength = "150", @placeholder = "Email do Responsável", @readonly = "readonly" })
                     </div>
@@ -133,49 +149,101 @@
 
                 <div class="row" style="margin-top:1%;">
                     <div class="col-sm-6 col-lg-6">
-                        <select name="tipoPagamento" id="tipoPagamento" class="form-control" required="">
+                        @if (disabled)
+                        {
+                            <select name="tipoPagamento" id="tipoPagamento" class="form-control" required="" disabled>
 
-                            <option selected disabled>Formas de Pagamento</option>
+                                <option selected disabled>Formas de Pagamento</option>
 
-                            @foreach (var itemTipo in listTiposPagamento)
-                            {
-                                @if (newRegister)
+                                @foreach (var itemTipo in listTiposPagamento)
                                 {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    @if (newRegister)
+                                    {
+                                        <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
+                                    else if (Model.TipoPagamento == itemTipo)
+                                    {
+                                        <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
+                                    else
+                                    {
+                                        <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
                                 }
-                                else if (Model.TipoPagamento == itemTipo)
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="tipoPagamento" id="tipoPagamento" class="form-control" required="">
+
+                                <option selected disabled>Formas de Pagamento</option>
+
+                                @foreach (var itemTipo in listTiposPagamento)
                                 {
-                                    <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    @if (newRegister)
+                                    {
+                                        <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
+                                    else if (Model.TipoPagamento == itemTipo)
+                                    {
+                                        <option selected value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
+                                    else
+                                    {
+                                        <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option select value="@((int)itemTipo)">@itemTipo.ToDescriptionEnum()</option>
-                                }
-                            }
-                        </select>
+                            </select>
+                        }
                     </div>
 
                     <div class="col-sm-6 col-lg-6">
-                        <select name="qtdeParcelas" id="qtdeParcelas" class="form-control" required="">
+                        @if (disabled)
+                        {
+                            <select name="qtdeParcelas" id="qtdeParcelas" class="form-control" required="" disabled>
 
-                            <option selected disabled>Qtde de Parcelas</option>
+                                <option selected disabled>Qtde de Parcelas</option>
 
-                            @foreach (var itemQtde in listQtdeParcelas)
-                            {
-                                @if (newRegister)
+                                @foreach (var itemQtde in listQtdeParcelas)
                                 {
-                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    @if (newRegister)
+                                    {
+                                        <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
+                                    else if (Model.QtdeParcelas == itemQtde)
+                                    {
+                                        <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
+                                    else
+                                    {
+                                        <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
                                 }
-                                else if (Model.QtdeParcelas == itemQtde)
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="qtdeParcelas" id="qtdeParcelas" class="form-control" required="">
+
+                                <option selected disabled>Qtde de Parcelas</option>
+
+                                @foreach (var itemQtde in listQtdeParcelas)
                                 {
-                                    <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    @if (newRegister)
+                                    {
+                                        <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
+                                    else if (Model.QtdeParcelas == itemQtde)
+                                    {
+                                        <option selected value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
+                                    else
+                                    {
+                                        <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option select value="@((int)itemQtde)">@itemQtde.ToDescriptionEnum()</option>
-                                }
-                            }
-                        </select>
+                            </select>
+                        }
                     </div>
                 </div>
 
@@ -199,33 +267,66 @@
 
                 <div class="row" style="margin-top: 1%;">
                     <div class="col-sm-4 col-lg-4">
-                        <select id="slcProduto" name="idProduto" class="form-control">
+                        @if (disabled)
+                        {
+                            <select id="slcProduto" name="idProduto" class="form-control" disabled>
 
-                            <option selected value="0" disabled>Escolha o Produto</option>
+                                <option selected value="0" disabled>Escolha o Produto</option>
 
-                            @foreach (var itemProduto in listProdutos)
-                            {
-                                <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
-                            }
+                                @foreach (var itemProduto in listProdutos)
+                                {
+                                    <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                                }
 
-                        </select>
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="slcProduto" name="idProduto" class="form-control">
+
+                                <option selected value="0" disabled>Escolha o Produto</option>
+
+                                @foreach (var itemProduto in listProdutos)
+                                {
+                                    <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                                }
+
+                            </select>
+                        }
                     </div>
 
                     <div class="col-sm-2 col-lg-2">
-                        <input type="number" class="form-control" id="txtQtde" name="qtde" placeholder="Qtde" />
+                        @if (disabled)
+                        {
+                            <input type="number" class="form-control" id="txtQtde" name="qtde" placeholder="Qtde" disabled />
+                        }
+                        else
+                        {
+                            <input type="number" class="form-control" id="txtQtde" name="qtde" placeholder="Qtde" />
+                        }
                     </div>
 
                     <div class="col-sm-4 col-lg-4">
                         <div class="input-group mb-3">
                             <span class="input-group-text">R$</span>
-                            <input type="text" class="form-control" id="txtValor" name="valor" placeholder="Valor" />
+                            @if (disabled)
+                            {
+                                <input type="text" class="form-control" id="txtValor" name="valor" placeholder="Valor" disabled />
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" id="txtValor" name="valor" placeholder="Valor" />
+                            }
                         </div>
                     </div>
 
                     <div class="col-sm-2 col-lg-2">
-                        <button type="button" class="btn btn-primary" onclick="adicionarItem();">
-                            <i class="fas fa-plus fa-lg"></i> Adicionar
-                        </button>
+                        @if (!disabled)
+                        {
+                            <button type="button" class="btn btn-primary" onclick="adicionarItem();">
+                                <i class="fas fa-plus fa-lg"></i> Adicionar
+                            </button>
+                        }
                     </div>
                 </div>
 

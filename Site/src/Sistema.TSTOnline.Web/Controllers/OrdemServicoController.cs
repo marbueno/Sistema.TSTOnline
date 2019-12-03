@@ -288,12 +288,12 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDEmpresa = ordemServico.IDEmpresa,
                     RazaoSocial = _empresaRepository.GetByID(ordemServico.IDEmpresa).RazaoSocial,
                     IDResp = ordemServico.IDResp,
-                    ResponsavelNome = _responsavelRepository.GetByID(ordemServico.IDResp).NomeResponsavel,
+                    ResponsavelNome = _responsavelRepository.GetByID(ordemServico.IDResp)?.NomeResponsavel ?? string.Empty,
                     IDLocal = ordemServico.IDLocal,
                     NomeContato = ordemServico.NomeContato,
                     Telefone = ordemServico.Telefone,
                     WhatsApp = ordemServico.WhatsApp,
-                    LocalDescricao = _localServicoRepository.GetByID(ordemServico.IDLocal).Nome,
+                    LocalDescricao = _localServicoRepository.GetByID(ordemServico.IDLocal)?.Nome ?? string.Empty,
                 };
 
                 return View(ordemServicoVM);
@@ -445,7 +445,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDOrdemServico = c.IDOrdemServico,
                     Item = c.Item,
                     IDTipoServico = c.IDTipoServico,
-                    TipoServicoDescricao = _tipoServicoRepository.GetByID(c.IDTipoServico).Descricao,
+                    TipoServicoDescricao = _tipoServicoRepository.GetByID(c.IDTipoServico)?.Descricao ?? string.Empty,
                     Observacao = c.Observacao,
                     Concluido = c.Concluido
                 });

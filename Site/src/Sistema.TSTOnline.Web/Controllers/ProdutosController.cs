@@ -234,11 +234,11 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Nome = produto.Nome,
                     Descricao = produto.Descricao,
                     IDFornecedor = produto.IDFornecedor,
-                    FornecedorRazaoSocial = _fornecedorRepository.GetByID(produto.IDFornecedor).RazaoSocial,
+                    FornecedorRazaoSocial = _fornecedorRepository.GetByID(produto.IDFornecedor)?.RazaoSocial ?? string.Empty,
                     IDCategoria = produto.IDCategoria,
-                    CategoriaDescricao = _categoriaRepository.GetByID(produto.IDCategoria).Descricao,
+                    CategoriaDescricao = _categoriaRepository.GetByID(produto.IDCategoria)?.Descricao ?? string.Empty,
                     IDSubCategoria = produto.IDSubCategoria,
-                    SubCategoriaDescricao = _subCategoriaRepository.GetByID(produto.IDSubCategoria).Descricao,
+                    SubCategoriaDescricao = _subCategoriaRepository.GetByID(produto.IDSubCategoria)?.Descricao ?? string.Empty,
                     Preco = produto.Preco
                 };
 

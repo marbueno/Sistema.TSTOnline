@@ -108,12 +108,16 @@ function addToTable(idProduto, produtoNome, qtde, valor, valorTotal) {
         var newRow = $("<tr id='" + rowID + "'>");
         var valorFormatado = "R$ " + valor.toString();
         var valorTotalFormatado = "R$ " + valorTotal.toString();
+        var statusPedido = $("#statusPedido").val();
 
         cols += '<td>' + produtoNome + '</td>';
         cols += '<td>' + qtde + '</td>';
         cols += '<td>' + valorFormatado + '</td>';
         cols += '<td>' + valorTotalFormatado + '</td>';
-        cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idProduto.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
+
+        if (statusPedido === "Aberto")
+            cols += '<td><a href="#" title="Excluir Item" onclick="excluirItem(\'' + rowID + '\',\'' + idProduto.toString() + '\')"><i class="far fa-trash-alt"></i></a></td>';
+
         newRow.append(cols);
         $("#tblPedidoVendaItens").append(newRow);
 

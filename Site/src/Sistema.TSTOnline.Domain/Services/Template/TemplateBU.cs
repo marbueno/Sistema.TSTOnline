@@ -271,7 +271,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 PedidoVendaData = pedidoVendaEN.DataVenda.ToString("dd/MM/yyyy"),
                 PedidoVendaStatus = pedidoVendaEN.Status.ToDescriptionEnum(),
-                PedidoVendaObservacao = pedidoVendaEN.Observacao,
+                PedidoVendaObservacao = pedidoVendaEN.Observacao.Replace("\n", "<br />"),
                 ClienteCNPJ = empresa.NrMatricula,
                 ClienteRazaoSocial = empresa.RazaoSocial,
                 ClienteEmail = empresa.Email,
