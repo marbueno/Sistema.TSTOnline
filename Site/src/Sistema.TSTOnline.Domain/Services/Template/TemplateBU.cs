@@ -1658,7 +1658,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             return documentoBase64;
         }
 
-        public string MovimentacaoFinanceiraFluxoCaixaImprimir(string CaminhoTemplate, TipoLancamentoFluxoCaixaEnum IDTipoLancamento, OrigemFluxoCaixaEnum IDOrigem, DateTime DataInicial, DateTime DataFinal)
+        public string MovimentacaoFinanceiraFluxoCaixaImprimir(string CaminhoTemplate, TipoLancamentoFluxoCaixaEnum IDTipoLancamento, OrigemFluxoCaixaEnum IDOrigem, DateTime DataInicial, DateTime DataFinal, int IDEmpresa)
         {
             string dataInicialFiltro = $"{DataInicial.ToString("yyyy-MM-dd")} 00:00:00";
             string dataFinalFiltro = $"{DataFinal.ToString("yyyy-MM-dd")} 23:59:59";
@@ -1692,6 +1692,11 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             if (IDOrigem != 0)
             {
                 SQL += $" and flc.origem = {(int)IDOrigem}";
+            }
+
+            if (IDEmpresa != 0 && IDOrigem == OrigemFluxoCaixaEnum.ContasReceber)
+            {
+                SQL += $" and ctr.idempresa = {IDEmpresa.ToString()}";
             }
 
             var listFluxoCaixa = _repositoryMovimentacaoFinanceiraFluxoCaixa.FromSql(SQL).OrderBy(e => e.IDFluxoCaixa).ToList();

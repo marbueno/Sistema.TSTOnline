@@ -380,12 +380,12 @@ namespace Sistema.TSTOnline.Web.Controllers
         }
 
         [HttpGet]
-        [Route("movimentacaoFinanceiraFluxoCaixaImprimir/{idTipoLancamento}/{idOrigem}/{dataInicial}/{dataFinal}")]
-        public IActionResult MovimentacaoFinanceiraFluxoCaixaImprimir(TipoLancamentoFluxoCaixaEnum idTipoLancamento, OrigemFluxoCaixaEnum idOrigem, DateTime dataInicial, DateTime dataFinal)
+        [Route("movimentacaoFinanceiraFluxoCaixaImprimir/{idTipoLancamento}/{idOrigem}/{dataInicial}/{dataFinal}/{idEmpresa}")]
+        public IActionResult MovimentacaoFinanceiraFluxoCaixaImprimir(TipoLancamentoFluxoCaixaEnum idTipoLancamento, OrigemFluxoCaixaEnum idOrigem, DateTime dataInicial, DateTime dataFinal, int idEmpresa)
         {
             var caminhoTemplate = _configuration.GetSection("Environment:CaminhoTemplate").Value;
 
-            var documento = _templateBU.MovimentacaoFinanceiraFluxoCaixaImprimir(caminhoTemplate, idTipoLancamento, idOrigem, dataInicial, dataFinal);
+            var documento = _templateBU.MovimentacaoFinanceiraFluxoCaixaImprimir(caminhoTemplate, idTipoLancamento, idOrigem, dataInicial, dataFinal, idEmpresa);
             var nomeArquivo = $"MovimentacaoFinanceiraFluxoCaixa.pdf";
 
             var contentDispositionHeader = new System.Net.Mime.ContentDisposition

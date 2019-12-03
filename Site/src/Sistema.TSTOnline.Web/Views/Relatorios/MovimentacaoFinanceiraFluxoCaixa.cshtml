@@ -58,6 +58,19 @@
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
+
+                    <div class="col-sm-1 col-lg-1">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
+                    </div>
+
+                    <div class="col-sm-11 col-lg-11">
+                        <input class="form-control" id="RazaoSocial" maxlength="150" name="RazaoSocial" placeholder="Cliente" readonly="readonly" required type="text" value="">
+                        <input type="hidden" name="idEmpresa" id="idEmpresa" value="0">
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 1%;">
                     <div class="col">
                         <div class="btn-group">
                             <button class="btn btn-primary">
@@ -84,14 +97,15 @@
             debugger;
 
             var json = $(this).serializeObject();
-
+            
+            var idEmpresa = json.idEmpresa;
             var idTipoLancamento = json.idTipoLancamento;
             var idOrigem = json.idOrigem;
             var dataInicial = json.dataInicial;
             var dataFinal = json.dataFinal;
 
             try {
-                window.open('/relatorios/movimentacaoFinanceiraFluxoCaixaImprimir/' + idTipoLancamento + '/' + idOrigem + '/' + dataInicial + '/' + dataFinal, '_blank');
+                window.open('/relatorios/movimentacaoFinanceiraFluxoCaixaImprimir/' + idTipoLancamento + '/' + idOrigem + '/' + dataInicial + '/' + dataFinal + '/' + idEmpresa, '_blank');
             }
             catch (ex) {
                 console.log(ex);

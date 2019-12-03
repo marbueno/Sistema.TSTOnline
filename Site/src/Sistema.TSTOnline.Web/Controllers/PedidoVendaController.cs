@@ -109,7 +109,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     DataVenda = pedidoVenda.DataVenda,
                     Status = pedidoVenda.Status,
                     IDVendedor = pedidoVenda.IDVendedor,
-                    VendedorNome = _vendedorRepository.GetByID(pedidoVenda.IDVendedor).Nome,
+                    VendedorNome = _vendedorRepository.GetByID(pedidoVenda.IDVendedor)?.Nome ?? string.Empty,
                     IDEmpresa = pedidoVenda.IDEmpresa,
                     TipoPagamento = pedidoVenda.TipoPagamento,
                     QtdeParcelas = pedidoVenda.QtdeParcelas,
@@ -141,12 +141,12 @@ namespace Sistema.TSTOnline.Web.Controllers
                     DataVenda = c.DataVenda,
                     Status = c.Status,
                     IDVendedor = c.IDVendedor,
-                    VendedorNome = _vendedorRepository.GetByID(c.IDVendedor).Nome,
+                    VendedorNome = _vendedorRepository.GetByID(c.IDVendedor)?.Nome ?? string.Empty,
                     IDEmpresa = c.IDEmpresa,
                     TipoPagamento = c.TipoPagamento,
                     QtdeParcelas = c.QtdeParcelas,
                     Observacao = c.Observacao,
-                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
+                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa)?.RazaoSocial ?? string.Empty, 
                     ValorTotal = Utils.Helper.FormatReal(GetPedidoVendaItens(c.IDPedido).Sum(obj => obj.ValorTotal), true),
                 }); ;
 
@@ -241,7 +241,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     IDPedido = c.IDPedido,
                     Item = c.Item,
                     IDProduto = c.IDProduto,
-                    ProdutoNome = _produtoRepository.GetByID(c.IDProduto).Nome,
+                    ProdutoNome = _produtoRepository.GetByID(c.IDProduto)?.Nome ?? string.Empty,
                     Qtde = c.Qtde,
                     Valor = c.Valor
                 });

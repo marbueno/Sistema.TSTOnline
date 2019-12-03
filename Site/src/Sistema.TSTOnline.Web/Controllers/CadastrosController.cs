@@ -263,7 +263,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     RazaoSocial = _empresaRepository.GetByID(vendedor.IDEmpresa).RazaoSocial,
                     NomeContato = vendedor.NomeContato,
                     Telefone = vendedor.Telefone,
-                    WhatsApp = vendedor.WhatsApp
+                    WhatsApp = vendedor.WhatsApp,
+                    Observacao = vendedor.Observacao
                 };
 
                 return View(vendedorVM);
@@ -327,7 +328,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     vendedorVM.IDEmpresa,
                     vendedorVM.NomeContato,
                     vendedorVM.Telefone,
-                    vendedorVM.WhatsApp
+                    vendedorVM.WhatsApp,
+                    vendedorVM.Observacao
                );
 
             return Ok();

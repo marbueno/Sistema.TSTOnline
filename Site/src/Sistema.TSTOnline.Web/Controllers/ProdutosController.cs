@@ -175,7 +175,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 {
                     IDSubCategoria = c.IDSubCategoria,
                     IDCategoria = c.IDCategoria,
-                    CategoriaDescricao = _categoriaRepository.GetByID(c.IDCategoria).Descricao,
+                    CategoriaDescricao = _categoriaRepository.GetByID(c.IDCategoria)?.Descricao ?? string.Empty,
                     Descricao = c.Descricao
                 });
 

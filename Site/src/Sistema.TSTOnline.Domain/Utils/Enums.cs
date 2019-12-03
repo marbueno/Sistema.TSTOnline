@@ -111,6 +111,15 @@ namespace Sistema.TSTOnline.Domain.Utils
 
         [Description("CARTÃO DE CRÉDITO")]
         CartaoCredito = 2,
+
+        [Description("CARTÃO DE DÉBITO")]
+        CartaoDebito = 3,
+
+        [Description("DINHEIRO")]
+        Dinheiro = 4,
+
+        [Description("LOJA ONLINE")]
+        LojaOnline = 5,
     }
 
     public enum QtdeParcelasEnum : int

@@ -8,6 +8,7 @@ using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Web.Models.Estoque;
 using System.Linq;
 using Sistema.TSTOnline.Domain.Utils;
+using System.Collections.Generic;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -148,16 +149,27 @@ namespace Sistema.TSTOnline.Web.Controllers
         public JsonResult ListEstoques()
         {
             var listEstoques = _estoqueRepository.Where(obj => obj.IDCompany == idCompany).ToList();
-            var estoqueVM = listEstoques.Select(
-                c => new EstoqueVM
-                {
-                    IDProduto = c.IDProduto,
-                    SKU = _produtoRepository.GetByID(c.IDProduto).SKU,
-                    ProdutoNome = _produtoRepository.GetByID(c.IDProduto).Nome,
-                    Qtde = c.Qtde
-                });
 
-            return Json(estoqueVM.ToList());
+            List<EstoqueVM> listEstoqueVM = new List<EstoqueVM>();
+
+            foreach (var itemEstoque in listEstoques)
+            {
+                var produto = _produtoRepository.GetByID(itemEstoque.IDProduto);
+
+                if (produto != null) 
+                {
+                    EstoqueVM estoqueVM = new EstoqueVM() {
+                        IDProduto = itemEstoque.IDProduto,
+                        SKU = produto.SKU,
+                        ProdutoNome = produto.Nome,
+                        Qtde = itemEstoque.Qtde
+                    };
+
+                    listEstoqueVM.Add(estoqueVM);
+                }
+            }
+
+            return Json(listEstoqueVM.ToList());
         }
 
         #endregion Estoques
