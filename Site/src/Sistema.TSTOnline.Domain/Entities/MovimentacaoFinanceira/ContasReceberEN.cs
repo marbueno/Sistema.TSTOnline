@@ -22,20 +22,21 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
         public int Chave { get; set; }
         public string LinkFatura { get; set; }
         public ContasReceberStatusEnum Status { get; set; }
+        public string Observacao { get; set; }
 
         public ContasReceberEN() { }
 
-        public ContasReceberEN(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status)
+        public ContasReceberEN(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status, string Observaca)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, IDEmpresa, NumeroTitulo, Seq, DataVencimento, Valor, ValorPago, Origem, Chave, LinkFatura, Status);
+            ValidateAndSetProperties(IDCompany, IDUser, IDEmpresa, NumeroTitulo, Seq, DataVencimento, Valor, ValorPago, Origem, Chave, LinkFatura, Status, Observaca);
         }
 
-        public void UpdateProperties(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status)
+        public void UpdateProperties(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status, string Observaca)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, IDEmpresa, NumeroTitulo, Seq, DataVencimento, Valor, ValorPago, Origem, Chave, LinkFatura, Status);
+            ValidateAndSetProperties(IDCompany, IDUser, IDEmpresa, NumeroTitulo, Seq, DataVencimento, Valor, ValorPago, Origem, Chave, LinkFatura, Status, Observaca);
         }
 
-        private void ValidateAndSetProperties(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status)
+        private void ValidateAndSetProperties(int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, int Chave, string LinkFatura, ContasReceberStatusEnum Status, string Observaca)
         {
             DomainException.When(IDCompany == 0, "Compania não informada.");
             DomainException.When(IDUser == 0, "Usuário não informado.");
@@ -57,6 +58,7 @@ namespace Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira
             this.Chave = Chave;
             this.LinkFatura = LinkFatura;
             this.Status = Status;
+            this.Observacao = Observaca;
         }
     }
 }

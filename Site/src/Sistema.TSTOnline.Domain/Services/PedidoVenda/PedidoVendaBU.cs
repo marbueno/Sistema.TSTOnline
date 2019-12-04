@@ -40,7 +40,26 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 
                 if (pedidoVendaEN != null)
                 {
-                    pedidoVendaEN.UpdateProperties
+
+                    if (pedidoVendaEN.Status != PedidoVendaStatusEnum.Aberto)
+                    {
+                        pedidoVendaEN.UpdateProperties
+                        (
+                            IDCompany,
+                            IDUser,
+                            pedidoVendaEN.DataVenda,
+                            pedidoVendaEN.Status,
+                            pedidoVendaEN.IDUsuario,
+                            pedidoVendaEN.IDVendedor,
+                            pedidoVendaEN.IDEmpresa,
+                            pedidoVendaEN.TipoPagamento,
+                            pedidoVendaEN.QtdeParcelas,
+                            Observacao
+                        );
+                    }
+                    else
+                    {
+                        pedidoVendaEN.UpdateProperties
                         (
                             IDCompany,
                             IDUser,
@@ -53,6 +72,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             QtdeParcelas,
                             Observacao
                         );
+                    }
 
                     _repositoryPedidoVenda.Edit(pedidoVendaEN);
                 }
@@ -78,46 +98,49 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
 
                 _unitOfWork.Commit();
 
-                idPedido = pedidoVendaEN.IDPedido;
-
-                List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
-
-                //VERIFICA SE ALGUM ITEM FOI EXCLUÍDO
-                foreach (var itemPedidoBD in listPedidoVendaItem)
+                if (pedidoVendaEN.Status == PedidoVendaStatusEnum.Aberto)
                 {
-                    var itemPedido = ListPedidoVendaItens.Where(obj => obj.IDProduto == itemPedidoBD.IDProduto).FirstOrDefault();
+                    idPedido = pedidoVendaEN.IDPedido;
 
-                    if (itemPedido == null)
+                    List<PedidoVendaItemEN> listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
+
+                    //VERIFICA SE ALGUM ITEM FOI EXCLUÍDO
+                    foreach (var itemPedidoBD in listPedidoVendaItem)
                     {
-                        _pedidoVendaItemBU.RemoveItem(itemPedidoBD);
-                    }
-                }
+                        var itemPedido = ListPedidoVendaItens.Where(obj => obj.IDProduto == itemPedidoBD.IDProduto).FirstOrDefault();
 
-                listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
-
-                int item = 0;
-                foreach (var itemPedido in ListPedidoVendaItens)
-                {
-                    var itemPedidoBD = listPedidoVendaItem.Where(obj => obj.IDProduto == itemPedido.IDProduto).FirstOrDefault();
-
-                    int pedidoItem = 0;
-
-                    if (itemPedidoBD != null)
-                    {
-                        pedidoItem = itemPedidoBD.IDPedidoItem;
-                        item = itemPedidoBD.Item;
-                    }
-                    else
-                    {
-                        pedidoItem = itemPedido.IDPedidoItem;
-
-                        item++;
+                        if (itemPedido == null)
+                        {
+                            _pedidoVendaItemBU.RemoveItem(itemPedidoBD);
+                        }
                     }
 
-                    _pedidoVendaItemBU.Save(pedidoItem, idPedido, item, itemPedido.IDProduto, itemPedido.Qtde, itemPedido.Valor);
+                    listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == idPedido).ToList();
 
-                    if (pedidoItem != 0)
-                        item = listPedidoVendaItem.Count();
+                    int item = 0;
+                    foreach (var itemPedido in ListPedidoVendaItens)
+                    {
+                        var itemPedidoBD = listPedidoVendaItem.Where(obj => obj.IDProduto == itemPedido.IDProduto).FirstOrDefault();
+
+                        int pedidoItem = 0;
+
+                        if (itemPedidoBD != null)
+                        {
+                            pedidoItem = itemPedidoBD.IDPedidoItem;
+                            item = itemPedidoBD.Item;
+                        }
+                        else
+                        {
+                            pedidoItem = itemPedido.IDPedidoItem;
+
+                            item++;
+                        }
+
+                        _pedidoVendaItemBU.Save(pedidoItem, idPedido, item, itemPedido.IDProduto, itemPedido.Qtde, itemPedido.Valor);
+
+                        if (pedidoItem != 0)
+                            item = listPedidoVendaItem.Count();
+                    }
                 }
 
                 _unitOfWork.CommitTransaction();

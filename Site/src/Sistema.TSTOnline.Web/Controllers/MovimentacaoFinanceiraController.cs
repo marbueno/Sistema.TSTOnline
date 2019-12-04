@@ -107,7 +107,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     Origem = contasReceber.Origem,
                     Chave = contasReceber.Chave,
                     LinkFatura = contasReceber.LinkFatura,
-                    Status = contasReceber.Status
+                    Status = contasReceber.Status,
+                    Observacao = contasReceber.Observacao
                 };
 
                 return View(contasReceberVM);
@@ -165,7 +166,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     contasReceberVM.ValorPago,
                     contasReceberVM.Origem,
                     contasReceberVM.LinkFatura,
-                    contasReceberVM.Chave
+                    contasReceberVM.Chave,
+                    contasReceberVM.Observacao
                );
 
             return Ok();

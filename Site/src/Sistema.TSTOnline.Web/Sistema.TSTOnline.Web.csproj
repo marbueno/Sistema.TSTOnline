@@ -6,8 +6,8 @@
     <Company>TKM Solutions</Company>
     <Product>TSTOnline</Product>
     <Description>Módulo de Clientes da TST Online</Description>
-    <AssemblyVersion>2019.12.02.01</AssemblyVersion>
-    <FileVersion>2019.12.02.01</FileVersion>
+    <AssemblyVersion>2019.12.04.02</AssemblyVersion>
+    <FileVersion>2019.12.04.02</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

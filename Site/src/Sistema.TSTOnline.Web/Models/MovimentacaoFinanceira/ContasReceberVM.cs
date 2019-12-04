@@ -50,5 +50,8 @@ namespace Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira
 
         [JsonProperty(PropertyName = "statusDescricao")]
         public string StatusDescricao { get { return Status.ToDescriptionEnum(); } }
+
+        [JsonProperty(PropertyName = "observacao")]
+        public string Observacao { get; set; }
     }
 }

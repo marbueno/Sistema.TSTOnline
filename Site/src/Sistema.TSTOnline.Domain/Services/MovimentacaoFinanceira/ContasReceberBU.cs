@@ -17,7 +17,7 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDContasReceber, int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave)
+        public int Save(int IDContasReceber, int IDCompany, int IDUser, int IDEmpresa, string NumeroTitulo, int Seq, DateTime DataVencimento, decimal Valor, decimal ValorPago, OrigemContasReceberEnum Origem, string linkFatura, int Chave, string Observaca)
         {
             ContasReceberEN contasReceberEN = null;
 
@@ -45,7 +45,8 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
                         Origem,
                         Chave,
                         linkFatura,
-                        contasReceberEN.Status
+                        contasReceberEN.Status,
+                        Observaca
                     );
 
                 _repositoryContasReceber.Edit(contasReceberEN);
@@ -65,7 +66,8 @@ namespace Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira
                         Origem,
                         Chave,
                         linkFatura,
-                        ContasReceberStatusEnum.EmAberto
+                        ContasReceberStatusEnum.EmAberto,
+                        Observaca
                     );
                 contasReceberEN.DataCadastro = DateTime.Now.ToLocalTime();
 

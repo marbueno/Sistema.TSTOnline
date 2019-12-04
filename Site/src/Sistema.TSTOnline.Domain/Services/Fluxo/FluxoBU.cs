@@ -147,7 +147,8 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                                 0,
                                 OrigemContasReceberEnum.PedidoVenda,
                                 string.Empty,
-                                pedidoVendaEN.IDPedido
+                                pedidoVendaEN.IDPedido,
+                                "Título gravado pelo fluxo de pedido."
                             );
 
                         dataVencimento = dataVencimento.AddDays(30);
