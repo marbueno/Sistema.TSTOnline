@@ -13,7 +13,6 @@
     ViewData["Title"] = "NOVA MOVIMENTAÇÃO";
 
     var listTipos = Enum.GetValues(typeof(TipoMovimentoEstoqueEnum)).Cast<TipoMovimentoEstoqueEnum>().ToList();
-    var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
 }
 
 <form id="frmMovimentoEstqoue" asp-action="MovimentoEstoqueCreateOrUpdate" asp-controller="Estoque"

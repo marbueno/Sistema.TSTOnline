@@ -15,6 +15,7 @@ var columns = [
     },
     { "data": "razaoSocial" },
     { "data": "vendedorNome" },
+    { "data": "tipoPagamentoDescricao" },
     { "data": "valorTotal" },
     { "data": "statusDescricao" },
     {
@@ -131,19 +132,19 @@ $(document).ready(function () {
     carregarProdutos();
 });
 
-$("#slcProduto").change(function () {
+//$("#slcProduto").change(function () {
 
-    var idProduto = $(this).val();
+//    var idProduto = $(this).val();
 
-    listProdutos.forEach(item => {
-        if (item.idProduto.toString() === idProduto) {
-            var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
-            debugger;
-            $("#txtQtde").val("1");
-            $("#txtValor").val(precoItem);
-        }
-    });
-});
+//    listProdutos.forEach(item => {
+//        if (item.idProduto.toString() === idProduto) {
+//            var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
+//            debugger;
+//            $("#txtQtde").val("1");
+//            $("#txtValor").val(precoItem);
+//        }
+//    });
+//});
 
 
 $("#frmPedidoVenda").submit(function (event) {

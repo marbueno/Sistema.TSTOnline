@@ -258,41 +258,21 @@ namespace Sistema.TSTOnline.Web.Controllers
 
             foreach (var itemProduto in listProdutos)
             {
-                var fornecedor = _fornecedorRepository.GetByID(itemProduto.IDFornecedor);
-                var categoria = _categoriaRepository.GetByID(itemProduto.IDCategoria);
-                var subCategoria = _subCategoriaRepository.GetByID(itemProduto.IDSubCategoria);
-
                 ProdutoVM produtoVM = new ProdutoVM()
                 {
                     IDProduto = itemProduto.IDProduto,
-                    //SKU = itemProduto.SKU,
                     SKU = string.Empty,
                     Nome = itemProduto.Nome,
                     Descricao = itemProduto.Descricao,
                     IDFornecedor = itemProduto.IDFornecedor,
-                    FornecedorRazaoSocial = string.Empty,
+                    FornecedorRazaoSocial = _fornecedorRepository.GetByID(itemProduto.IDFornecedor)?.RazaoSocial ?? string.Empty,
                     IDCategoria = itemProduto.IDCategoria,
-                    CategoriaDescricao = string.Empty,
+                    CategoriaDescricao = _categoriaRepository.GetByID(itemProduto.IDCategoria)?.Descricao ?? string.Empty,
                     IDSubCategoria = itemProduto.IDSubCategoria,
-                    SubCategoriaDescricao = string.Empty,
+                    SubCategoriaDescricao = _subCategoriaRepository.GetByID(itemProduto.IDSubCategoria)?.Descricao ?? string.Empty,
                     Preco = itemProduto.Preco
                 };
-
-                if (fornecedor != null)
-                {
-                    produtoVM.FornecedorRazaoSocial = fornecedor.RazaoSocial;
-                }
-
-                if (categoria != null)
-                {
-                    produtoVM.CategoriaDescricao = categoria.Descricao;
-                }
-
-                if (subCategoria != null)
-                {
-                    produtoVM.SubCategoriaDescricao = subCategoria.Descricao;
-                }
-
+                
                 listProdutoVM.Add(produtoVM);
             }
 

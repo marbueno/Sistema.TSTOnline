@@ -3,11 +3,11 @@ $(document).ready(function () {
 });
 
 
-$("#txtBusca").on('keyup', function () {
+$("#txtBuscaVendedor").on('keyup', function () {
 
     $("#tblVendedor tr").remove();
 
-    var busca = $('#txtBusca').val();
+    var busca = $('#txtBuscaVendedor').val();
 
     var listResult = filterValuePart(listVendedores, busca);
 

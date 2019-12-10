@@ -39,5 +39,8 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
 
         [JsonProperty(PropertyName = "whatsApp")]
         public string WhatsApp { get; set; }
+
+        [JsonProperty(PropertyName = "observacao")]
+        public string Observacao { get; set; }
     }
 }

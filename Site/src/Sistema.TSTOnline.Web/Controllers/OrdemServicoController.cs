@@ -119,7 +119,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     UF = localServico.UF,
                     NomeContato = localServico.NomeContato,
                     Telefone = localServico.Telefone,
-                    WhatsApp = localServico.WhatsApp
+                    WhatsApp = localServico.WhatsApp,
+                    Observacao = localServico.Observacao
                 };
 
                 return View(localServicoVM);
@@ -172,7 +173,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     localServicoVM.UF,
                     localServicoVM.NomeContato,
                     localServicoVM.Telefone,
-                    localServicoVM.WhatsApp
+                    localServicoVM.WhatsApp,
+                    localServicoVM.Observacao
                );
 
             return Ok();

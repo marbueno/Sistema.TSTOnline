@@ -49,7 +49,8 @@ function excluirItem(row, idProduto) {
 }
 
 function validouCampos() {
-    var idProduto = $("#slcProduto option:selected").val();
+    //var idProduto = $("#slcProduto option:selected").val();
+    var idProduto = $("#idProduto").val();
     var qtde = $("#txtQtde").val();
     var valor = $("#txtValor").val();
     var arrayMsg = [];
@@ -73,8 +74,10 @@ function validouCampos() {
 function adicionarItem() {
     try {
 
-        var idProduto = $("#slcProduto option:selected").val();
-        var produtoNome = $("#slcProduto option:selected").text();
+        //var idProduto = $("#slcProduto option:selected").val();
+        //var produtoNome = $("#slcProduto option:selected").text();
+        var idProduto = $("#idProduto").val();
+        var produtoNome = $("#ProdutoNome").val();
         var qtde = $("#txtQtde").val();
         var valor = $("#txtValor").val();
 

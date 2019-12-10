@@ -465,6 +465,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             string HTML = "";
             int idVendedor = 0;
+            decimal valorTotalPorVendedor = 0;
+            decimal valorTotalPorVendedorGeral = 0;
 
             foreach (var itemPedido in listPedidosVenda)
             {
@@ -476,10 +478,14 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                     if (idVendedor != 0)
                     {
                         HTML += $"<tr>";
-                        HTML += $"   <td>";
-                        HTML += $"       <hr style=\"border: dashed 1px #6a6d73;\">";
-                        HTML += $"   </td>";
+                        HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
                         HTML += $"</tr>";
+
+                        HTML += $"<tr>";
+                        HTML += $"    <td style=\"text-align:right;\"><strong>Total Vendedor: {Sistema.Utils.Helper.FormatReal(valorTotalPorVendedor, true)}</strong></td>";
+                        HTML += $"</tr>";
+
+                        valorTotalPorVendedor = 0;
                     }
 
                     HTML += $"<tr>";
@@ -522,9 +528,28 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 HTML += $"   </td>";
                 HTML += $"</tr>";
 
+                valorTotalPorVendedor += valorTotalPedido;
+                valorTotalPorVendedorGeral += valorTotalPedido;
+
                 idVendedor = itemPedido.IDVendedor;
             }
-            
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"text-align:right;\"><strong>Total Vendedor: {Sistema.Utils.Helper.FormatReal(valorTotalPorVendedor, true)}</strong></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"padding-left:510px;\"><hr style=\"border: dashed 1px #6a6d73; width: 230px;\" /></td>";
+            HTML += $"</tr>";
+
+            HTML += $"<tr>";
+            HTML += $"    <td style=\"text-align:right;\"><strong>Total Geral: {Sistema.Utils.Helper.FormatReal(valorTotalPorVendedorGeral, true)}</strong></td>";
+            HTML += $"</tr>";
+
             VendasPorVendedorTemplate pvRelatorio = new VendasPorVendedorTemplate()
             {
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),

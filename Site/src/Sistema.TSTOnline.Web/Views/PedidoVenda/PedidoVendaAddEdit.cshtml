@@ -24,7 +24,7 @@
     int idCompany = _usuarioService.GetCompanyId();
     var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
     var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
-    var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
+    //var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDVendedor = 0;
     var IDEmpresa = 0;
     var disabled = false;
@@ -266,34 +266,51 @@
                 </div>
 
                 <div class="row" style="margin-top: 1%;">
-                    <div class="col-sm-4 col-lg-4">
+
+                    <div class="col-sm-1 col-lg-1">
                         @if (disabled)
                         {
-                            <select id="slcProduto" name="idProduto" class="form-control" disabled>
-
-                                <option selected value="0" disabled>Escolha o Produto</option>
-
-                                @foreach (var itemProduto in listProdutos)
-                                {
-                                    <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
-                                }
-
-                            </select>
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalProduto" disabled><i class="fa fa-search fa-lg"></i></button>
                         }
                         else
                         {
-                            <select id="slcProduto" name="idProduto" class="form-control">
-
-                                <option selected value="0" disabled>Escolha o Produto</option>
-
-                                @foreach (var itemProduto in listProdutos)
-                                {
-                                    <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
-                                }
-
-                            </select>
+                            <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalProduto"><i class="fa fa-search fa-lg"></i></button>
                         }
                     </div>
+
+                    <div class="col-sm-4 col-lg-4">
+                        <input class="form-control" id="ProdutoNome" maxlength="150" name="ProdutoNome" placeholder="Produto" readonly="readonly" required type="text" value="">
+                        <input type="hidden" name="idProduto" id="idProduto">
+                    </div>
+
+                    @*<div class="col-sm-4 col-lg-4">
+                            @if (disabled)
+                            {
+                                <select id="slcProduto" name="idProduto" class="form-control" disabled>
+
+                                    <option selected value="0" disabled>Escolha o Produto</option>
+
+                                    @foreach (var itemProduto in listProdutos)
+                                    {
+                                        <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                                    }
+
+                                </select>
+                            }
+                            else
+                            {
+                                <select id="slcProduto" name="idProduto" class="form-control">
+
+                                    <option selected value="0" disabled>Escolha o Produto</option>
+
+                                    @foreach (var itemProduto in listProdutos)
+                                    {
+                                        <option select value="@itemProduto.IDProduto">@itemProduto.Nome</option>
+                                    }
+
+                                </select>
+                            }
+                        </div>*@
 
                     <div class="col-sm-2 col-lg-2">
                         @if (disabled)
@@ -306,7 +323,7 @@
                         }
                     </div>
 
-                    <div class="col-sm-4 col-lg-4">
+                    <div class="col-sm-3 col-lg-3">
                         <div class="input-group mb-3">
                             <span class="input-group-text">R$</span>
                             @if (disabled)
@@ -379,10 +396,12 @@
 
 @await Html.PartialAsync("~/Views/Shared/_BuscarVendedorPartial.cshtml")
 @await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarProdutoPartial.cshtml")
 
 @section Scripts{
     <script src="~/js/cadastros/vendedorPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/produtos/produtoPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/pedidovenda/pedidoVenda.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/pedidovenda/pedidoVendaItem.js?v=@Helper.GetVersion()"></script>
 
