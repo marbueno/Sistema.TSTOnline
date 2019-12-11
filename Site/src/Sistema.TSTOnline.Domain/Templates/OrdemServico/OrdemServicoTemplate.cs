@@ -2,6 +2,7 @@
 {
     public class OrdemServicoTemplate
     {
+        public string LogoTipo { get; set; }
         public string OrdemServicoNumero { get; set; }
         public string DataInclusao { get; set; }
         public string HorarioInclusao { get; set; }

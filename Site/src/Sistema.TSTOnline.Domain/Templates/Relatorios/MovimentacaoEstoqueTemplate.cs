@@ -3,6 +3,7 @@
     public class MovimentacaoEstoqueTemplate
     {
         public string DataInclusao { get; set; }
+        public string LogoTipo { get; set; }
         public string HorarioInclusao { get; set; }
         public string DataInicial { get; set; }
         public string DataFinal { get; set; }

@@ -2,6 +2,7 @@
 {
     public class VendasPorVendedorTemplate
     {
+        public string LogoTipo { get; set; }
         public string DataInclusao { get; set; }
         public string HorarioInclusao { get; set; }
         public string DataInicial { get; set; }

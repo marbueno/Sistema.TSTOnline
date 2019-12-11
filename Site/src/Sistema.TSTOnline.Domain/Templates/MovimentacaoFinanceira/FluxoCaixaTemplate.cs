@@ -2,6 +2,7 @@
 {
     public class FluxoCaixaTemplate
     {
+        public string LogoTipo { get; set; }
         public string FluxoCaixaCodigo { get; set; }
         public string DataInclusao { get; set; }
         public string HorarioInclusao { get; set; }

@@ -22,6 +22,7 @@ namespace Sistema.TSTOnline.Data
         public DbSet<VendedorEN> tbcadvendedor { get; set; }
         public DbSet<ResponsavelEN> tbresponsavel { get; set; }
         public DbSet<FornecedorEN> tbcadfornecedor { get; set; }
+        public DbSet<LogoTipoEN> tblogo { get; set; }
 
         #endregion Cadastros
 

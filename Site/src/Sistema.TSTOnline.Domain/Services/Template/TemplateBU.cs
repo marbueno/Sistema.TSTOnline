@@ -67,6 +67,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<MovimentacaoFinanceiraFluxoCaixaEN> _repositoryMovimentacaoFinanceiraFluxoCaixa;
 
+        private readonly IRepository<LogoTipoEN> _repositoryLogoTipo;
+
         private readonly IDocumento _documentoService;
 
         private readonly UsuarioService _usuarioService;
@@ -74,6 +76,10 @@ namespace Sistema.TSTOnline.Domain.Services.Template
         private int idCompany => _usuarioService.GetCompanyId();
 
         private CompanyEN _company => _companyRepository.GetByID(idCompany);
+
+        private LogoTipoEN _logoTipo => _repositoryLogoTipo.Where(obj => obj.Company == idCompany).FirstOrDefault();
+
+        private string LogoTipo => $"https://sistema.tstonline.com.br/usuario/logo/{_logoTipo.NomeReal}.{_logoTipo.Tipo}";
 
         #endregion Variables
 
@@ -127,6 +133,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<MovimentacaoFinanceiraFluxoCaixaEN> repositoryMovimentacaoFinanceiraFluxoCaixa,
 
+                IRepository<LogoTipoEN> repositoryLogoTipo,
+
                 IDocumento documentoService,
 
                 UsuarioService usuarioService
@@ -178,6 +186,8 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             _repositoryMovimentacaoFinanceiraFluxoCaixa = repositoryMovimentacaoFinanceiraFluxoCaixa;
 
+            _repositoryLogoTipo = repositoryLogoTipo;
+
             _documentoService = documentoService;
 
             _usuarioService = usuarioService;
@@ -195,6 +205,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             OrdemServicoTemplate osTemplate = new OrdemServicoTemplate()
             {
+                LogoTipo = LogoTipo,
                 OrdemServicoNumero = ordemServicoEN.IDOrdemServico.ToString("000000"),
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
@@ -266,6 +277,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             PedidoVendaTemplate pvTemplate = new PedidoVendaTemplate()
             {
+                LogoTipo = LogoTipo,
                 PedidoVendaNumero = pedidoVendaEN.IDPedido.ToString("000000"),
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
@@ -400,6 +412,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             FluxoCaixaTemplate fcTemplate = new FluxoCaixaTemplate()
             {
+                LogoTipo = LogoTipo,
                 FluxoCaixaCodigo = fluxoCaixaEN.IDFluxoCaixa.ToString("000000"),
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
@@ -552,6 +565,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             VendasPorVendedorTemplate pvRelatorio = new VendasPorVendedorTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -663,6 +677,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             VendasPorClienteTemplate pvRelatorio = new VendasPorClienteTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -781,6 +796,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             VendasDetalhadasTemplate pvRelatorio = new VendasDetalhadasTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -904,6 +920,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             VendasPorProdutoTemplate pvRelatorio = new VendasPorProdutoTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1040,6 +1057,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             MovimentacaoEstoqueTemplate pvRelatorio = new MovimentacaoEstoqueTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1174,6 +1192,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             OrdemServicoPorTipoTemplate pvRelatorio = new OrdemServicoPorTipoTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1282,6 +1301,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             OrdemServicoPorClienteTemplate pvRelatorio = new OrdemServicoPorClienteTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1374,6 +1394,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                         
             OrdemServicoDetalhadaTemplate pvRelatorio = new OrdemServicoDetalhadaTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1487,6 +1508,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             OrdemServicoPorTipoTemplate pvRelatorio = new OrdemServicoPorTipoTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1647,6 +1669,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             MovimentacaoFinanceiraContasReceberTemplate pvRelatorio = new MovimentacaoFinanceiraContasReceberTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),
@@ -1812,6 +1835,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             MovimentacaoFinanceiraFluxoCaixaTemplate pvRelatorio = new MovimentacaoFinanceiraFluxoCaixaTemplate()
             {
+                LogoTipo = LogoTipo,
                 DataInclusao = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy"),
                 HorarioInclusao = DateTime.Now.ToLocalTime().ToString("HH:mm:sss"),
                 DataInicial = DataInicial.ToString("dd/MM/yyyy"),

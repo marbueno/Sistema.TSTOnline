@@ -87,6 +87,23 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                                 "Pedido de Venda [CANCELAMENTO]"
                             );
                     }
+
+                    List<ContasReceberEN> listContasReceber = _repositoryContasReceber.Where(obj => obj.Chave == pedidoVendaEN.IDPedido && obj.Origem == OrigemContasReceberEnum.PedidoVenda).ToList();
+
+                    var qtdeTitulosPagos = listContasReceber.Where(obj => obj.Status == ContasReceberStatusEnum.Baixado).Count();
+
+                    if (qtdeTitulosPagos > 0)
+                    {
+                        throw new DomainException("Existem títulos pagos desse pedido. Cancelamento não permitido!");
+                    }
+
+                    foreach (var itemContasReceber in listContasReceber)
+                    {
+                        itemContasReceber.Status = ContasReceberStatusEnum.Cancelado;
+                        _repositoryContasReceber.Edit(itemContasReceber);
+
+                        _unitOfWork.Commit();
+                    }
                 }
 
                 else if (Status == PedidoVendaStatusEnum.AguardandoPagamento)

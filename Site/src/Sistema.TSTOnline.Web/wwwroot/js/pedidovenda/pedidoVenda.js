@@ -2,12 +2,6 @@ var codigo = 0;
 var columns = [
     { "data": "idPedido" },
     {
-        "data": "dataCadastro",
-        "render": function (data, type, row) {
-            return dateToPT(data);
-        }
-    },
-    {
         "data": "dataVenda",
         "render": function (data, type, row) {
             return dateToPT(data);
