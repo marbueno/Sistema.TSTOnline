@@ -10,16 +10,13 @@ var columns = [
     { "data": "razaoSocial" },
     { "data": "vendedorNome" },
     { "data": "tipoPagamentoDescricao" },
-    { "data": "valorTotal" },
+    { "data": "valorTotalFormatado" },
     { "data": "statusDescricao" },
     {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
 
             var editButton = "<a class='btn btn-primary btn-sm' href='#' onclick='editRegister(" + row.idPedido + ")' title='Editar'>Editar</a>";
-
-            //if (row.status !== 1 && row.status !== 3)
-            //    editButton = "";
 
             return editButton;
         }
@@ -126,31 +123,81 @@ $(document).ready(function () {
     carregarProdutos();
 });
 
-//$("#slcProduto").change(function () {
+$("#chkClienteSemCadastro").change(function () {
 
-//    var idProduto = $(this).val();
+    var checked = $(this)[0].checked;
 
-//    listProdutos.forEach(item => {
-//        if (item.idProduto.toString() === idProduto) {
-//            var precoItem = accounting.formatMoney(item.preco, "", 2, ".", ",");
-//            debugger;
-//            $("#txtQtde").val("1");
-//            $("#txtValor").val(precoItem);
-//        }
-//    });
-//});
+    if (checked) {
+        $("#divClienteComCadastro").css("display", "none");
+        $("#SC_DadosResponsavel_1").css("display", "none");
+        $("#SC_DadosResponsavel_2").css("display", "none");
+        $("#divClienteSemCadastro").css("display", "");
+    }
+    else {
+        $("#divClienteComCadastro").css("display", "");
+        $("#SC_DadosResponsavel_1").css("display", "");
+        $("#SC_DadosResponsavel_2").css("display", "");
+        $("#divClienteSemCadastro").css("display", "none");
+    }
+});
 
+$("#SC_PF").change(function () {
+
+    var checked = $(this)[0].checked;
+
+    if (checked) {
+        $("#SC_CPF").css("display", "");
+        $("#SC_CNPJ").css("display", "none");
+    }
+});
+
+$("#SC_PJ").change(function () {
+
+    var checked = $(this)[0].checked;
+
+    if (checked) {
+        $("#SC_CPF").css("display", "none");
+        $("#SC_CNPJ").css("display", "");
+    }
+});
 
 $("#frmPedidoVenda").submit(function (event) {
 
+    debugger;
     event.preventDefault();
     var json = $(this).serializeObject();
+
+    var vendaExpress = $("#chkClienteSemCadastro")[0].checked;
+
+    var tipoPessoa = 1;
+
+    if ($("#SC_PJ")[0].checked) {
+        tipoPessoa = 2;
+    }
+
+    var uf = $("#slcUF option:selected").val();
 
     var pedidoVenda = {
         "idPedido": json.IDPedido === "" ? 0 : parseInt(json.IDPedido),
         "dataVenda": json.DataVenda,
         "idVendedor": json.idVendedor,
+
+        "vendaExpress": vendaExpress,
         "idEmpresa": json.idEmpresa,
+
+        "tipoPessoa": tipoPessoa,
+        "cpf": json.CPF,
+        "cnpj": json.CNPJ,
+        "nomeOuRazaoSocial": json.NomeOuRazaoSocial,
+        "email": json.Email,
+        "cep": json.CEP,
+        "endereco": json.Endereco,
+        "numero": json.Numero,
+        "complemento": json.Complemento,
+        "bairro": json.Bairro,
+        "cidade": json.Cidade,
+        "uf": uf,
+
         "tipoPagamento": json.tipoPagamento,
         "qtdeParcelas": json.qtdeParcelas,
         "idUsuario": 1,

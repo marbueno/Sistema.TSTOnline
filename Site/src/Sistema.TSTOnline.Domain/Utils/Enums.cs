@@ -160,4 +160,13 @@ namespace Sistema.TSTOnline.Domain.Utils
         [Description("12x")]
         DozeVezes = 12,
     }
+
+    public enum TipoPessoa : int
+    {
+        [Description("FÍSICA")]
+        Fisica = 1,
+
+        [Description("JURÍDICA")]
+        Juridica = 2
+    }
 }

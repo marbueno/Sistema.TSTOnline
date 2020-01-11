@@ -15,6 +15,7 @@ using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Domain.Services.Template;
 using Microsoft.Extensions.Configuration;
 using System;
+using Sistema.TSTOnline.Domain.Services.Cadastros;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -26,12 +27,14 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<PedidoVendaEN> _pedidoVendaRepository;
         private readonly PedidoVendaBU _pedidoVendaBU;
+        private readonly IRepository<PedidoVendaGrid> _listPedidoVendaRepository;
         private readonly FluxoBU _fluxoBU;
 
         private readonly IRepository<PedidoVendaItemEN> _pedidoVendaItemRepository;
 
         private readonly IRepository<VendedorEN> _vendedorRepository;
         private readonly IRepository<EmpresaEN> _empresaRepository;
+        private readonly EmpresaBU _empresaBU;
         private readonly IRepository<ProdutoEN> _produtoRepository;
 
         private readonly IConfiguration _configuration;
@@ -50,9 +53,11 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         public PedidoVendaController(
                 IRepository<PedidoVendaEN> pedidoVendaRepository, PedidoVendaBU pedidoVendaBU,
+                IRepository<PedidoVendaGrid> listPedidoVendaRepository,
                 IRepository<PedidoVendaItemEN> pedidoVendaItemRepository,
                 IRepository<VendedorEN> vendedorRepository,
                 IRepository<EmpresaEN> empresaRepository,
+                EmpresaBU empresaBU,
                 IRepository<ProdutoEN> produtoRepository,
                 FluxoBU fluxoBU,
                 IConfiguration configuration,
@@ -62,12 +67,14 @@ namespace Sistema.TSTOnline.Web.Controllers
         {
             _pedidoVendaRepository = pedidoVendaRepository;
             _pedidoVendaBU = pedidoVendaBU;
+            _listPedidoVendaRepository = listPedidoVendaRepository;
 
             _pedidoVendaItemRepository = pedidoVendaItemRepository;
 
             _vendedorRepository = vendedorRepository;
 
             _empresaRepository = empresaRepository;
+            _empresaBU = empresaBU;
 
             _produtoRepository = produtoRepository;
 
@@ -132,25 +139,28 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listPedidosVenda")]
         public JsonResult ListPedidoVendas()
         {
-            var listPedidoVendas = _pedidoVendaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
-            var pedidoVendaVM = listPedidoVendas.Select(
-                c => new PedidoVendaVM
-                {
-                    IDPedido = c.IDPedido,
-                    DataCadastro = c.DataCadastro,
-                    DataVenda = c.DataVenda,
-                    Status = c.Status,
-                    IDVendedor = c.IDVendedor,
-                    VendedorNome = _vendedorRepository.GetByID(c.IDVendedor)?.Nome ?? string.Empty,
-                    IDEmpresa = c.IDEmpresa,
-                    TipoPagamento = c.TipoPagamento,
-                    QtdeParcelas = c.QtdeParcelas,
-                    Observacao = c.Observacao,
-                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa)?.RazaoSocial ?? string.Empty, 
-                    ValorTotal = Utils.Helper.FormatReal(GetPedidoVendaItens(c.IDPedido).Sum(obj => obj.ValorTotal), true),
-                }); ;
+            string SQL = $@"select
+                                ped.idpedido        as id,
+                                ped.idpedido        as idPedido,
+                                ped.datavenda       as DataVenda,
+                                emp.razaosocial     as razaoSocial,
+                                ven.nome            as vendedorNome,
+                                ped.tipopagamento   as tipoPagamento,
+                                (select 
+                                   sum(qtde * valor) 
+                                  from tbpedidovendaitem 
+                                 where idpedido = ped.idpedido) 
+                                                    as valorTotal,
+                                ped.status          as Status
 
-            return Json(pedidoVendaVM.ToList());
+                              from tbpedidovenda ped
+                             inner join tbcadempresas emp on ped.idempresa = emp.idempresa
+                             inner join tbcadvendedor ven on ped.idvendedor = ven.idvendedor
+                             where ped.idcompany = {idCompany}";
+
+            var listPedidosVenda = _listPedidoVendaRepository.FromSql(SQL).OrderByDescending(e => e.IDPedido).ToList();
+
+            return Json(listPedidosVenda.ToList());
         }
 
         [HttpPost]
@@ -171,6 +181,27 @@ namespace Sistema.TSTOnline.Web.Controllers
                         Qtde = c.Qtde,
                         Valor = c.Valor
                     });
+
+                if (pedidoVendaVM.VendaExpress)
+                {
+                    var cpfCnpj = pedidoVendaVM.TipoPessoa == TipoPessoa.Fisica ? pedidoVendaVM.CPF : pedidoVendaVM.CNPJ;
+
+                    pedidoVendaVM.IDEmpresa = _empresaBU.Save
+                    (
+                        idCompany,
+                        idUser,
+                        cpfCnpj,
+                        pedidoVendaVM.NomeOuRazaoSocial,
+                        pedidoVendaVM.NomeOuRazaoSocial,
+                        pedidoVendaVM.CEP,
+                        pedidoVendaVM.Endereco,
+                        pedidoVendaVM.Numero,
+                        pedidoVendaVM.Complemento,
+                        pedidoVendaVM.Bairro,
+                        pedidoVendaVM.Cidade,
+                        pedidoVendaVM.UF
+                    );
+                }
 
                 _pedidoVendaBU.Save
                 (

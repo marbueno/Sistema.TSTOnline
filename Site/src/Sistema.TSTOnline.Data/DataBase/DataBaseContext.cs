@@ -37,6 +37,7 @@ namespace Sistema.TSTOnline.Data
         #region Pedidos de Venda
 
         public DbSet<PedidoVendaEN> tbpedidovenda { get; set; }
+        public DbSet<PedidoVendaGrid> PedidoVendaGrid { get; set; }
         public DbSet<PedidoVendaItemEN> tbpedidovendaitem { get; set; }
 
         #endregion Pedidos de Venda

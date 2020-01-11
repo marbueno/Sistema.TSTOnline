@@ -1,6 +1,6 @@
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Interfaces;
-using System;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Domain.Services.Cadastros
 {
@@ -15,196 +15,35 @@ namespace Sistema.TSTOnline.Domain.Services.Cadastros
             _unitOfWork = unitOfWork;
         }
 
-        //public void Save
-        //    (
-        //        int IDEmpresa,
-        //        string StatusEmpresa,
-        //        string Situacao,
-        //        int IDUser,
-        //        string NomeContato,
-        //        string CPFContato,
-        //        string TelContato,
-        //        string NomeRespEmpresa,
-        //        string CPFResponsavel,
-        //        string TelResponsavel,
-        //        string NITResponsavel,
-        //        string EmailResponsavel,
-        //        int CodEmpresa,
-        //        int IDCompany,
-        //        string RazaoSocial,
-        //        string NomeFantasia,
-        //        string TipoMatricula,
-        //        string NRMatricula,
-        //        string InscEstadual,
-        //        string CodNatJurid,
-        //        string NatJuridica,
-        //        string DescNatJurid,
-        //        string CNAE,
-        //        string CNAEDesc,
-        //        string CEP,
-        //        string UF,
-        //        string Cidade,
-        //        string Bairro,
-        //        string Endereco,
-        //        string Numero,
-        //        string Complemento,
-        //        string Telefone,
-        //        string Celular,
-        //        string Email,
-        //        string QtdEmpregados,
-        //        string Cipa,
-        //        string Observacoes,
-        //        string HorarioDeTrabalho,
-        //        string IDRiscoEmp,
-        //        DateTime DataCad,
-        //        int StatusPCMSO,
-        //        int ResponsavelPCMSO,
-        //        int IDPCMSO,
-        //        string EstabeTerceiro,
-        //        string CnpjTerceiro,
-        //        string NomeTerceiro,
-        //        string EmailTerceiro,
-        //        string TelefoneTerceiro,
-        //        string CelularTerceiro,
-        //        string UFTerceiro,
-        //        string CidadeTerceiro,
-        //        string EnderecoTerceiro,
-        //        string BairroTerceiro,
-        //        string CEPTerceiro,
-        //        string NumeroTerceiro,
-        //        string ComplementoTerceiro
-        //    )
-        //{
-        //    EmpresaEN empresaEN = _empresaRepository.GetByID(IDEmpresa);
+        public int Save (int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        {
+            EmpresaEN empresaEN = _empresaRepository.Where(obj => obj.NrMatricula == CNPJ).FirstOrDefault();
 
-        //    if (empresaEN != null)
-        //    {
-        //        empresaEN.UpdateProperties
-        //            (
-        //                StatusEmpresa,
-        //                Situacao,
-        //                IDUser,
-        //                NomeContato,
-        //                CPFContato,
-        //                TelContato,
-        //                NomeRespEmpresa,
-        //                CPFResponsavel,
-        //                TelResponsavel,
-        //                NITResponsavel,
-        //                EmailResponsavel,
-        //                CodEmpresa,
-        //                IDCompany,
-        //                RazaoSocial,
-        //                NomeFantasia,
-        //                TipoMatricula,
-        //                NRMatricula,
-        //                InscEstadual,
-        //                CodNatJurid,
-        //                NatJuridica,
-        //                DescNatJurid,
-        //                CNAE,
-        //                CNAEDesc,
-        //                CEP,
-        //                UF,
-        //                Cidade,
-        //                Bairro,
-        //                Endereco,
-        //                Numero,
-        //                Complemento,
-        //                Telefone,
-        //                Celular,
-        //                Email,
-        //                QtdEmpregados,
-        //                Cipa,
-        //                Observacoes,
-        //                HorarioDeTrabalho,
-        //                IDRiscoEmp,
-        //                DataCad,
-        //                StatusPCMSO,
-        //                ResponsavelPCMSO,
-        //                IDPCMSO,
-        //                EstabeTerceiro,
-        //                CnpjTerceiro,
-        //                NomeTerceiro,
-        //                EmailTerceiro,
-        //                TelefoneTerceiro,
-        //                CelularTerceiro,
-        //                UFTerceiro,
-        //                CidadeTerceiro,
-        //                EnderecoTerceiro,
-        //                BairroTerceiro,
-        //                CEPTerceiro,
-        //                NumeroTerceiro,
-        //                ComplementoTerceiro
-        //            );
+            if (empresaEN == null)
+            {
+                empresaEN = new EmpresaEN
+                    (
+                        IDCompany,
+                        IDUser,
+                        CNPJ,
+                        RazaoSocial,
+                        NomeFantasia,
+                        CEP,
+                        Endereco,
+                        Numero,
+                        Complemento,
+                        Bairro,
+                        Cidade,
+                        UF
+                    );
 
-        //        _empresaRepository.Edit(empresaEN);
-        //    }
-        //    else
-        //    {
-        //        empresaEN = new EmpresaEN
-        //            (
-        //                StatusEmpresa,
-        //                Situacao,
-        //                IDUser,
-        //                NomeContato,
-        //                CPFContato,
-        //                TelContato,
-        //                NomeRespEmpresa,
-        //                CPFResponsavel,
-        //                TelResponsavel,
-        //                NITResponsavel,
-        //                EmailResponsavel,
-        //                CodEmpresa,
-        //                IDCompany,
-        //                RazaoSocial,
-        //                NomeFantasia,
-        //                TipoMatricula,
-        //                NRMatricula,
-        //                InscEstadual,
-        //                CodNatJurid,
-        //                NatJuridica,
-        //                DescNatJurid,
-        //                CNAE,
-        //                CNAEDesc,
-        //                CEP,
-        //                UF,
-        //                Cidade,
-        //                Bairro,
-        //                Endereco,
-        //                Numero,
-        //                Complemento,
-        //                Telefone,
-        //                Celular,
-        //                Email,
-        //                QtdEmpregados,
-        //                Cipa,
-        //                Observacoes,
-        //                HorarioDeTrabalho,
-        //                IDRiscoEmp,
-        //                DataCad,
-        //                StatusPCMSO,
-        //                ResponsavelPCMSO,
-        //                IDPCMSO,
-        //                EstabeTerceiro,
-        //                CnpjTerceiro,
-        //                NomeTerceiro,
-        //                EmailTerceiro,
-        //                TelefoneTerceiro,
-        //                CelularTerceiro,
-        //                UFTerceiro,
-        //                CidadeTerceiro,
-        //                EnderecoTerceiro,
-        //                BairroTerceiro,
-        //                CEPTerceiro,
-        //                NumeroTerceiro,
-        //                ComplementoTerceiro
-        //            );
+                _empresaRepository.Save(empresaEN);
 
-        //        _empresaRepository.Save(empresaEN);
-        //    }
+                _unitOfWork.Commit();
+            }
 
-        //    _unitOfWork.Commit();
-        //}
+
+            return empresaEN.IDEmpresa;
+        }
     }
 }
