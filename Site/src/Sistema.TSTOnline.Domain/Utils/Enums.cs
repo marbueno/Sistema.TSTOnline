@@ -120,6 +120,9 @@ namespace Sistema.TSTOnline.Domain.Utils
 
         [Description("LOJA ONLINE")]
         LojaOnline = 5,
+
+        [Description("TRANSFERÊNCIA")]
+        Transferencia = 6,
     }
 
     public enum QtdeParcelasEnum : int

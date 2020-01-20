@@ -25,8 +25,47 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "statusDescricao")]
         public string StatusDescricao { get { return Status.ToDescriptionEnum(); } }
 
+        [JsonProperty(PropertyName = "osExpress")]
+        public bool OsExpress { get; set; }
+
         [JsonProperty(PropertyName = "idEmpresa")]
         public int IDEmpresa { get; set; }
+
+        [JsonProperty(PropertyName = "tipoPessoa")]
+        public TipoPessoa TipoPessoa { get; set; }
+
+        [JsonProperty(PropertyName = "cpf")]
+        public string CPF { get; set; }
+
+        [JsonProperty(PropertyName = "cnpj")]
+        public string CNPJ { get; set; }
+
+        [JsonProperty(PropertyName = "nomeOuRazaoSocial")]
+        public string NomeOuRazaoSocial { get; set; }
+
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
+
+        [JsonProperty(PropertyName = "cep")]
+        public string CEP { get; set; }
+
+        [JsonProperty(PropertyName = "endereco")]
+        public string Endereco { get; set; }
+
+        [JsonProperty(PropertyName = "numero")]
+        public string Numero { get; set; }
+
+        [JsonProperty(PropertyName = "complemento")]
+        public string Complemento { get; set; }
+
+        [JsonProperty(PropertyName = "bairro")]
+        public string Bairro { get; set; }
+
+        [JsonProperty(PropertyName = "cidade")]
+        public string Cidade { get; set; }
+
+        [JsonProperty(PropertyName = "uf")]
+        public string UF { get; set; }
 
         [JsonProperty(PropertyName = "razaoSocial")]
         public string RazaoSocial { get; set; }

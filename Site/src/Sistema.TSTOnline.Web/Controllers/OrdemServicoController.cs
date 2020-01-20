@@ -12,6 +12,7 @@ using System;
 using Sistema.TSTOnline.Domain.Services.Template;
 using Sistema.TSTOnline.Domain.Services.Usuario;
 using Microsoft.Extensions.Configuration;
+using Sistema.TSTOnline.Domain.Services.Cadastros;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -36,6 +37,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly IRepository<ResponsavelEN> _responsavelRepository;
 
         private readonly IRepository<EmpresaEN> _empresaRepository;
+        private readonly EmpresaBU _empresaBU;
 
         private readonly IConfiguration _configuration;
 
@@ -58,6 +60,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<OrdemServicoItemEN> ordemServicoItemRepository, OrdemServicoItemBU ordemServicoItemBU,
                 IRepository<ResponsavelEN> responsavelRepository,
                 IRepository<EmpresaEN> empresaRepository,
+                EmpresaBU empresaBU,
                 IConfiguration configuration,
                 TemplateBU templateBU,
                 UsuarioService usuarioService
@@ -78,6 +81,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _responsavelRepository = responsavelRepository;
 
             _empresaRepository = empresaRepository;
+            _empresaBU = empresaBU;
 
             _configuration = configuration;
 
@@ -368,6 +372,27 @@ namespace Sistema.TSTOnline.Web.Controllers
 
                 else if (qtdeItensConcluidos > 0)
                     status = OrdemServicoStatusEnum.ParcialmenteConcluido;
+
+                if (ordemServicoVM.OsExpress)
+                {
+                    var cpfCnpj = ordemServicoVM.TipoPessoa == TipoPessoa.Fisica ? ordemServicoVM.CPF : ordemServicoVM.CNPJ;
+
+                    ordemServicoVM.IDEmpresa = _empresaBU.Save
+                    (
+                        idCompany,
+                        idUser,
+                        cpfCnpj,
+                        ordemServicoVM.NomeOuRazaoSocial,
+                        ordemServicoVM.NomeOuRazaoSocial,
+                        ordemServicoVM.CEP,
+                        ordemServicoVM.Endereco,
+                        ordemServicoVM.Numero,
+                        ordemServicoVM.Complemento,
+                        ordemServicoVM.Bairro,
+                        ordemServicoVM.Cidade,
+                        ordemServicoVM.UF
+                    );
+                }
 
                 var idOrdemServico = _ordemServicoBU.Save
                     (

@@ -69,7 +69,106 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 1%;">
+                @if (newRegister)
+                {
+                    <div class="row" style="margin-top: 1%;">
+
+                        <div class="col-sm-4 col-lg-4">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="chkClienteSemCadastro" style="height:30px; width:30px;" name="chkClienteSemCadastro">
+                                <label class="form-check-label" for="chkClienteSemCadastro" style="cursor:pointer;font-weight:bold;">CLIENTE SEM CADASTRO?</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="divClienteSemCadastro" style="display:none;">
+                        <div class="row" style="margin-top: 1%;">
+
+                            <div class="col-sm-1 col-lg-1">
+                                <input type="radio" id="SC_PF" name="tipoPessoa" value="1" checked="checked" style="height:30px; width:30px;"> FÍSICA
+                            </div>
+
+                            <div class="col-sm-1 col-lg-1">
+                                <input type="radio" id="SC_PJ" name="tipoPessoa" value="2" style="height:30px; width:30px;"> JURÍDICA
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-top: 1%;">
+
+                            <div class="col-sm-4 col-lg-4" id="SC_CPF">
+                                @Html.TextBoxFor(m => m.CPF, new { @class = "form-control", @maxlength = "14", @placeholder = "CPF", @data_mask = "000.000.000-00" })
+                            </div>
+
+                            <div class="col-sm-4 col-lg-4" id="SC_CNPJ" style="display:none;">
+                                @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control", @maxlength = "19", @placeholder = "CNPJ", @data_mask = "00.000.000/0000-00" })
+                            </div>
+
+                            <div class="col-sm-8 col-lg-8">
+                                @Html.TextBoxFor(m => m.NomeOuRazaoSocial, new { @class = "form-control", @maxlength = "80", @placeholder = "Nome/Razão Social" })
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-top: 1%;">
+
+                            <div class="col-sm-12 col-lg-12">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @maxlength = "200", @placeholder = "E-mail" })
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-top:1%;">
+                            <div class="col-12">
+                                <h5><span class="badge badge-secondary w-100 text-left">DADOS DE ENDEREÇO</span></h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.CEP, new { @class = "form-control", @maxlength = "9", @placeholder = "CEP", @data_mask = "00000-000" })
+                            </div>
+
+                            <div class="col-sm-7 col-lg-7">
+                                @Html.TextBoxFor(m => m.Endereco, new { @class = "form-control", @maxlength = "200", @placeholder = "Endereço" })
+                            </div>
+
+                            <div class="col-sm-2 col-lg-2">
+                                @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", @maxlength = "80", @placeholder = "Número" })
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 1%;">
+
+                            <div class="col-sm-4 col-lg-4">
+                                @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", @maxlength = "100", @placeholder = "Complemento" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", @maxlength = "80", @placeholder = "Bairro" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", @maxlength = "50", @placeholder = "Cidade" })
+                            </div>
+
+                            <div class="col-sm-2 col-lg-2">
+                                <select id="slcUF" name="uf" class="form-control">
+
+                                    <option selected disabled>UF</option>
+
+                                    @foreach (var itemEstado in Helper.ListarEstados())
+                                    {
+                                        <option select value="@itemEstado.Codigo">@itemEstado.Sigla</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                <div id="divClienteComCadastro" class="row" style="margin-top: 1%;">
 
                     <div class="col-sm-1 col-lg-1">
                         <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalEmpresa"><i class="fa fa-search fa-lg"></i></button>
@@ -79,6 +178,7 @@
                         @Html.TextBoxFor(m => m.RazaoSocial, new { id = "RazaoSocial", @class = "form-control", @maxlength = "150", @placeholder = "Razão Social", @readonly = "readonly", @required = "true" })
                         <input type="hidden" name="idEmpresa" id="idEmpresa" value="@IDEmpresa">
                     </div>
+
                 </div>
 
                 <div class="row" style="margin-top:1%;">

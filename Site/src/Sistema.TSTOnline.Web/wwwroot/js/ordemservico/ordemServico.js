@@ -84,11 +84,60 @@ $(document).ready(function () {
     });
 });
 
+$("#chkClienteSemCadastro").change(function () {
+
+    var checked = $(this)[0].checked;
+
+    if (checked) {
+        $("#divClienteComCadastro").css("display", "none");
+        $("#divClienteSemCadastro").css("display", "");
+    }
+    else {
+        $("#divClienteComCadastro").css("display", "");
+        $("#divClienteSemCadastro").css("display", "none");
+    }
+});
+
+$("#SC_PF").change(function () {
+
+    var checked = $(this)[0].checked;
+
+    if (checked) {
+        $("#SC_CPF").css("display", "");
+        $("#SC_CNPJ").css("display", "none");
+    }
+});
+
+$("#SC_PJ").change(function () {
+
+    var checked = $(this)[0].checked;
+
+    if (checked) {
+        $("#SC_CPF").css("display", "none");
+        $("#SC_CNPJ").css("display", "");
+    }
+});
+
 
 $("#frmOrdemServico").submit(function (event) {
 
     event.preventDefault();
     var json = $(this).serializeObject();
+
+    var osExpress = false;
+
+    if ($("#chkClienteSemCadastro")[0] !== undefined && $("#chkClienteSemCadastro")[0] !== null) {
+        osExpress = $("#chkClienteSemCadastro")[0].checked;
+    }
+
+    var tipoPessoa = 1;
+
+    if ($("#SC_PJ")[0] !== undefined && $("#SC_PJ")[0] !== null) {
+        if ($("#SC_PJ")[0].checked)
+            tipoPessoa = 2;
+    }
+
+    var uf = $("#slcUF option:selected").val();
 
     var ordemServico = {
         "idOrdemServico": json.IDOrdemServico === "" ? 0 : parseInt(json.IDOrdemServico),
@@ -96,7 +145,23 @@ $("#frmOrdemServico").submit(function (event) {
         "horarioServico": json.HorarioServico,
         "idResp": json.idResp,
         "idLocal": json.idLocal,
+
+        "osExpress": osExpress,
         "idEmpresa": json.idEmpresa,
+
+        "tipoPessoa": tipoPessoa,
+        "cpf": json.CPF,
+        "cnpj": json.CNPJ,
+        "nomeOuRazaoSocial": json.NomeOuRazaoSocial,
+        "email": json.Email,
+        "cep": json.CEP,
+        "endereco": json.Endereco,
+        "numero": json.Numero,
+        "complemento": json.Complemento,
+        "bairro": json.Bairro,
+        "cidade": json.Cidade,
+        "uf": uf,
+
         "nomeContato": json.NomeContato,
         "telefone": json.Telefone,
         "whatsApp": json.WhatsApp,

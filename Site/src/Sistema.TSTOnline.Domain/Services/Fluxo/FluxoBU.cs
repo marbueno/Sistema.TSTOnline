@@ -109,6 +109,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                 else if (Status == PedidoVendaStatusEnum.AguardandoPagamento)
                 {
                     var listPedidoVendaItem = _repositoryPedidoVendaItem.Where(obj => obj.IDPedido == IDPedidoVenda).ToList();
+                    var empresaEN = _repositoryEmpresa.GetByID(pedidoVendaEN.IDEmpresa);
 
                     foreach (var itemPedido in listPedidoVendaItem)
                     {
@@ -122,7 +123,7 @@ namespace Sistema.TSTOnline.Domain.Services.Fluxo
                                 itemPedido.IDProduto,
                                 TipoMovimentoEstoqueEnum.Saida,
                                 itemPedido.Qtde,
-                                string.Format("Pedido de Venda")
+                                empresaEN.RazaoSocial
                             );
                     }
 

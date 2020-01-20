@@ -24,7 +24,6 @@
     int idCompany = _usuarioService.GetCompanyId();
     var listTiposPagamento = Enum.GetValues(typeof(TipoPagamentoEnum)).Cast<TipoPagamentoEnum>().ToList();
     var listQtdeParcelas = Enum.GetValues(typeof(QtdeParcelasEnum)).Cast<QtdeParcelasEnum>().ToList();
-    //var listProdutos = _produtoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDVendedor = 0;
     var IDEmpresa = 0;
     var disabled = false;

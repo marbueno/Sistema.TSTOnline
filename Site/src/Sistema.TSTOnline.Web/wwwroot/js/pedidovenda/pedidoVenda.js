@@ -167,12 +167,17 @@ $("#frmPedidoVenda").submit(function (event) {
     event.preventDefault();
     var json = $(this).serializeObject();
 
-    var vendaExpress = $("#chkClienteSemCadastro")[0].checked;
+    var vendaExpress = false;
+
+    if ($("#chkClienteSemCadastro")[0] !== undefined && $("#chkClienteSemCadastro")[0] !== null) {
+        vendaExpress = $("#chkClienteSemCadastro")[0].checked;
+    }
 
     var tipoPessoa = 1;
 
-    if ($("#SC_PJ")[0].checked) {
-        tipoPessoa = 2;
+    if ($("#SC_PJ")[0] !== undefined && $("#SC_PJ")[0] !== null) {
+        if ($("#SC_PJ")[0].checked)
+            tipoPessoa = 2;
     }
 
     var uf = $("#slcUF option:selected").val();

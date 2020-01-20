@@ -27,3 +27,24 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
+
+$("input[name=CEP]").on("blur", function () {
+    debugger;
+    let cep = $(this).val();
+
+    $.ajax({
+        url: 'http://api.postmon.com.br/v1/cep/' + cep,
+        type: 'GET',
+        dataType: 'json',
+        success: function (json) {
+            console.log(json);
+            if (typeof json.logradouro !== 'undefined') {
+                $("input[name=Endereco]").val(json.logradouro);
+                $("input[name=Bairro]").val(json.bairro);
+                $("input[name=Cidade]").val(json.cidade);
+                $("#slcUF").val(json.estado);
+            }
+            $("input[name=Numero]").focus();
+        }
+    });
+});
