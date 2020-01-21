@@ -15,7 +15,7 @@ namespace Sistema.TSTOnline.Domain.Services.Cadastros
             _unitOfWork = unitOfWork;
         }
 
-        public int Save (int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public int Save (int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
         {
             EmpresaEN empresaEN = _empresaRepository.Where(obj => obj.NrMatricula == CNPJ).FirstOrDefault();
 
@@ -34,7 +34,9 @@ namespace Sistema.TSTOnline.Domain.Services.Cadastros
                         Complemento,
                         Bairro,
                         Cidade,
-                        UF
+                        UF,
+                        Telefone,
+                        Celular
                     );
 
                 _empresaRepository.Save(empresaEN);

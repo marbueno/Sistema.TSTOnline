@@ -17,6 +17,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 
         private readonly IRepository<EmpresaEN> _empresaRepository;
 
+        private readonly IRepository<AmbienteEN> _ambienteRepository;
+
         private readonly IRepository<FornecedorEN> _fornecedorRepository;
         private readonly FornecedorBU _fornecedorBU;
 
@@ -37,6 +39,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 
         public CadastrosController(
                 IRepository<EmpresaEN> empresaRepository,
+                IRepository<AmbienteEN> ambienteRepository,
                 IRepository<FornecedorEN> fornecedorRepository, FornecedorBU fornecedorBU,
                 IRepository<ResponsavelEN> responsavelRepository,
                 IRepository<VendedorEN> vendedorRepository, VendedorBU vendedorBU,
@@ -44,6 +47,8 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
             )
         {
             _empresaRepository = empresaRepository;
+
+            _ambienteRepository = ambienteRepository;
 
             _fornecedorRepository = fornecedorRepository;
             _fornecedorBU = fornecedorBU;
@@ -82,6 +87,29 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
         }
 
         #endregion Empresa
+
+        #region Ambientes
+
+        [HttpGet]
+        [Route("listAmbientes")]
+        public JsonResult ListAmbientes()
+        {
+            var listAmbientes = _ambienteRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusAtivo == "a").ToList();
+            var ambienteVM = listAmbientes.Select(
+                c => new AmbienteVM
+                {
+                    IDAmbiente = c.IDAmb,
+                    NomeEstabelecimento = c.NomeEstab,
+                    Cnpj = c.Matricula,
+                    Email = c.EmailEstab,
+                    Cep = c.CepEstab,
+                    Endereco = c.EnderecoEstab
+                });
+
+            return Json(ambienteVM);
+        }
+
+        #endregion Ambientes
 
         #region Fornecedor
 

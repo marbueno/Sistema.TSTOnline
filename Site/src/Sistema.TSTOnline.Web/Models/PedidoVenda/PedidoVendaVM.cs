@@ -73,6 +73,12 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         [JsonProperty(PropertyName = "uf")]
         public string UF { get; set; }
 
+        [JsonProperty(PropertyName = "telefone")]
+        public string Telefone { get; set; }
+
+        [JsonProperty(PropertyName = "whatsApp")]
+        public string WhatsApp { get; set; }
+
         [JsonProperty(PropertyName = "tipoPagamento")]
         public TipoPagamentoEnum TipoPagamento { get; set; }
 

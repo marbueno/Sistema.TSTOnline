@@ -35,7 +35,9 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
         private readonly IRepository<EmpresaEN> _empresaRepository;
 
-        private readonly IRepository<LocalServicoEN> _localServicoRepository;
+        private readonly IRepository<AmbienteEN> _ambienteRepository;
+
+        //private readonly IRepository<LocalServicoEN> _localServicoRepository;
 
         private readonly IRepository<TipoServicoEN> _tipoServicoRepository;
 
@@ -101,7 +103,9 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
                 IRepository<EmpresaEN> empresaRepository,
 
-                IRepository<LocalServicoEN> localServicoRepository,
+                IRepository<AmbienteEN> ambienteRepository,
+
+                //IRepository<LocalServicoEN> localServicoRepository,
 
                 IRepository<TipoServicoEN> tipoServicoRepository,
 
@@ -154,7 +158,9 @@ namespace Sistema.TSTOnline.Domain.Services.Template
 
             _empresaRepository = empresaRepository;
 
-            _localServicoRepository = localServicoRepository;
+            _ambienteRepository = ambienteRepository;
+
+            //_localServicoRepository = localServicoRepository;
 
             _tipoServicoRepository = tipoServicoRepository;
 
@@ -196,12 +202,14 @@ namespace Sistema.TSTOnline.Domain.Services.Template
         #endregion Constructor
 
         #region Ordem de Serviço
+
         public string OrdemServicoImprimir(int IDOrdemServico, string CaminhoTemplate)
         {
             OrdemServicoEN ordemServicoEN = _repositoryOrdemServico.GetByID(IDOrdemServico);
             var listOrdemServicoItem = _repositoryOrdemServicoItem.Where(obj => obj.IDOrdemServico == IDOrdemServico);
             var empresa = _empresaRepository.GetByID(ordemServicoEN.IDEmpresa);
-            LocalServicoEN localServivoEN = _localServicoRepository.GetByID(ordemServicoEN.IDLocal);
+            AmbienteEN ambienteEN = _ambienteRepository.GetByID(ordemServicoEN.IDLocal);
+            //LocalServicoEN localServivoEN = _localServicoRepository.GetByID(ordemServicoEN.IDLocal);
 
             OrdemServicoTemplate osTemplate = new OrdemServicoTemplate()
             {
@@ -214,16 +222,14 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 CompanyCnpj = _company.Cnpj,
                 CompanyRazaoSocial = _company.RazaoSocial,
                 ClienteRazaoSocial = empresa.RazaoSocial,
-                //ClienteRazaoEnderecoCompleto = $"{empresa.Endereco}, {empresa.Numero} - {empresa.Bairro} - {empresa.Cidade}/{empresa.UF}",
-                //ClienteRazaoTelefoneCompleto = $"Fone: {empresa.Telefone}",
                 ResponsavelNome = _responsavelRepository.GetByID(ordemServicoEN.IDResp).NomeResponsavel,
-                LocalNome = localServivoEN.Nome,
-                LocalCEP = Sistema.Utils.Helper.FormatarCEP(localServivoEN.CEP),
-                LocalEndereco = localServivoEN.Endereco,
-                LocalNumero = localServivoEN.Numero,
-                LocalComplemento = localServivoEN.Complemento,
-                LocalBairro = localServivoEN.Bairro,
-                LocalCidade = localServivoEN.Cidade,
+                LocalNome = ambienteEN.NomeEstab,
+                LocalCEP = Sistema.Utils.Helper.FormatarCEP(ambienteEN.CepEstab),
+                LocalEndereco = ambienteEN.EnderecoEstab,
+                LocalNumero = ambienteEN.NumEstab,
+                LocalComplemento = ambienteEN.ComplementoEstab,
+                LocalBairro = ambienteEN.BairroEstab,
+                LocalCidade = ambienteEN.CidadeEstab,
                 ContatoNome = ordemServicoEN.NomeContato,
                 ContatoTelefone = ordemServicoEN.Telefone,
                 ContatoWhatsApp = ordemServicoEN.WhatsApp,

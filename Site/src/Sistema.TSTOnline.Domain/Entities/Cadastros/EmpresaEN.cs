@@ -43,17 +43,17 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
 
         public EmpresaEN() { }
 
-        public EmpresaEN(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public EmpresaEN(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular);
         }
 
-        public void UpdateProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        public void UpdateProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF);
+            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular);
         }
 
-        private void ValidateAndSetProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF)
+        private void ValidateAndSetProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
         {
             DomainException.When(IDCompany == 0, "Compania não informada.");
             DomainException.When(IDUser == 0, "Usuário não informado.");
@@ -81,6 +81,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
             this.Cidade = Cidade;
             this.UF = UF;
             this.Telefone = Telefone;
+            this.Celular = Celular;
             this.NomeContato = "";
             this.CPFContato = "";
             this.TelContato = "";

@@ -39,6 +39,8 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly IRepository<EmpresaEN> _empresaRepository;
         private readonly EmpresaBU _empresaBU;
 
+        private readonly IRepository<AmbienteEN> _ambienteRepository;
+
         private readonly IConfiguration _configuration;
 
         private readonly TemplateBU _templateBU;
@@ -59,8 +61,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<OrdemServicoEN> ordemServicoRepository, OrdemServicoBU ordemServicoBU,
                 IRepository<OrdemServicoItemEN> ordemServicoItemRepository, OrdemServicoItemBU ordemServicoItemBU,
                 IRepository<ResponsavelEN> responsavelRepository,
-                IRepository<EmpresaEN> empresaRepository,
-                EmpresaBU empresaBU,
+                IRepository<EmpresaEN> empresaRepository, EmpresaBU empresaBU,
+                IRepository<AmbienteEN> ambienteRepository,
                 IConfiguration configuration,
                 TemplateBU templateBU,
                 UsuarioService usuarioService
@@ -82,6 +84,8 @@ namespace Sistema.TSTOnline.Web.Controllers
 
             _empresaRepository = empresaRepository;
             _empresaBU = empresaBU;
+
+            _ambienteRepository = ambienteRepository;
 
             _configuration = configuration;
 
@@ -299,7 +303,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     NomeContato = ordemServico.NomeContato,
                     Telefone = ordemServico.Telefone,
                     WhatsApp = ordemServico.WhatsApp,
-                    LocalDescricao = _localServicoRepository.GetByID(ordemServico.IDLocal)?.Nome ?? string.Empty,
+                    LocalDescricao = _ambienteRepository.GetByID(ordemServico.IDLocal)?.NomeEstab ?? string.Empty,
                 };
 
                 return View(ordemServicoVM);
@@ -320,7 +324,8 @@ namespace Sistema.TSTOnline.Web.Controllers
             {
                 var empresa = _empresaRepository.GetByID(itemOS.IDEmpresa);
                 var responsavel = _responsavelRepository.GetByID(itemOS.IDResp);
-                var localServico = _localServicoRepository.GetByID(itemOS.IDLocal);
+                var ambiente = _ambienteRepository.GetByID(itemOS.IDLocal);
+                //var localServico = _localServicoRepository.GetByID(itemOS.IDLocal);
 
                 OrdemServicoVM ordemServicoVM = new OrdemServicoVM()
                 {
@@ -346,9 +351,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                     ordemServicoVM.ResponsavelNome = responsavel.NomeResponsavel;
                 }
 
-                if (localServico != null)
+                if (ambiente != null)
                 {
-                    ordemServicoVM.LocalDescricao = localServico.Nome;
+                    ordemServicoVM.LocalDescricao = ambiente.NomeEstab;
                 }
 
                 listOrdemServicoVM.Add(ordemServicoVM);
@@ -390,7 +395,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.Complemento,
                         ordemServicoVM.Bairro,
                         ordemServicoVM.Cidade,
-                        ordemServicoVM.UF
+                        ordemServicoVM.UF,
+                        ordemServicoVM.TelefoneOE,
+                        ordemServicoVM.WhatsAppOE
                     );
                 }
 

@@ -202,6 +202,8 @@ $("#frmPedidoVenda").submit(function (event) {
         "bairro": json.Bairro,
         "cidade": json.Cidade,
         "uf": uf,
+        "telefone": json.Telefone,
+        "whatsApp": json.WhatsApp,
 
         "tipoPagamento": json.tipoPagamento,
         "qtdeParcelas": json.qtdeParcelas,

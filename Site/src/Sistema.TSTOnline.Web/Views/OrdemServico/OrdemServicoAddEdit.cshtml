@@ -20,7 +20,7 @@
         ViewData["Title"] = "EDITAR ORDEM SERVIÇO";
         labelButton = "Atualizar Ordem Serviço";
     }
-    
+
     int idCompany = _usuarioService.GetCompanyId();
     var listTiposServicos = _tipoServicoRepository.Where(obj => obj.IDCompany == idCompany).ToList();
     var IDResp = 0;
@@ -112,8 +112,16 @@
 
                         <div class="row" style="margin-top: 1%;">
 
-                            <div class="col-sm-12 col-lg-12">
+                            <div class="col-sm-6 col-lg-6">
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @maxlength = "200", @placeholder = "E-mail" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.TelefoneOE, new { id = "TelefoneOE", @class = "form-control", @maxlength = "15", @placeholder = "Telefone", @required = "true", @data_mask = "(00) 00000-0000" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.WhatsAppOE, new { id = "WhatsAppOE", @class = "form-control", @maxlength = "15", @placeholder = "WhatsApp", @required = "true", @data_mask = "(00) 00000-0000" })
                             </div>
 
                         </div>
@@ -207,7 +215,7 @@
                 <div class="row" style="margin-top: 1%;">
 
                     <div class="col-sm-1 col-lg-1">
-                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalLocalServico"><i class="fa fa-search fa-lg"></i></button>
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal" data-target="#modalAmbiente"><i class="fa fa-search fa-lg"></i></button>
                     </div>
 
                     <div class="col-sm-11 col-lg-11">
@@ -305,12 +313,14 @@
 @await Html.PartialAsync("~/Views/Shared/_BuscarResponsavelPartial.cshtml")
 @await Html.PartialAsync("~/Views/Shared/_BuscarLocalServicoPartial.cshtml")
 @await Html.PartialAsync("~/Views/Shared/_BuscarEmpresaPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_BuscarAmbientePartial.cshtml")
 
 
 @section Scripts{
     <script src="~/js/cadastros/responsavelPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/localServicoPesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/cadastros/empresaPesquisa.js?v=@Helper.GetVersion()"></script>
+    <script src="~/js/cadastros/ambientePesquisa.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/ordemServico.js?v=@Helper.GetVersion()"></script>
     <script src="~/js/ordemservico/ordemServicoItem.js?v=@Helper.GetVersion()"></script>
 }

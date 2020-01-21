@@ -199,7 +199,9 @@ namespace Sistema.TSTOnline.Web.Controllers
                         pedidoVendaVM.Complemento,
                         pedidoVendaVM.Bairro,
                         pedidoVendaVM.Cidade,
-                        pedidoVendaVM.UF
+                        pedidoVendaVM.UF,
+                        pedidoVendaVM.Telefone,
+                        pedidoVendaVM.WhatsApp
                     );
                 }
 

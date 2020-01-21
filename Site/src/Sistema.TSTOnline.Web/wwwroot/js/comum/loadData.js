@@ -1,5 +1,6 @@
 /* CADASTROS */
 var listEmpresas = [];
+var listAmbientes = [];
 var listVendedores = [];
 var listFornecedores = [];
 var listLocaisServicos = [];
@@ -27,6 +28,24 @@ function carregarEmpresas() {
             .then(data => {
                 var iCount = 0;
                 data.forEach(item => { item.id = iCount; listEmpresas.push(item); iCount++; });
+                resolve(true);
+            })
+            .catch(ex => {
+                console.log(ex);
+                reject(true);
+            });
+    });
+}
+
+function carregarAmbientes() {
+
+    return new Promise((resolve, reject) => {
+
+        fetch('/cadastros/listAmbientes')
+            .then(res => res.json())
+            .then(data => {
+                var iCount = 0;
+                data.forEach(item => { item.id = iCount; listAmbientes.push(item); iCount++; });
                 resolve(true);
             })
             .catch(ex => {

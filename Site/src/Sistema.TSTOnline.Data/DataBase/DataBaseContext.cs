@@ -19,6 +19,7 @@ namespace Sistema.TSTOnline.Data
 
         public DbSet<CompanyEN> companies { get; set; }
         public DbSet<EmpresaEN> tbcadempresas { get; set; }
+        public DbSet<AmbienteEN> tbcadamb { get; set; }
         public DbSet<VendedorEN> tbcadvendedor { get; set; }
         public DbSet<ResponsavelEN> tbresponsavel { get; set; }
         public DbSet<FornecedorEN> tbcadfornecedor { get; set; }

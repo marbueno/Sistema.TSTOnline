@@ -161,6 +161,8 @@ $("#frmOrdemServico").submit(function (event) {
         "bairro": json.Bairro,
         "cidade": json.Cidade,
         "uf": uf,
+        "telefoneOE": json.TelefoneOE,
+        "whatsAppOE": json.WhatsAppOE,
 
         "nomeContato": json.NomeContato,
         "telefone": json.Telefone,
