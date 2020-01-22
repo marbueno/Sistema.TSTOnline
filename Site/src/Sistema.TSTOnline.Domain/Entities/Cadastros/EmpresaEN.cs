@@ -93,7 +93,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
             this.EmailResponsavel = "";
             this.DescNatJurid = "";
             this.CnaeDesc = "";
-    }
+        }
 
         #endregion Constructor
     }

@@ -40,6 +40,7 @@ namespace Sistema.TSTOnline.Web.Controllers
         private readonly EmpresaBU _empresaBU;
 
         private readonly IRepository<AmbienteEN> _ambienteRepository;
+        private readonly AmbienteBU _ambienteBU;
 
         private readonly IConfiguration _configuration;
 
@@ -62,7 +63,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                 IRepository<OrdemServicoItemEN> ordemServicoItemRepository, OrdemServicoItemBU ordemServicoItemBU,
                 IRepository<ResponsavelEN> responsavelRepository,
                 IRepository<EmpresaEN> empresaRepository, EmpresaBU empresaBU,
-                IRepository<AmbienteEN> ambienteRepository,
+                IRepository<AmbienteEN> ambienteRepository, AmbienteBU ambienteBU,
                 IConfiguration configuration,
                 TemplateBU templateBU,
                 UsuarioService usuarioService
@@ -86,6 +87,7 @@ namespace Sistema.TSTOnline.Web.Controllers
             _empresaBU = empresaBU;
 
             _ambienteRepository = ambienteRepository;
+            _ambienteBU = ambienteBU;
 
             _configuration = configuration;
 
@@ -398,6 +400,20 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.UF,
                         ordemServicoVM.TelefoneOE,
                         ordemServicoVM.WhatsAppOE
+                    );
+
+                    ordemServicoVM.IDLocal = _ambienteBU.Save
+                    (
+                        idCompany,
+                        idUser,
+                        ordemServicoVM.NomeEstab,
+                        ordemServicoVM.CepEstab,
+                        ordemServicoVM.EnderecoEstab,
+                        ordemServicoVM.NumeroEstab,
+                        ordemServicoVM.ComplementoEstab,
+                        ordemServicoVM.BairroEstab,
+                        ordemServicoVM.CidadeEstab,
+                        ordemServicoVM.UFEstab
                     );
                 }
 

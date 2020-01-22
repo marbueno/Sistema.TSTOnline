@@ -1,24 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Sistema.TSTOnline.Data;
-using Microsoft.AspNetCore.Http;
-using Sistema.TSTOnline.Domain.Interfaces;
-using Sistema.TSTOnline.Domain.Services.Cadastros;
-using Sistema.TSTOnline.Domain.Services.Produtos;
-using Sistema.TSTOnline.Domain.Services.PedidoVenda;
-using Sistema.TSTOnline.Domain.Services.OrdemServico;
-using Sistema.TSTOnline.Domain.Services.Estoque;
-using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
-using Sistema.TSTOnline.Domain.Services.Fluxo;
-using Sistema.Pagamentos.Interface;
-using Sistema.Pagamentos.Services;
-using System;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Sistema.Documentos.Interface;
 using Sistema.Documentos.Service;
+using Sistema.Pagamentos.Interface;
+using Sistema.Pagamentos.Services;
+using Sistema.TSTOnline.Data;
+using Sistema.TSTOnline.Domain.Interfaces;
+using Sistema.TSTOnline.Domain.Services.Cadastros;
+using Sistema.TSTOnline.Domain.Services.Estoque;
+using Sistema.TSTOnline.Domain.Services.Fluxo;
+using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
+using Sistema.TSTOnline.Domain.Services.OrdemServico;
+using Sistema.TSTOnline.Domain.Services.PedidoVenda;
+using Sistema.TSTOnline.Domain.Services.Produtos;
 using Sistema.TSTOnline.Domain.Services.Template;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sistema.TSTOnline.Domain.Services.Usuario;
+using System;
 
 namespace Sistema.TSTOnline.DI
 {
@@ -54,6 +53,7 @@ namespace Sistema.TSTOnline.DI
             #region Cadastros
 
             services.AddTransient(typeof(EmpresaBU));
+            services.AddTransient(typeof(AmbienteBU));
             services.AddTransient(typeof(VendedorBU));
             services.AddTransient(typeof(FornecedorBU));
 

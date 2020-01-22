@@ -37,7 +37,7 @@ $("input[name=CEP]").on("blur", function () {
         type: 'GET',
         dataType: 'json',
         success: function (json) {
-            console.log(json);
+
             if (typeof json.logradouro !== 'undefined') {
                 $("input[name=Endereco]").val(json.logradouro);
                 $("input[name=Bairro]").val(json.bairro);
@@ -45,6 +45,27 @@ $("input[name=CEP]").on("blur", function () {
                 $("#slcUF").val(json.estado);
             }
             $("input[name=Numero]").focus();
+        }
+    });
+});
+
+$("input[name=CepEstab]").on("blur", function () {
+    debugger;
+    let cep = $(this).val();
+
+    $.ajax({
+        url: 'http://api.postmon.com.br/v1/cep/' + cep,
+        type: 'GET',
+        dataType: 'json',
+        success: function (json) {
+
+            if (typeof json.logradouro !== 'undefined') {
+                $("input[name=EnderecoEstab]").val(json.logradouro);
+                $("input[name=BairroEstab]").val(json.bairro);
+                $("input[name=CidadeEstab]").val(json.cidade);
+                $("#slcUFEstab").val(json.estado);
+            }
+            $("input[name=NumeroEstab]").focus();
         }
     });
 });

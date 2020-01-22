@@ -88,6 +88,30 @@ namespace Sistema.TSTOnline.Web.Models.OrdemServico
         [JsonProperty(PropertyName = "localDescricao")]
         public string LocalDescricao { get; set; }
 
+        [JsonProperty(PropertyName = "nomeEstab")]
+        public string NomeEstab { get; set; }
+
+        [JsonProperty(PropertyName = "cepEstab")]
+        public string CepEstab { get; set; }
+
+        [JsonProperty(PropertyName = "enderecoEstab")]
+        public string EnderecoEstab { get; set; }
+
+        [JsonProperty(PropertyName = "numeroEstab")]
+        public string NumeroEstab { get; set; }
+
+        [JsonProperty(PropertyName = "complementoEstab")]
+        public string ComplementoEstab { get; set; }
+
+        [JsonProperty(PropertyName = "bairroEstab")]
+        public string BairroEstab { get; set; }
+
+        [JsonProperty(PropertyName = "cidadeEstab")]
+        public string CidadeEstab { get; set; }
+
+        [JsonProperty(PropertyName = "ufEstab")]
+        public string UFEstab { get; set; }
+
         [JsonProperty(PropertyName = "nomeContato")]
         public string NomeContato { get; set; }
 

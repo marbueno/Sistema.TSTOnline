@@ -89,11 +89,13 @@ $("#chkClienteSemCadastro").change(function () {
     var checked = $(this)[0].checked;
 
     if (checked) {
-        $("#divClienteComCadastro").css("display", "none");
+        $("#divClienteComCadastroCliente").css("display", "none");
+        $("#divClienteComCadastroLocalServico").css("display", "none");
         $("#divClienteSemCadastro").css("display", "");
     }
     else {
-        $("#divClienteComCadastro").css("display", "");
+        $("#divClienteComCadastroCliente").css("display", "");
+        $("#divClienteComCadastroLocalServico").css("display", "");
         $("#divClienteSemCadastro").css("display", "none");
     }
 });
@@ -139,6 +141,8 @@ $("#frmOrdemServico").submit(function (event) {
 
     var uf = $("#slcUF option:selected").val();
 
+    var ufEstab = $("#slcUFEstab option:selected").val();
+
     var ordemServico = {
         "idOrdemServico": json.IDOrdemServico === "" ? 0 : parseInt(json.IDOrdemServico),
         "dataServico": json.DataServico,
@@ -163,6 +167,15 @@ $("#frmOrdemServico").submit(function (event) {
         "uf": uf,
         "telefoneOE": json.TelefoneOE,
         "whatsAppOE": json.WhatsAppOE,
+
+        "nomeEstab": json.NomeEstab,
+        "cepEstab": json.CepEstab,
+        "enderecoEstab": json.EnderecoEstab,
+        "numeroEstab": json.NumeroEstab,
+        "complementoEstab": json.ComplementoEstab,
+        "bairroEstab": json.BairroEstab,
+        "cidadeEstab": json.CidadeEstab,
+        "ufEstab": ufEstab,
 
         "nomeContato": json.NomeContato,
         "telefone": json.Telefone,

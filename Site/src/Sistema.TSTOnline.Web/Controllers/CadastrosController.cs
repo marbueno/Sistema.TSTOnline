@@ -100,7 +100,6 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                 {
                     IDAmbiente = c.IDAmb,
                     NomeEstabelecimento = c.NomeEstab,
-                    Cnpj = c.Matricula,
                     Email = c.EmailEstab,
                     Cep = c.CepEstab,
                     Endereco = c.EnderecoEstab
