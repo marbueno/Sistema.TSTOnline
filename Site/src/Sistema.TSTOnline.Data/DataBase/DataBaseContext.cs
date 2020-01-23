@@ -62,7 +62,9 @@ namespace Sistema.TSTOnline.Data
         #region Movimentação Financeira
 
         public DbSet<ContasReceberEN> tbcontasreceber { get; set; }
+        public DbSet<ContasReceberGrid> ContasReceberGrid { get; set; }
         public DbSet<FluxoCaixaEN> tbfluxocaixa { get; set; }
+        public DbSet<FluxoCaixaGrid> FluxoCaixaGrid { get; set; }
 
         #endregion Movimentação Financeira
 

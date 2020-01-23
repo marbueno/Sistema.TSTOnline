@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Entities.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Interfaces;
-using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
-using Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira;
-using System.Linq;
-using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Domain.Services.Fluxo;
-using Sistema.TSTOnline.Domain.Entities.Cadastros;
+using Sistema.TSTOnline.Domain.Services.MovimentacaoFinanceira;
 using Sistema.TSTOnline.Domain.Services.Template;
 using Sistema.TSTOnline.Domain.Services.Usuario;
-using Microsoft.Extensions.Configuration;
+using Sistema.TSTOnline.Domain.Utils;
+using Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Web.Controllers
 {
@@ -24,10 +23,12 @@ namespace Sistema.TSTOnline.Web.Controllers
 
         private readonly IRepository<ContasReceberEN> _contasReceberRepository;
         private readonly ContasReceberBU _contasReceberBU;
+        private readonly IRepository<ContasReceberGrid> _listContasReceberRepository;
         private readonly IRepository<EmpresaEN> _empresaRepository;
 
         private readonly IRepository<FluxoCaixaEN> _fluxoCaixaRepository;
         private readonly FluxoCaixaBU _fluxoCaixaBU;
+        private readonly IRepository<FluxoCaixaGrid> _listFluxoCaixaRepository;
 
         private readonly FluxoBU _fluxoBU;
 
@@ -48,8 +49,10 @@ namespace Sistema.TSTOnline.Web.Controllers
         public MovimentacaoFinanceiraController
             (
                 IRepository<ContasReceberEN> contasReceberRepository, ContasReceberBU contasReceberBU,
+                IRepository<ContasReceberGrid> listContasReceberRepository,
                 IRepository<EmpresaEN> empresaRepository,
                 IRepository<FluxoCaixaEN> fluxoCaixaRepository, FluxoCaixaBU fluxoCaixaBU,
+                IRepository<FluxoCaixaGrid> listFluxoCaixaRepository,
                 FluxoBU fluxoBU,
                 IConfiguration configuration,
                 TemplateBU templateBU,
@@ -58,11 +61,13 @@ namespace Sistema.TSTOnline.Web.Controllers
         {
             _contasReceberRepository = contasReceberRepository;
             _contasReceberBU = contasReceberBU;
+            _listContasReceberRepository = listContasReceberRepository;
 
             _empresaRepository = empresaRepository;
 
             _fluxoCaixaRepository = fluxoCaixaRepository;
             _fluxoCaixaBU = fluxoCaixaBU;
+            _listFluxoCaixaRepository = listFluxoCaixaRepository;
 
             _fluxoBU = fluxoBU;
 
@@ -121,26 +126,25 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listContasReceber")]
         public JsonResult ListContasReceber()
         {
-            var listContasReceber = _contasReceberRepository.Where(obj => obj.IDCompany == idCompany).ToList();
-            var contasReceberVM = listContasReceber.Select(
-                c => new ContasReceberVM
-                {
-                    IDContasReceber = c.IDContasReceber,
-                    DataCadastro = c.DataCadastro,
-                    IDEmpresa = c.IDEmpresa,
-                    RazaoSocial = _empresaRepository.GetByID(c.IDEmpresa).RazaoSocial,
-                    NumeroTitulo = c.NumeroTitulo,
-                    Seq = c.Seq,
-                    DataVencimento = c.DataVencimento,
-                    Valor = c.Valor,
-                    ValorPago = c.ValorPago,
-                    Origem = c.Origem,
-                    Chave = c.Chave,
-                    LinkFatura = c.LinkFatura,
-                    Status = c.Status
-                });
+            string SQL = $@"select
+                                ctr.idcontasreceber as id,
+                                ctr.idcontasreceber as idContasReceber,
+                                emp.razaosocial     as razaoSocial,
+                                ctr.numerotitulo    as numeroTitulo,
+                                ctr.seq             as seq,
+                                ctr.datavencimento  as dataVencimento,
+                                ctr.valor           as valor,
+                                ctr.valorpago       as valorPago,
+                                ctr.status          as Status,
+                                ctr.linkfatura      as linkFatura
 
-            return Json(contasReceberVM.ToList());
+                              from tbcontasreceber ctr
+                             inner join tbcadempresas emp on ctr.idempresa = emp.idempresa
+                             where ctr.idcompany = {idCompany}";
+
+            var listContasReceber = _listContasReceberRepository.FromSql(SQL).OrderByDescending(e => e.IDContasReceber).ToList();
+
+            return Json(listContasReceber.ToList());
         }
 
         [HttpPost]
@@ -233,46 +237,28 @@ namespace Sistema.TSTOnline.Web.Controllers
         [Route("listFluxoCaixa")]
         public JsonResult ListFluxoCaixa()
         {
-            var listFluxoCaixa = _fluxoCaixaRepository.Where(obj => obj.IDCompany == idCompany).ToList();
-            var listFluxoCaixaVM = new List<FluxoCaixaVM>();
+            string SQL = $@"select
+                                flc.idfluxocaixa            as id,
+                                flc.idfluxocaixa            as idFluxoCaixa,
+                                flc.datalancamento          as dataLancamento,
+                                flc.tipolancamento          as tipoLancamento,
+                                flc.origem                  as origem,
+                                lpad(ped.idpedido, 5, '0')  as pedidoVendaNumero,
+                                lpad(ctr.seq, 2, '0')       as contasReceberParcela,
+                                emp.razaosocial             as razaoSocial,
+                                flc.valor                   as valor
 
-            foreach (var itemCaixa in listFluxoCaixa)
-            {
-                FluxoCaixaVM fluxoCaixaVM = new FluxoCaixaVM();
+                              from tbfluxocaixa flc
+                              left join tbcontasreceber ctr on flc.chave      = ctr.idcontasreceber
+                                                           and flc.origem     = 2
+                              left join tbpedidovenda ped   on ctr.chave      = ped.idpedido
+                                                           and ctr.origem     = 2
+                              left join tbcadempresas emp   on ctr.idempresa  = emp.idempresa
+                             where flc.idcompany = {idCompany}";
 
-                fluxoCaixaVM.IDFluxoCaixa = itemCaixa.IDFluxoCaixa;
-                fluxoCaixaVM.DataLancamento = itemCaixa.DataLancamento;
-                fluxoCaixaVM.TipoLancamento = itemCaixa.TipoLancamento;
-                fluxoCaixaVM.Origem = itemCaixa.Origem;
-                fluxoCaixaVM.Chave = itemCaixa.Chave;
-                fluxoCaixaVM.Valor = itemCaixa.Valor;
-                fluxoCaixaVM.Observacao = itemCaixa.Observacao;
-                fluxoCaixaVM.RazaoSocial = string.Empty;
+            var listFluxoCaixa = _listFluxoCaixaRepository.FromSql(SQL).OrderByDescending(e => e.IDFluxoCaixa).ToList();
 
-                if (itemCaixa.Origem == OrigemFluxoCaixaEnum.ContasReceber)
-                {
-                    var contasReceberEN = _contasReceberRepository.GetByID(itemCaixa.Chave);
-                    fluxoCaixaVM.ContasReceberParcela = contasReceberEN.Seq.ToString();
-
-                    if (contasReceberEN != null)
-                    {
-                        if (contasReceberEN.Origem == OrigemContasReceberEnum.PedidoVenda)
-                            fluxoCaixaVM.PedidoVendaNumero = contasReceberEN.Chave.ToString("00000");
-
-                        var empresaEN = _empresaRepository.GetByID(contasReceberEN.IDEmpresa);
-
-                        if (empresaEN != null)
-                        {
-                            fluxoCaixaVM.RazaoSocial = empresaEN.RazaoSocial;
-                        }
-                    }
-                }
-
-                listFluxoCaixaVM.Add(fluxoCaixaVM);
-
-            }
-
-            return Json(listFluxoCaixaVM.ToList());
+            return Json(listFluxoCaixa.ToList());
         }
 
         [HttpPost]
