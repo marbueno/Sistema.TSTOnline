@@ -197,6 +197,32 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="row" style="margin-top:1%;">
+                            <div class="col-12">
+                                <h5><span class="badge badge-secondary w-100 text-left">DADOS DO RESPONSÁVEL</span></h5>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 1%;">
+
+                            <div class="col-sm-3 col-lg-3">
+                                @Html.TextBoxFor(m => m.ResponsavelEmpresaNomeVE, new { id = "ResponsavelEmpresaNomeVE", @class = "form-control", @maxlength = "150", @placeholder = "Nome do Responsável" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-2">
+                                @Html.TextBoxFor(m => m.ResponsavelEmpresaCPFVE, new { id = "ResponsavelEmpresaCPFVE", @class = "form-control", @maxlength = "14", @placeholder = "CPF do Responsável", @data_mask = "000.000.000-00" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-2">
+                                @Html.TextBoxFor(m => m.ResponsavelEmpresaTelefoneVE, new { id = "ResponsavelEmpresaTelefoneVE", @class = "form-control", @maxlength = "150", @placeholder = "Telefone do Responsável", @data_mask = "(00) 00000-0000" })
+                            </div>
+
+                            <div class="col-sm-3 col-lg-5">
+                                @Html.TextBoxFor(m => m.ResponsavelEmpresaEmailVE, new { id = "ResponsavelEmpresaEmailVE", @class = "form-control", @maxlength = "150", @placeholder = "Email do Responsável" })
+                            </div>
+
+                        </div>
                     </div>
 
                 }

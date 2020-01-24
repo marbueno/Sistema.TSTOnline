@@ -43,17 +43,17 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
 
         public EmpresaEN() { }
 
-        public EmpresaEN(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
+        public EmpresaEN(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular, string NomeRespEmpresa, string CPFResponsavel, string TelResponsavel, string EmailResponsavel)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular);
+            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular, NomeRespEmpresa, CPFResponsavel, TelResponsavel, EmailResponsavel);
         }
 
-        public void UpdateProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
+        public void UpdateProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular, string NomeRespEmpresa, string CPFResponsavel, string TelResponsavel, string EmailResponsavel)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular);
+            ValidateAndSetProperties(IDCompany, IDUser, CNPJ, RazaoSocial, NomeFantasia, CEP, Endereco, Numero, Complemento, Bairro, Cidade, UF, Telefone, Celular, NomeRespEmpresa, CPFResponsavel, TelResponsavel, EmailResponsavel);
         }
 
-        private void ValidateAndSetProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular)
+        private void ValidateAndSetProperties(int IDCompany, int IDUser, string CNPJ, string RazaoSocial, string NomeFantasia, string CEP, string Endereco, string Numero, string Complemento, string Bairro, string Cidade, string UF, string Telefone, string Celular, string NomeRespEmpresa, string CPFResponsavel, string TelResponsavel, string EmailResponsavel)
         {
             DomainException.When(IDCompany == 0, "Compania não informada.");
             DomainException.When(IDUser == 0, "Usuário não informado.");
@@ -65,7 +65,8 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
             DomainException.When(string.IsNullOrEmpty(Numero), "Número não informado.");
             DomainException.When(string.IsNullOrEmpty(Bairro), "Bairro não informado.");
             DomainException.When(string.IsNullOrEmpty(Cidade), "Cidade não informada.");
-            DomainException.When(string.IsNullOrEmpty(UF), "UF não informada.");
+            DomainException.When(string.IsNullOrEmpty(NomeRespEmpresa), "Nome do Responsável pela Empresa não informado.");
+            DomainException.When(string.IsNullOrEmpty(TelResponsavel), "Teefone do Responsável pela Empresa não informado.");
 
             this.IDCompany = IDCompany;
             this.IDUser = IDUser;
@@ -86,11 +87,11 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
             this.CPFContato = "";
             this.TelContato = "";
             this.TipoEmp = "";
-            this.NomeRespEmpresa = "";
-            this.CPFResponsavel = "";
-            this.TelResponsavel = "";
+            this.NomeRespEmpresa = NomeRespEmpresa;
+            this.CPFResponsavel = CPFResponsavel;
+            this.TelResponsavel = TelResponsavel;
             this.NitResponsavel = "";
-            this.EmailResponsavel = "";
+            this.EmailResponsavel = EmailResponsavel;
             this.DescNatJurid = "";
             this.CnaeDesc = "";
         }

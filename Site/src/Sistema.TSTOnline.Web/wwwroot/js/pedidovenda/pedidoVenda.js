@@ -204,6 +204,10 @@ $("#frmPedidoVenda").submit(function (event) {
         "uf": uf,
         "telefone": json.Telefone,
         "whatsApp": json.WhatsApp,
+        "responsavelEmpresaNomeVE": json.ResponsavelEmpresaNomeVE,
+        "responsavelEmpresaCPFVE": json.ResponsavelEmpresaCPFVE,
+        "responsavelEmpresaTelefoneVE": json.ResponsavelEmpresaTelefoneVE,
+        "responsavelEmpresaEmailVE": json.ResponsavelEmpresaEmailVE,
 
         "tipoPagamento": json.tipoPagamento,
         "qtdeParcelas": json.qtdeParcelas,

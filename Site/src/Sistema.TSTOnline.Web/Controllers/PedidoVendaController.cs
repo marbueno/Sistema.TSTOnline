@@ -201,7 +201,11 @@ namespace Sistema.TSTOnline.Web.Controllers
                         pedidoVendaVM.Cidade,
                         pedidoVendaVM.UF,
                         pedidoVendaVM.Telefone,
-                        pedidoVendaVM.WhatsApp
+                        pedidoVendaVM.WhatsApp,
+                        pedidoVendaVM.ResponsavelEmpresaNomeVE,
+                        pedidoVendaVM.ResponsavelEmpresaCPFVE,
+                        pedidoVendaVM.ResponsavelEmpresaTelefoneVE,
+                        pedidoVendaVM.ResponsavelEmpresaEmailVE
                     );
                 }
 

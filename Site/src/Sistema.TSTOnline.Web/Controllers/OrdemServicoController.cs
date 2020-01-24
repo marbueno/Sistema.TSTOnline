@@ -399,7 +399,11 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.Cidade,
                         ordemServicoVM.UF,
                         ordemServicoVM.TelefoneOE,
-                        ordemServicoVM.WhatsAppOE
+                        ordemServicoVM.WhatsAppOE,
+                        string.Empty,
+                        string.Empty,
+                        string.Empty,
+                        string.Empty
                     );
 
                     ordemServicoVM.IDLocal = _ambienteBU.Save

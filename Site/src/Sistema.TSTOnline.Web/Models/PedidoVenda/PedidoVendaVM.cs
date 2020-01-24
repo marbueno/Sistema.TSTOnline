@@ -79,6 +79,18 @@ namespace Sistema.TSTOnline.Web.Models.PedidoVenda
         [JsonProperty(PropertyName = "whatsApp")]
         public string WhatsApp { get; set; }
 
+        [JsonProperty(PropertyName = "responsavelEmpresaNomeVE")]
+        public string ResponsavelEmpresaNomeVE { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaCPFVE")]
+        public string ResponsavelEmpresaCPFVE { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaTelefoneVE")]
+        public string ResponsavelEmpresaTelefoneVE { get; set; }
+
+        [JsonProperty(PropertyName = "responsavelEmpresaEmailVE")]
+        public string ResponsavelEmpresaEmailVE { get; set; }
+
         [JsonProperty(PropertyName = "tipoPagamento")]
         public TipoPagamentoEnum TipoPagamento { get; set; }
 
