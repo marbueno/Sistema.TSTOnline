@@ -1,5 +1,12 @@
 var codigo = 0;
 var columns = [
+    {
+        "data": "idContasReceber",
+        mRender: function (data, type, row) {
+
+            return "<input name=\"chkBaixarTitulos\" value=\"" + row.idContasReceber + "\" type=\"checkbox\" style=\"height: 20px; width: 40px;\");\" />";
+        }
+    },
     { "data": "idContasReceber" },
     { "data": "razaoSocial" },
     { "data": "numeroTitulo" },
@@ -155,6 +162,58 @@ function cancelRegister () {
             });
     }
 }
+
+$("#btnBaixarTitulos").on('click', function () {
+
+    debugger;
+    var listTitulos = [];
+
+    $("#tblContasReceber tr:not(:first)").each(function () {
+
+        var chkBaixarTitulo = $(this).find("td:nth-child(1)").find('input[name$=chkBaixarTitulos]');
+
+
+        if (chkBaixarTitulo.is(":checked")) {
+            var idContasReceber = chkBaixarTitulo[0].value;
+
+            listTitulos.push({ idContasReceber: idContasReceber });
+        }
+    });
+
+    if (listTitulos.length > 0) {
+
+        fetch('/movimentacaofinanceira/baixarListaTitulos',
+            {
+                method: 'post',
+
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(listTitulos)
+            })
+            .then(response => {
+                if (response.status === 200) {
+
+                    showMessage("success", "Títulos baixados com sucesso!");
+
+                    window.location = '/movimentacaofinanceira/contasReceber';
+                }
+                else if (response.status === 500) {
+                    return response.text();
+                }
+            })
+            .then(response => {
+                showMessage("error", response);
+            })
+            .catch(error => {
+                console.log(error);
+                showMessage("error", error);
+            });
+    }
+
+});
 
 $(document).ready(function () {
     carregarContasReceber().then(dataLoaded => {

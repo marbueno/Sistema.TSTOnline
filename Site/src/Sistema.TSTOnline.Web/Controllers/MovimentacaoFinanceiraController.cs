@@ -11,6 +11,7 @@ using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Domain.Utils;
 using Sistema.TSTOnline.Web.Models.MovimentacaoFinanceira;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sistema.TSTOnline.Web.Controllers
@@ -182,6 +183,18 @@ namespace Sistema.TSTOnline.Web.Controllers
         public IActionResult ContasReceberAlterarStatus(int id, ContasReceberStatusEnum Status)
         {
             _fluxoBU.FluxoContasReceber(id, Status);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("baixarListaTitulos")]
+        public IActionResult BaixarListaTitulos([FromBody] List<ContasReceberVM> listTitulos)
+        {
+            foreach (var itemTitulo in listTitulos)
+            {
+                _fluxoBU.FluxoContasReceber(itemTitulo.IDContasReceber, ContasReceberStatusEnum.Baixado);
+            }
 
             return Ok();
         }
