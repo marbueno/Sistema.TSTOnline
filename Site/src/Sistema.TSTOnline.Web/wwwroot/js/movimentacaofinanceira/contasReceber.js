@@ -4,7 +4,7 @@ var columns = [
         "data": "idContasReceber",
         mRender: function (data, type, row) {
 
-            return "<input name=\"chkBaixarTitulos\" value=\"" + row.idContasReceber + "\" type=\"checkbox\" style=\"height: 20px; width: 40px;\");\" />";
+            return "<input name=\"chkBaixarTitulos\" value=\"" + row.idContasReceber + "\" type=\"checkbox\" style=\"height: 20px; width: 40px;\" />";
         }
     },
     { "data": "idContasReceber" },

@@ -211,6 +211,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             AmbienteEN ambienteEN = _ambienteRepository.GetByID(ordemServicoEN.IDLocal);
             //LocalServicoEN localServivoEN = _localServicoRepository.GetByID(ordemServicoEN.IDLocal);
 
+            var osExpress = ordemServicoEN.OSExpress ? "SIM" : "NÃO";
             OrdemServicoTemplate osTemplate = new OrdemServicoTemplate()
             {
                 LogoTipo = LogoTipo,
@@ -233,6 +234,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 ContatoNome = ordemServicoEN.NomeContato,
                 ContatoTelefone = ordemServicoEN.Telefone,
                 ContatoWhatsApp = ordemServicoEN.WhatsApp,
+                OSExpress = osExpress,
 
                 DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
             };
@@ -281,6 +283,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
             decimal valorTotalPedido = listPedidoVendaItem.Sum(obj => obj.ValorTotal);
             decimal valorParcela = valorTotalPedido / (int)pedidoVendaEN.QtdeParcelas;
 
+            var vendaExpress = pedidoVendaEN.VendaExpress ? "SIM" : "NÃO";
             PedidoVendaTemplate pvTemplate = new PedidoVendaTemplate()
             {
                 LogoTipo = LogoTipo,
@@ -312,6 +315,7 @@ namespace Sistema.TSTOnline.Domain.Services.Template
                 PedidoQtdeParcelas = pedidoVendaEN.QtdeParcelas.ToDescriptionEnum(),
                 PedidoValorParcela = Sistema.Utils.Helper.FormatReal(valorParcela, true),
                 DataInclusaoPorExtenso = Sistema.Utils.Helper.DataPorExtenso(DateTime.Now.ToLocalTime()),
+                VendaExpress = vendaExpress
             };
 
             empresa = _empresaRepository.GetByID(vendedor.IDEmpresa);

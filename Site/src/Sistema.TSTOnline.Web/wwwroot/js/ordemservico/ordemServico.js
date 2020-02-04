@@ -18,6 +18,17 @@ var columns = [
     { "data": "responsavelNome" },
     { "data": "localDescricao" },
     {
+        "data": "osExpress",
+        mRender: function (data, type, row) {
+
+            var checked = "";
+            if (row.osExpress)
+                checked = "checked";
+
+            return "<input name=\"chkOSExpress\" " + checked + " type=\"checkbox\" disabled style=\"height: 20px; width: 40px;\" />";
+        }
+    },
+    {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
 

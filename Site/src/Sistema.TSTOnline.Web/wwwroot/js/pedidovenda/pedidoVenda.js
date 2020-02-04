@@ -13,6 +13,17 @@ var columns = [
     { "data": "valorTotalFormatado" },
     { "data": "statusDescricao" },
     {
+        "data": "vendaExpress",
+        mRender: function (data, type, row) {
+
+            var checked = "";
+            if (row.vendaExpress)
+                checked = "checked";
+
+            return "<input name=\"chkVendaExpress\" " + checked + " type=\"checkbox\" disabled style=\"height: 20px; width: 40px;\" />";
+        }
+    },
+    {
         "mDataProp": "Editar",
         mRender: function (data, type, row) {
 

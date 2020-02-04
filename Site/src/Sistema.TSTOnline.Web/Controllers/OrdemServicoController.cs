@@ -327,7 +327,6 @@ namespace Sistema.TSTOnline.Web.Controllers
                 var empresa = _empresaRepository.GetByID(itemOS.IDEmpresa);
                 var responsavel = _responsavelRepository.GetByID(itemOS.IDResp);
                 var ambiente = _ambienteRepository.GetByID(itemOS.IDLocal);
-                //var localServico = _localServicoRepository.GetByID(itemOS.IDLocal);
 
                 OrdemServicoVM ordemServicoVM = new OrdemServicoVM()
                 {
@@ -341,6 +340,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                     NomeContato = itemOS.NomeContato,
                     Telefone = itemOS.Telefone,
                     WhatsApp = itemOS.WhatsApp,
+                    OsExpress = itemOS.OSExpress
                 };
 
                 if (empresa != null)
@@ -434,7 +434,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                         ordemServicoVM.IDLocal,
                         ordemServicoVM.NomeContato,
                         ordemServicoVM.Telefone,
-                        ordemServicoVM.WhatsApp
+                        ordemServicoVM.WhatsApp,
+                        ordemServicoVM.OsExpress
                    );
 
                 _ordemServicoItemBU.RemoveAllItems(idOrdemServico);

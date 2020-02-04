@@ -9,7 +9,7 @@ $("#txtBuscaEmpresa").on('keyup', function () {
 
     var busca = $('#txtBuscaEmpresa').val();
 
-    var listResult = filterValuePart(listEmpresas, busca);
+    var listResult = filterValuePart(listEmpresas, busca, ['codigo', 'razaoSocial', 'nomeFantasia']);
 
     listResult.forEach(item => {
         var cols = "";

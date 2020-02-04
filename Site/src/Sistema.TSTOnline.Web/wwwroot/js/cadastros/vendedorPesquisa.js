@@ -9,7 +9,7 @@ $("#txtBuscaVendedor").on('keyup', function () {
 
     var busca = $('#txtBuscaVendedor').val();
 
-    var listResult = filterValuePart(listVendedores, busca);
+    var listResult = filterValuePart(listVendedores, busca, ['codigo', 'nome', 'cpf']);
 
     listResult.forEach(item => {
         var cols = "";

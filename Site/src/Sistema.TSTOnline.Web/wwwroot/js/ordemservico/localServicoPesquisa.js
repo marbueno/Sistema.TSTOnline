@@ -9,7 +9,7 @@ $("#txtLocalServico").on('keyup', function () {
 
     var busca = $('#txtLocalServico').val();
 
-    var listResult = filterValuePart(listLocaisServicos, busca);
+    var listResult = filterValuePart(listLocaisServicos, busca, ['codigo', 'nome', 'endereco', 'bairro', 'cidade', 'uf']);
 
     listResult.forEach(item => {
         var cols = "";

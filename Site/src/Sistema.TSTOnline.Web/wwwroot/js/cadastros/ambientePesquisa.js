@@ -9,19 +9,18 @@ $("#txtBuscaAmbiente").on('keyup', function () {
 
     var busca = $('#txtBuscaAmbiente').val();
 
-    var listResult = filterValuePart(listAmbientes, busca);
+    var listResult = filterValuePart(listAmbientes, busca, ['cnpj', 'nomeEstabelecimento']);
 
     listResult.forEach(item => {
+        debugger;
         var cols = "";
         var newRow = $("<tr>");
         cols += '<td><input type="radio" value="' + item.codigo +   '" data-nomeestabelecimento="' + item.nomeEstabelecimento +
-                                                                    '" data-cnpj="' + item.cnpj +
                                                                     '" data-email="' + item.email +
                                                                     '" data-cep="' + item.cep +
                                                                     '" data-endereco="' + item.endereco +
                                                                     '" name="IDAmbiente" id="IDAmbiente"></td>';
         cols += '<td>' + item.codigo + '</td>';
-        cols += '<td>' + item.cnpj + '</td>';
         cols += '<td>' + item.nomeEstabelecimento + '</td>';
         newRow.append(cols);
         $("#tblAmbiente").append(newRow);

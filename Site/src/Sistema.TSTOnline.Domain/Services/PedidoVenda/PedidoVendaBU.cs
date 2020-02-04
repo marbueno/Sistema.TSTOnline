@@ -28,7 +28,7 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
             _unitOfWork = unitOfWork;
         }
 
-        public int Save(int IDPedidoVenda, int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, List<PedidoVendaItemEN> ListPedidoVendaItens)
+        public int Save(int IDPedidoVenda, int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, List<PedidoVendaItemEN> ListPedidoVendaItens, bool VendaExpress)
         {
             int idPedido = 0;
 
@@ -54,7 +54,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             pedidoVendaEN.IDEmpresa,
                             pedidoVendaEN.TipoPagamento,
                             pedidoVendaEN.QtdeParcelas,
-                            Observacao
+                            Observacao,
+                            VendaExpress
                         );
                     }
                     else
@@ -70,7 +71,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             IDEmpresa,
                             TipoPagamento,
                             QtdeParcelas,
-                            Observacao
+                            Observacao,
+                            VendaExpress
                         );
                     }
 
@@ -89,7 +91,8 @@ namespace Sistema.TSTOnline.Domain.Services.PedidoVenda
                             IDEmpresa,
                             TipoPagamento,
                             QtdeParcelas,
-                            Observacao
+                            Observacao,
+                            VendaExpress
                         );
                     pedidoVendaEN.DataCadastro = DateTime.Now.ToLocalTime();
 

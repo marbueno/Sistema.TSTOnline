@@ -26,5 +26,6 @@
         public string ContatoWhatsApp { get; set; }
         public string OrdemServicoItens { get; set; }
         public string DataInclusaoPorExtenso { get; set; }
+        public string OSExpress { get; set; }
     }
 }

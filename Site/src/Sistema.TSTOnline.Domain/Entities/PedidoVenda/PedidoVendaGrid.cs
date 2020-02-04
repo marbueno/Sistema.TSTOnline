@@ -27,6 +27,9 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
         [JsonProperty(PropertyName = "tipoPagamento")]
         public TipoPagamentoEnum TipoPagamento { get; set; }
 
+        [JsonProperty(PropertyName = "vendaExpress")]
+        public bool VendaExpress { get; set; }
+
         [JsonProperty(PropertyName = "tipoPagamentoDescricao")]
         public string TipoPagamentoDescricao { get { return TipoPagamento.ToDescriptionEnum(); } }
 

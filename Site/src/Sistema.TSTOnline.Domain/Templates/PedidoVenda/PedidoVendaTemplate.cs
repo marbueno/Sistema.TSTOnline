@@ -36,5 +36,6 @@
         public string PedidoValorParcela { get; set; }
         public string PedidoVendaItens { get; set; }
         public string DataInclusaoPorExtenso { get; set; }
+        public string VendaExpress { get; set; }
     }
 }

@@ -20,23 +20,24 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
         public TipoPagamentoEnum TipoPagamento { get; set; }
         public QtdeParcelasEnum QtdeParcelas { get; set; }
         public string Observacao { get; set; }
+        public bool VendaExpress { get; set; }
 
         public PedidoVendaEN()
         {
             DataVenda = DateTime.Now.ToLocalTime();
         }
 
-        public PedidoVendaEN(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao)
+        public PedidoVendaEN(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, bool VendaExpress)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa, TipoPagamento, QtdeParcelas, Observacao);
+            ValidateAndSetProperties(IDCompany, IDUser, DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa, TipoPagamento, QtdeParcelas, Observacao, VendaExpress);
         }
 
-        public void UpdateProperties(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao)
+        public void UpdateProperties(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, bool VendaExpress)
         {
-            ValidateAndSetProperties(IDCompany, IDUser, DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa, TipoPagamento, QtdeParcelas, Observacao);
+            ValidateAndSetProperties(IDCompany, IDUser, DataVenda, Status, IDUsuario, IDVendedor, IDEmpresa, TipoPagamento, QtdeParcelas, Observacao, VendaExpress);
         }
 
-        private void ValidateAndSetProperties(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao)
+        private void ValidateAndSetProperties(int IDCompany, int IDUser, DateTime DataVenda, PedidoVendaStatusEnum Status, int IDUsuario, int IDVendedor, int IDEmpresa, TipoPagamentoEnum TipoPagamento, QtdeParcelasEnum QtdeParcelas, string Observacao, bool VendaExpress)
         {
             DomainException.When(IDCompany == 0, "Compania não informada.");
             DomainException.When(IDUser == 0, "Usuário não informado.");
@@ -56,6 +57,7 @@ namespace Sistema.TSTOnline.Domain.Entities.PedidoVenda
             this.TipoPagamento = TipoPagamento;
             this.QtdeParcelas = QtdeParcelas;
             this.Observacao = Observacao;
+            this.VendaExpress = VendaExpress;
         }
     }
 }

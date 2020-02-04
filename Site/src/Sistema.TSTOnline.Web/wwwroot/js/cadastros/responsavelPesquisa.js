@@ -9,7 +9,7 @@ $("#txtNomeResponsavel").on('keyup', function () {
 
     var busca = $('#txtNomeResponsavel').val();
 
-    var listResult = filterValuePart(listResponsaveis, busca);
+    var listResult = filterValuePart(listResponsaveis, busca, ['codigo', 'nomeResponsavel', 'cpf']);
 
     listResult.forEach(item => {
         var cols = "";

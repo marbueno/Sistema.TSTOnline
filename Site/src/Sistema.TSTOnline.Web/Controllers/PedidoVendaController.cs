@@ -146,6 +146,7 @@ namespace Sistema.TSTOnline.Web.Controllers
                                 emp.razaosocial     as razaoSocial,
                                 ven.nome            as vendedorNome,
                                 ped.tipopagamento   as tipoPagamento,
+                                ped.vendaexpress    as vendaExpress,
                                 (select 
                                    sum(qtde * valor) 
                                   from tbpedidovendaitem 
@@ -222,7 +223,8 @@ namespace Sistema.TSTOnline.Web.Controllers
                     pedidoVendaVM.TipoPagamento,
                     pedidoVendaVM.QtdeParcelas,
                     pedidoVendaVM.Observacao,
-                    listPedidoVendaItens.ToList()
+                    listPedidoVendaItens.ToList(),
+                    pedidoVendaVM.VendaExpress
                 );
 
                 return Ok();
