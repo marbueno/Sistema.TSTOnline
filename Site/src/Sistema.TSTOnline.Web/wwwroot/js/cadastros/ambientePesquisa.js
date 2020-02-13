@@ -1,7 +1,6 @@
-$(document).ready(function () {
-    carregarAmbientes();
-});
-
+//$(document).ready(function () {
+//    carregarAmbientes("");
+//});
 
 $("#txtBuscaAmbiente").on('keyup', function () {
 

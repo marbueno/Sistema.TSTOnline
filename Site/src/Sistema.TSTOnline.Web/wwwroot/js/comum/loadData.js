@@ -37,11 +37,16 @@ function carregarEmpresas() {
     });
 }
 
-function carregarAmbientes() {
+function carregarAmbientes(cpfCnpj) {
 
     return new Promise((resolve, reject) => {
 
-        fetch('/cadastros/listAmbientes')
+        if (cpfCnpj === undefined)
+            cpfCnpj = "";
+
+        listAmbientes = [];
+
+        fetch('/cadastros/listAmbientes?cpfCnpj=' + cpfCnpj)
             .then(res => res.json())
             .then(data => {
                 var iCount = 0;

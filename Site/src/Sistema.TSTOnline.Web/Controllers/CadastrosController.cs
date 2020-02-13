@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
@@ -74,6 +75,7 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                 c => new EmpresaVM
                 {
                     IDEmpresa = c.IDEmpresa,
+                    CpfCnpj = c.NrMatricula,
                     RazaoSocial = c.RazaoSocial,
                     NomeFantasia = c.NomeFantasia,
                     NomeRespEmpresa = c.NomeRespEmpresa,
@@ -86,15 +88,75 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
             return Json(empresaVM);
         }
 
+        [HttpGet]
+        [Route("empresaByCpfCnpj")]
+        public JsonResult GetEmpresaByCpfCnpj(string cpfCnpj)
+        {
+            var empresa = _empresaRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusEmpresa == "a" && obj.NrMatricula == cpfCnpj).FirstOrDefault();
+            var empresaVM = new EmpresaVM();
+
+            if (empresa != null)
+            {
+                empresaVM = new EmpresaVM
+                {
+                    IDEmpresa = empresa.IDEmpresa,
+                    CpfCnpj = empresa.NrMatricula,
+                    RazaoSocial = empresa.RazaoSocial,
+                    NomeFantasia = empresa.NomeFantasia,
+                    NomeRespEmpresa = empresa.NomeRespEmpresa,
+                    CPFResponsavel = empresa.CPFResponsavel,
+                    TelResponsavel = empresa.TelResponsavel,
+                    Celular = empresa.Celular,
+                    NitResponsavel = empresa.NitResponsavel,
+                    EmailResponsavel = empresa.EmailResponsavel,
+                    Cep = empresa.Cep,
+                    Endereco = empresa.Endereco,
+                    Numero = empresa.Numero,
+                    Complemento = empresa.Complemento,
+                    Bairro = empresa.Bairro,
+                    Cidade = empresa.Cidade,
+                    UF = empresa.UF
+                };
+            }
+            else
+            {
+                empresaVM = new EmpresaVM
+                {
+                    IDEmpresa = 0,
+                    RazaoSocial = string.Empty,
+                    NomeFantasia = string.Empty,
+                    NomeRespEmpresa = string.Empty,
+                    CPFResponsavel = string.Empty,
+                    TelResponsavel = string.Empty,
+                    Celular = string.Empty,
+                    NitResponsavel = string.Empty,
+                    EmailResponsavel = string.Empty,
+                    Cep = string.Empty,
+                    Endereco = string.Empty,
+                    Numero = string.Empty,
+                    Complemento = string.Empty,
+                    Bairro = string.Empty,
+                    Cidade = string.Empty,
+                    UF = string.Empty
+                };
+            }
+
+            return Json(empresaVM);
+        }
+
         #endregion Empresa
 
         #region Ambientes
 
         [HttpGet]
         [Route("listAmbientes")]
-        public JsonResult ListAmbientes()
+        public JsonResult ListAmbientes(string cpfCnpj)
         {
-            var listAmbientes = _ambienteRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusAtivo == "a").ToList();
+            var listAmbientes = _ambienteRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusAtivo == "a" && obj.Matricula == cpfCnpj).ToList();
+
+            if (string.IsNullOrEmpty(cpfCnpj) || listAmbientes.Count() == 0)
+                listAmbientes = _ambienteRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusAtivo == "a").ToList();
+
             var ambienteVM = listAmbientes.Select(
                 c => new AmbienteVM
                 {
@@ -104,6 +166,47 @@ namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
                     Cep = c.CepEstab,
                     Endereco = c.EnderecoEstab
                 });
+
+            return Json(ambienteVM);
+        }
+
+        [HttpGet]
+        [Route("ambienteByCpfCnpj")]
+        public JsonResult GetAmbienteByCpfCnpj(string cpfCnpj)
+        {
+            var ambiente = _ambienteRepository.Where(obj => obj.IDCompany == idCompany && obj.StatusAtivo == "a" && obj.Matricula == cpfCnpj).FirstOrDefault();
+            var ambienteVM = new AmbienteVM();
+
+            if (ambiente != null)
+            {
+                ambienteVM = new AmbienteVM
+                {
+                    NomeEstabelecimento = ambiente.NomeEstab,
+                    Email = ambiente.EmailEstab,
+                    Cep = ambiente.CepEstab,
+                    Endereco = ambiente.EnderecoEstab,
+                    Numero = ambiente.NumEstab,
+                    Complemento = ambiente.ComplementoEstab,
+                    Bairro = ambiente.BairroEstab,
+                    Cidade = ambiente.CidadeEstab,
+                    UF = ambiente.UFEstab
+                };
+            }
+            else
+            {
+                ambienteVM = new AmbienteVM
+                {
+                    NomeEstabelecimento = string.Empty,
+                    Email = string.Empty,
+                    Cep = string.Empty,
+                    Endereco = string.Empty,
+                    Numero = string.Empty,
+                    Complemento = string.Empty,
+                    Bairro = string.Empty,
+                    Cidade = string.Empty,
+                    UF = string.Empty
+                };
+            }
 
             return Json(ambienteVM);
         }

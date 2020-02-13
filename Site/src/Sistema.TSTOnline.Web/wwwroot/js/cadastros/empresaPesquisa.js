@@ -15,6 +15,7 @@ $("#txtBuscaEmpresa").on('keyup', function () {
         var cols = "";
         var newRow = $("<tr>");
         cols += '<td><input type="radio" value="' + item.codigo + '" data-razaosocial="' + item.razaoSocial + '" data-nomerespempresa="' + item.nomeRespEmpresa +
+                                                                  '" data-cpfcnpj="' + item.cpfCnpj +
                                                                   '" data-cpfresponsavel="' + item.cpfResponsavel + '" data-telresponsavel="' + item.telResponsavel +
                                                                   '" data-nitresponsavel="' + item.nitResponsavel + '" data-emailresponsavel="' + item.emailResponsavel + '" name="IDEmpresa" id="IDEmpresa"></td>';
         cols += '<td>' + item.codigo + '</td>';
@@ -30,6 +31,7 @@ $("#addEmpresa").on('click', function () {
     var checkBox = $("input[name='IDEmpresa']:checked");
     var codigo = checkBox.val();
     var razaoSocial = checkBox[0].dataset.razaosocial;
+    var cpfCnpj = checkBox[0].dataset.cpfcnpj;
     var nomeRespEmpresa = checkBox[0].dataset.nomerespempresa;
     var cpfResponsavel = checkBox[0].dataset.cpfresponsavel;
     var telResponsavel = checkBox[0].dataset.telresponsavel;
@@ -43,4 +45,6 @@ $("#addEmpresa").on('click', function () {
     $("#ResponsavelEmpresaTelefone").val(telResponsavel);
     $("#ResponsavelEmpresaNIT").val(nitResponsavel);
     $("#ResponsavelEmpresaEmail").val(emailResponsavel);
+
+    carregarAmbientes(cpfCnpj);
 });

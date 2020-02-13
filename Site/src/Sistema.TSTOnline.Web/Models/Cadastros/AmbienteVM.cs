@@ -21,5 +21,20 @@ namespace Sistema.TSTOnline.Web.Models.Cadastros
 
         [JsonProperty(PropertyName = "endereco")]
         public string Endereco { get; set; }
+
+        [JsonProperty(PropertyName = "numero")]
+        public string Numero { get; set; }
+
+        [JsonProperty(PropertyName = "complemento")]
+        public string Complemento { get; set; }
+
+        [JsonProperty(PropertyName = "bairro")]
+        public string Bairro { get; set; }
+
+        [JsonProperty(PropertyName = "cidade")]
+        public string Cidade { get; set; }
+
+        [JsonProperty(PropertyName = "UF")]
+        public string UF { get; set; }
     }
 }

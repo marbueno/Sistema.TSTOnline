@@ -10,6 +10,7 @@ namespace Sistema.TSTOnline.Domain.Entities.Cadastros
         public int IDAmb { get; set; }
         public int IDUser { get; set; }
         public int IDCompany { get; set; }
+        public string Matricula { get; set; }
         public string StatusAtivo { get; set; }
         public string NomeEstab { get; set; }
         public string EmailEstab { get; set; }
