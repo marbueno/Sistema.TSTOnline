@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sistema.TSTOnline.Domain.Entities.Cadastros;
 using Sistema.TSTOnline.Domain.Interfaces;
 using Sistema.TSTOnline.Domain.Services.Cadastros;
 using Sistema.TSTOnline.Domain.Services.Usuario;
 using Sistema.TSTOnline.Web.Models.Cadastros;
+using System.Linq;
 
 namespace Sistema.TSTOnline.Web.Areas.Admin.Controllers
 {
